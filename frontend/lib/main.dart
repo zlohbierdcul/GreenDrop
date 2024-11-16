@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:greendrop/src/pages/hamburger_menu.dart';
+import 'package:greendrop/src/pages/login.dart';
 import 'package:greendrop/src/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +21,10 @@ class GreenDropApp extends StatelessWidget {
           darkTheme: ThemeData.from(colorScheme: AppTheme.darkTheme),
           themeMode: context.watch<AppTheme>().themeMode,
           debugShowCheckedModeBanner: false,
-          home: const HamburgerMenu(),
+          home: const Login(),
+          routes: {
+            '/home': (context) => HamburgerMenu(),
+          },
         ),
       );
     }
