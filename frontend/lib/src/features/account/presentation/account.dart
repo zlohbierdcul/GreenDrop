@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../common_widgets/dropdown.dart';
-import '../theme/theme_provider.dart';
+import '../../common_widgets/dropdown.dart';
+import '../../theme/theme_provider.dart';
 
 class Account extends StatelessWidget {
   const Account({super.key});

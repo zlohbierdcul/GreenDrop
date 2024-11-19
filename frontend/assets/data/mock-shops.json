@@ -1,0 +1,102 @@
+{
+  "1": {
+    "name": "Brew Haven",
+    "description": "Ein gemütlicher Ort, um die besten Kaffeespezialitäten und hausgemachte Snacks zu genießen. Perfekt für Kaffeeliebhaber und Entspannungssuchende.",
+    "street": "Hauptstraße",
+    "streetNumber": "15",
+    "zipCode": "68165",
+    "city": "Mannheim",
+    "minOrder": 20,
+    "deliveryCost": 2
+  },
+  "2": {
+    "name": "Java Corner",
+    "description": "Moderne Kaffee-Bar mit Fokus auf nachhaltige Bohnen und innovative Zubereitungsmethoden. Eine Oase für experimentierfreudige Genießer.",
+    "street": "Marktplatz",
+    "streetNumber": "7",
+    "zipCode": "68161",
+    "city": "Mannheim",
+    "minOrder": 15,
+    "deliveryCost": 1.5
+  },
+  "3": {
+    "name": "The Daily Grind",
+    "description": "Ein urbanes Kaffeehaus, das klassische Kaffeespezialitäten mit einem modernen Twist serviert. Perfekt für Meetings oder eine Pause zwischendurch.",
+    "street": "Seckenheimer Straße",
+    "streetNumber": "42",
+    "zipCode": "68163",
+    "city": "Mannheim",
+    "minOrder": 10,
+    "deliveryCost": 0
+  },
+  "4": {
+    "name": "Espresso Express",
+    "description": "Kleine, aber feine Espresso-Bar mit Fokus auf schnellen Service und hochwertigen Kaffee für unterwegs.",
+    "street": "Quadrat Q5",
+    "streetNumber": "10",
+    "zipCode": "68161",
+    "city": "Mannheim",
+    "minOrder": 25,
+    "deliveryCost": 3
+  },
+  "5": {
+    "name": "Café Aroma",
+    "description": "Eine gemütliche Atmosphäre und der Duft von frisch gemahlenem Kaffee machen dieses Café zum perfekten Ort für jede Tageszeit.",
+    "street": "Augustaanlage",
+    "streetNumber": "17",
+    "zipCode": "68165",
+    "city": "Mannheim",
+    "minOrder": 30,
+    "deliveryCost": 2.5
+  },
+  "6": {
+    "name": "Latte Lounge",
+    "description": "Hier dreht sich alles um Milchschaum-Kunst und eine entspannte Atmosphäre. Ideal für Latte-Liebhaber.",
+    "street": "O7",
+    "streetNumber": "3",
+    "zipCode": "68161",
+    "city": "Mannheim",
+    "minOrder": 18,
+    "deliveryCost": 1
+  },
+  "7": {
+    "name": "Bohnen & Blätter",
+    "description": "Ein charmantes Café, das neben Kaffee auch eine Auswahl an feinen Tees anbietet. Perfekt für Kaffeetrinker und Teegenießer gleichermaßen.",
+    "street": "Neckarstraße",
+    "streetNumber": "22",
+    "zipCode": "68167",
+    "city": "Mannheim",
+    "minOrder": 20,
+    "deliveryCost": 2
+  },
+  "8": {
+    "name": "Kaffeeklatsch",
+    "description": "Der Treffpunkt für Freunde und Familien, die bei gutem Kaffee und leckeren Kuchen zusammenkommen möchten.",
+    "street": "Luisenring",
+    "streetNumber": "5",
+    "zipCode": "68159",
+    "city": "Mannheim",
+    "minOrder": 12,
+    "deliveryCost": 1
+  },
+  "9": {
+    "name": "Black & White Coffee",
+    "description": "Minimalistisch und stylisch - hier steht der reine Kaffeegenuss im Vordergrund. Spezialisiert auf Schwarz- und Milchkaffee.",
+    "street": "E4",
+    "streetNumber": "8",
+    "zipCode": "68161",
+    "city": "Mannheim",
+    "minOrder": 15,
+    "deliveryCost": 0
+  },
+  "10": {
+    "name": "Koffein Kultur",
+    "description": "Ein kreatives Kaffeehaus mit einer einzigartigen Mischung aus Kaffee, Kunst und Kultur. Für kreative Köpfe und Kaffeeenthusiasten.",
+    "street": "Tullastraße",
+    "streetNumber": "19",
+    "zipCode": "68169",
+    "city": "Mannheim",
+    "minOrder": 25,
+    "deliveryCost": 2.5
+  }
+}
