@@ -77,6 +77,42 @@ class _RegistrationState extends State<Registration> {
                       ),
                     ),
                     _gap(),
+                    // Adresse Input
+                    TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Adresse darf nicht leer sein!';
+                        }
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'Adresse',
+                        hintText: 'Deine Adresse',
+                        prefixIcon: Icon(Icons.home_outlined),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    _gap(),
+                    // Handynummer Input
+                    TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Handynummer darf nicht leer sein!';
+                        }
+                        if (!RegExp(r'^\+?[0-9]{7,15}$').hasMatch(value)) {
+                          return 'Bitte eine gültige Handynummer eingeben!';
+                        }
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'Handynummer',
+                        hintText: '+49 123 456 789',
+                        prefixIcon: Icon(Icons.phone_outlined),
+                        border: OutlineInputBorder(),
+                      ),
+                      keyboardType: TextInputType.phone,
+                    ),
+                    _gap(),
                     // Passwort Input
                     TextFormField(
                       validator: (value) {
@@ -112,7 +148,6 @@ class _RegistrationState extends State<Registration> {
                         if (value == null || value.isEmpty) {
                           return 'Passwort-Bestätigung darf nicht leer sein!';
                         }
-                        // Vergleich mit dem Passwort (später erweitern, falls Passwort im State gespeichert wird)
                         return null;
                       },
                       obscureText: !_isConfirmPasswordVisible,
@@ -127,7 +162,8 @@ class _RegistrationState extends State<Registration> {
                                 : Icons.visibility),
                             onPressed: () {
                               setState(() {
-                                _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
+                                _isConfirmPasswordVisible =
+                                !_isConfirmPasswordVisible;
                               });
                             },
                           )),
