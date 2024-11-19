@@ -6,6 +6,7 @@
     "streetNumber": "15",
     "zipCode": "68165",
     "city": "Mannheim",
+    "rating": 4.2,
     "minOrder": 20,
     "deliveryCost": 2
   },
@@ -16,6 +17,7 @@
     "streetNumber": "7",
     "zipCode": "68161",
     "city": "Mannheim",
+    "rating": 4.1,
     "minOrder": 15,
     "deliveryCost": 1.5
   },
@@ -26,6 +28,7 @@
     "streetNumber": "42",
     "zipCode": "68163",
     "city": "Mannheim",
+    "rating": 4.8,
     "minOrder": 10,
     "deliveryCost": 0
   },
@@ -37,6 +40,7 @@
     "zipCode": "68161",
     "city": "Mannheim",
     "minOrder": 25,
+    "rating": 2.8,
     "deliveryCost": 3
   },
   "5": {
@@ -47,6 +51,7 @@
     "zipCode": "68165",
     "city": "Mannheim",
     "minOrder": 30,
+    "rating": 4.2,
     "deliveryCost": 2.5
   },
   "6": {
@@ -57,6 +62,7 @@
     "zipCode": "68161",
     "city": "Mannheim",
     "minOrder": 18,
+    "rating": 3.2,
     "deliveryCost": 1
   },
   "7": {
@@ -67,6 +73,7 @@
     "zipCode": "68167",
     "city": "Mannheim",
     "minOrder": 20,
+    "rating": 4.1,
     "deliveryCost": 2
   },
   "8": {
@@ -76,6 +83,7 @@
     "streetNumber": "5",
     "zipCode": "68159",
     "city": "Mannheim",
+    "rating": 4.7,
     "minOrder": 12,
     "deliveryCost": 1
   },
@@ -86,6 +94,7 @@
     "streetNumber": "8",
     "zipCode": "68161",
     "city": "Mannheim",
+    "rating": 4.2,
     "minOrder": 15,
     "deliveryCost": 0
   },
@@ -96,6 +105,7 @@
     "streetNumber": "19",
     "zipCode": "68169",
     "city": "Mannheim",
+    "rating": 4.5,
     "minOrder": 25,
     "deliveryCost": 2.5
   }
