@@ -14,18 +14,18 @@ class GreenDropApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<AppTheme>(
-      create: (_) => AppTheme(),
-      builder: (context, _) => MaterialApp(
-        title: 'GreenDrop',
-        theme: ThemeData.from(colorScheme: AppTheme.lightTheme),
-        darkTheme: ThemeData.from(colorScheme: AppTheme.darkTheme),
-        themeMode: context.watch<AppTheme>().themeMode,
-        debugShowCheckedModeBanner: false,
-        home: const Login(),
-        routes: {
-          '/home': (context) => HamburgerMenu(),
-        },
-      ),
-    );
-  }
+        create: (_) => AppTheme(),
+        builder: (context, _) => MaterialApp(
+          title: 'GreenDrop',
+          theme: ThemeData.from(colorScheme: AppTheme.lightTheme),
+          darkTheme: ThemeData.from(colorScheme: AppTheme.darkTheme),
+          themeMode: context.watch<AppTheme>().themeMode,
+          debugShowCheckedModeBanner: false,
+          home: const Login(),
+          routes: {
+            '/home': (context) => HamburgerMenu(),
+          },
+        ),
+      );
+    }
 }
