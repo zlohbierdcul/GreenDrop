@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../common_widgets/dropdown.dart';
-import '../theme/theme_provider.dart';
+import '../../../common_widgets/dropdown.dart';
+import '../../../theme/theme_provider.dart';
 
-class Account extends StatelessWidget {
-  const Account({super.key});
+class Orders extends StatelessWidget {
+  const Orders({super.key});
 
   List<DropdownMenuItem<String>> get dropdownMenuItems {
     return [
@@ -28,7 +28,7 @@ class Account extends StatelessWidget {
                 width: double.infinity,
                 height: 200,
                 child: Card(
-                  child: Center(child: Text("Account")),
+                  child: Center(child: Text("Orders")),
                 ),
               ),
             ),
