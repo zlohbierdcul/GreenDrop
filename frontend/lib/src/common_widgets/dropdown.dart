@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class CustomDropdownButton extends StatelessWidget {
@@ -37,5 +36,4 @@ class CustomDropdownButton extends StatelessWidget {
       ),
     );
   }
-  
 }

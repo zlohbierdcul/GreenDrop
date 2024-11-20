@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:greendrop/src/pages/hamburger_menu.dart';
-import 'package:greendrop/src/pages/login.dart';
+import 'package:greendrop/src/features/hamburger_menu/presentation/hamburger_menu.dart';
+import 'package:greendrop/src/features/login/login.dart';
 import 'package:greendrop/src/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
