@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:greendrop/src/features/shops/domain/shop.dart';
+import 'package:greendrop/src/features/shops/data/shop.dart';
 
 class ShopDataProvider extends ChangeNotifier {
   ShopDataProvider() {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:greendrop/src/features/shops/domain/shop.dart';
+import 'package:greendrop/src/features/shops/data/shop.dart';
 
 class ShopCard extends StatelessWidget {
   final Shop shop;
