@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:greendrop/src/features/shops/presentation/filter_dialog.dart';
 import 'package:greendrop/src/features/shops/presentation/search_bar.dart';
 import 'package:greendrop/src/features/shops/presentation/shop_card.dart';
 import 'package:provider/provider.dart';
@@ -22,13 +23,13 @@ class LandingPage extends StatelessWidget {
                 const Expanded(child: ShopSearchBar()),
                 const SizedBox(width: 16),
                 ElevatedButton(
-                  onPressed: () => print("filter"),
+                  onPressed: () => FilterDialog.dialogBuilder(context),
                   style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20))),
                   child: const Padding(
                     padding: EdgeInsets.symmetric(vertical: 12.0),
-                    child: Icon(Icons.filter_alt),
+                    child: Icon(Icons.tune_rounded),
                   ),
                 )
               ],
