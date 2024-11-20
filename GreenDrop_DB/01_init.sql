@@ -22,7 +22,9 @@ CREATE TABLE addresses (
 
 CREATE TABLE vendors (
     vendor_id SERIAL PRIMARY KEY,
-    iban VARCHAR NOT NULL
+    user_id INT NOT NULL,
+    iban VARCHAR NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
 CREATE TABLE shops (

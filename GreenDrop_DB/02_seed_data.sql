@@ -1,16 +1,16 @@
--- 1. Insert Vendors
-INSERT INTO vendors (iban) VALUES
-('DE89370400440532013000'),
-('DE44500105175407324959'),
-('DE75512108000019843475');
-
--- 2. Insert Users
+-- 1. Insert Users
 INSERT INTO users (name, birthdate, green_drops, email, password) VALUES
 ('Max Mustermann', '1990-05-14', 15, 'max.mustermann@example.com', 'password123'),
 ('Lisa Müller', '1985-07-22', 10, 'lisa.mueller@example.com', 'password123'),
 ('John Doe', '1992-11-30', 25, 'john.doe@example.com', 'password123'),
 ('Sara Schmidt', '1996-02-10', 30, 'sara.schmidt@example.com', 'password123'),
 ('Tom Becker', '1988-09-05', 20, 'tom.becker@example.com', 'password123');
+
+-- 2. Insert Vendors
+INSERT INTO vendors (user_id, iban) VALUES
+(2 , 'DE89370400440532013000'),
+(1, 'DE44500105175407324959'),
+(3, 'DE75512108000019843475');
 
 -- 3. Insert Addresses for Users (up to 3 random addresses per user)
 
