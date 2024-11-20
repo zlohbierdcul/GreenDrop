@@ -36,7 +36,7 @@ CREATE TABLE shops (
     delivery_costs DOUBLE PRECISION NOT NULL,
     max_delivery_radius INT NOT NULL,
     vendor_id INT NOT NULL,
-    FOREIGN KEY (vendor_id) REFERENCES vendor(vendor_id) ON DELETE CASCADE
+    FOREIGN KEY (vendor_id) REFERENCES vendors(vendor_id) ON DELETE CASCADE
 );
 
 CREATE TABLE products (
@@ -46,7 +46,7 @@ CREATE TABLE products (
     origin VARCHAR NOT NULL,
     type VARCHAR NOT NULL,
     shop_id INT NOT NULL,
-    FOREIGN KEY (shop_id) REFERENCES shop(shop_id)
+    FOREIGN KEY (shop_id) REFERENCES shops(shop_id)
 );
 
 CREATE TABLE drugs (
@@ -54,7 +54,7 @@ CREATE TABLE drugs (
     product_id INT NOT NULL,
     effect VARCHAR NOT NULL,
     latin_name VARCHAR,
-    FOREIGN KEY (product_id) REFERENCES product(product_id) ON DELETE CASCADE
+    FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
 );
 
 CREATE TABLE orders (
@@ -64,9 +64,9 @@ CREATE TABLE orders (
     address_id INT NOT NULL,
     payment_method VARCHAR NOT NULL,
     status VARCHAR NOT NULL,
-    FOREIGN KEY (shop_id) REFERENCES shop(shop_id),
+    FOREIGN KEY (shop_id) REFERENCES shops(shop_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (address_id) REFERENCES address(address_id)
+    FOREIGN KEY (address_id) REFERENCES addresses(address_id)
 );
 
 CREATE TABLE order_contains (
@@ -75,13 +75,15 @@ CREATE TABLE order_contains (
     product_id INT NOT NULL,
     amount INT NOT NULL,
     FOREIGN KEY (order_id) REFERENCES orders(order_id),
-    FOREIGN KEY (product_id) REFERENCES product(product_id)
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
 
 CREATE TABLE reviews (
     review_id SERIAL PRIMARY KEY,
     rating INT NOT NULL CHECK(rating BETWEEN 1 AND 5),
-    comment VARCHAR
+    user_id INT NOT NULL,
+    shop_id INT NOT NULL,
+    comment VARCHAR,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (shop_id) REFERENCES shop(shop_id),
-)
+    FOREIGN KEY (shop_id) REFERENCES shops(shop_id)
+);
