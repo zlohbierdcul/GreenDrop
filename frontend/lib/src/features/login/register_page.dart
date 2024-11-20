@@ -29,13 +29,23 @@ class _RegistrationState extends State<Registration> {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const FlutterLogo(size: 100),
+                    SizedBox(
+                      height: 100,
+                      child: AspectRatio(
+                        aspectRatio: 1 / 1,
+                        child: Image.asset(
+                          "assets/images/logo.png",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
                     _gap(),
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16.0),
                       child: Text(
                         "Registrieren bei GreenDrop",
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     ),
                     _gap(),
@@ -62,7 +72,7 @@ class _RegistrationState extends State<Registration> {
                           return 'Email darf nicht leer sein!';
                         }
                         bool emailValid = RegExp(
-                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                             .hasMatch(value);
                         if (!emailValid) {
                           return 'Bitte geben Sie eine gültige Email ein';
@@ -163,7 +173,7 @@ class _RegistrationState extends State<Registration> {
                             onPressed: () {
                               setState(() {
                                 _isConfirmPasswordVisible =
-                                !_isConfirmPasswordVisible;
+                                    !_isConfirmPasswordVisible;
                               });
                             },
                           )),

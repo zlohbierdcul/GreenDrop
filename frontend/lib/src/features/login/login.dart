@@ -29,13 +29,23 @@ class _LoginState extends State<Login> {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const FlutterLogo(size: 100),
+                    SizedBox(
+                      height: 100,
+                      child: AspectRatio(
+                        aspectRatio: 1 / 1,
+                        child: Image.asset(
+                          "assets/images/logo.png",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
                     _gap(),
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16.0),
                       child: Text(
                         "GreenDrop",
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     ),
                     _gap(),
@@ -45,7 +55,7 @@ class _LoginState extends State<Login> {
                           return 'Textfeld ist leer!';
                         }
                         bool emailValid = RegExp(
-                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                             .hasMatch(value);
                         if (!emailValid) {
                           return 'Bitte geben Sie Ihre Email ein';
@@ -134,7 +144,8 @@ class _LoginState extends State<Login> {
                       },
                       child: const Text(
                         'Noch kein Konto? Jetzt registrieren!',
-                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -149,5 +160,3 @@ class _LoginState extends State<Login> {
 
   Widget _gap() => const SizedBox(height: 16);
 }
-
-

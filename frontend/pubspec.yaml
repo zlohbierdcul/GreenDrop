@@ -55,6 +55,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/images/shop1.jpg
+    - assets/images/logo.png
     - assets/data/mock-shops.json
 
   # The following line ensures that the Material Icons font is
