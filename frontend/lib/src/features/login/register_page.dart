@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+class Registration extends StatefulWidget {
+  const Registration({Key? key}) : super(key: key);
 
   @override
-  State<Login> createState() => _LoginState();
+  State<Registration> createState() => _RegistrationState();
 }
 
-class _LoginState extends State<Login> {
+class _RegistrationState extends State<Registration> {
   bool _isPasswordVisible = false;
-  bool _rememberMe = false;
+  bool _isConfirmPasswordVisible = false;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -43,22 +43,39 @@ class _LoginState extends State<Login> {
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16.0),
                       child: Text(
-                        "GreenDrop",
+                        "Registrieren bei GreenDrop",
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     ),
                     _gap(),
+                    // Name Input
                     TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Textfeld ist leer!';
+                          return 'Name darf nicht leer sein!';
+                        }
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'Name',
+                        hintText: 'Vollständiger Name',
+                        prefixIcon: Icon(Icons.person_outline),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    _gap(),
+                    // Email Input
+                    TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Email darf nicht leer sein!';
                         }
                         bool emailValid = RegExp(
                                 r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                             .hasMatch(value);
                         if (!emailValid) {
-                          return 'Bitte geben Sie Ihre Email ein';
+                          return 'Bitte geben Sie eine gültige Email ein';
                         }
                         return null;
                       },
@@ -70,21 +87,57 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                     _gap(),
+                    // Adresse Input
                     TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Textfeld ist leer!';
+                          return 'Adresse darf nicht leer sein!';
                         }
-
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'Adresse',
+                        hintText: 'Deine Adresse',
+                        prefixIcon: Icon(Icons.home_outlined),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    _gap(),
+                    // Handynummer Input
+                    TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Handynummer darf nicht leer sein!';
+                        }
+                        if (!RegExp(r'^\+?[0-9]{7,15}$').hasMatch(value)) {
+                          return 'Bitte eine gültige Handynummer eingeben!';
+                        }
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'Handynummer',
+                        hintText: '+49 123 456 789',
+                        prefixIcon: Icon(Icons.phone_outlined),
+                        border: OutlineInputBorder(),
+                      ),
+                      keyboardType: TextInputType.phone,
+                    ),
+                    _gap(),
+                    // Passwort Input
+                    TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Passwort darf nicht leer sein!';
+                        }
                         if (value.length < 6) {
-                          return 'Passwort muss mindestens 6 Zeichen haben';
+                          return 'Passwort muss mindestens 6 Zeichen lang sein';
                         }
                         return null;
                       },
                       obscureText: !_isPasswordVisible,
                       decoration: InputDecoration(
                           labelText: 'Passwort',
-                          hintText: 'Geben Sie Passwort ein',
+                          hintText: 'Erstelle ein Passwort',
                           prefixIcon: const Icon(Icons.lock_outline_rounded),
                           border: const OutlineInputBorder(),
                           suffixIcon: IconButton(
@@ -99,18 +152,31 @@ class _LoginState extends State<Login> {
                           )),
                     ),
                     _gap(),
-                    CheckboxListTile(
-                      value: _rememberMe,
-                      onChanged: (value) {
-                        if (value == null) return;
-                        setState(() {
-                          _rememberMe = value;
-                        });
+                    // Passwort Bestätigung Input
+                    TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Passwort-Bestätigung darf nicht leer sein!';
+                        }
+                        return null;
                       },
-                      title: const Text('Remember me'),
-                      controlAffinity: ListTileControlAffinity.leading,
-                      dense: true,
-                      contentPadding: const EdgeInsets.all(0),
+                      obscureText: !_isConfirmPasswordVisible,
+                      decoration: InputDecoration(
+                          labelText: 'Passwort bestätigen',
+                          hintText: 'Wiederhole dein Passwort',
+                          prefixIcon: const Icon(Icons.lock_outline_rounded),
+                          border: const OutlineInputBorder(),
+                          suffixIcon: IconButton(
+                            icon: Icon(_isConfirmPasswordVisible
+                                ? Icons.visibility_off
+                                : Icons.visibility),
+                            onPressed: () {
+                              setState(() {
+                                _isConfirmPasswordVisible =
+                                    !_isConfirmPasswordVisible;
+                              });
+                            },
+                          )),
                     ),
                     _gap(),
                     SizedBox(
@@ -123,7 +189,7 @@ class _LoginState extends State<Login> {
                         child: const Padding(
                           padding: EdgeInsets.all(10.0),
                           child: Text(
-                            'Anmelden',
+                            'Registrieren',
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),
@@ -132,21 +198,15 @@ class _LoginState extends State<Login> {
                           if (_formKey.currentState?.validate() ?? false) {
                             Navigator.pushNamed(context, '/home');
                           }
-                          Navigator.pushNamed(context, '/home');
                         },
                       ),
                     ),
                     _gap(),
-                    // Weiterleitung zur Registrierungsseite
                     TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/register');
+                        Navigator.pop(context);
                       },
-                      child: const Text(
-                        'Noch kein Konto? Jetzt registrieren!',
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.bold),
-                      ),
+                      child: const Text('Haben Sie schon ein Konto? Login!'),
                     ),
                   ],
                 ),
