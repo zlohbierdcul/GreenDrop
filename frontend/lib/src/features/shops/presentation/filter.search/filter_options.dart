@@ -41,8 +41,8 @@ class FilterOptions extends StatelessWidget {
             children: [
               Slider(
                 min: 0,
-                max: 15,
-                divisions: 30,
+                max: 50,
+                divisions: 100,
                 value: filterProvider.minCost,
                 onChanged: filterProvider.setMinCost,
               ),

@@ -10,4 +10,9 @@ class SortingProvider extends ChangeNotifier {
     _currentSorting = currentSorting;
     notifyListeners();
   }
+
+  void resetSorting() {
+    _currentSorting = SortingModel.defaultState;
+    notifyListeners();
+  }
 }
