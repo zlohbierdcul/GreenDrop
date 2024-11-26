@@ -60,12 +60,17 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
           ],
         ),
         drawer: isLargeScreen ? null : _drawer(),
-        body: SizedBox(
-          width: 1000,
-          child: ScrollConfiguration(
-              behavior:
-                  ScrollConfiguration.of(context).copyWith(scrollbars: false),
-              child: activeScreen()),
+        body: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 1000,
+              child: ScrollConfiguration(
+                  behavior: ScrollConfiguration.of(context)
+                      .copyWith(scrollbars: false),
+                  child: activeScreen()),
+            ),
+          ],
         ),
       ),
     );
