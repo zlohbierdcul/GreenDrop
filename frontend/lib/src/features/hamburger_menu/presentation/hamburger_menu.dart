@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:greendrop/src/features/settings/presentation/settings.dart';
 
-import '../../account/presentation/account.dart';
+import '../../account/presentation/account_page.dart';
 import '../../orders/presentation/orders.dart';
 import '../../settings/presentation/info_page.dart';
 import '../../shops/presentation/landing_page.dart';
@@ -130,7 +130,7 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
       case 'Bestellungen':
         return Orders();
       case 'Account':
-        return Account();
+        return AccountPage();
       case 'Einstellungen':
         return Settings();
       case 'Impressum':
