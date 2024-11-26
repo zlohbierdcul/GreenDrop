@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:greendrop/src/features/orders/data/address.dart';
-import 'package:greendrop/src/features/orders/data/user.dart';
+import 'package:greendrop/src/features/order/data/address.dart';
+import 'package:greendrop/src/features/order/data/user.dart';
 import 'package:greendrop/src/features/shops/data/shop.dart';
 
 class Order {
