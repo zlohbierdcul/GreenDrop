@@ -1,7 +1,9 @@
 import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'account.dart';
 
 class AccountProvider with ChangeNotifier {
@@ -9,6 +11,7 @@ class AccountProvider with ChangeNotifier {
   bool _isEditing = false;
 
   Account? get account => _account;
+
   bool get isEditing => _isEditing;
 
   AccountProvider() {
@@ -27,10 +30,11 @@ class AccountProvider with ChangeNotifier {
   Future<void> loadAccountData(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accountId = prefs.getString('accountId');
-    //print("Account ID: $accountId");
+    print("Account ID: $accountId");
 
     if (accountId != null) {
-      String jsonData = await DefaultAssetBundle.of(context).loadString('assets/data/mock_account.json');
+      String jsonData = await DefaultAssetBundle.of(context)
+          .loadString('assets/data/mock_account.json');
       //print("JSON Data: $jsonData");
       Map<String, dynamic> data = jsonDecode(jsonData);
 
@@ -38,7 +42,7 @@ class AccountProvider with ChangeNotifier {
         _account = Account.fromJson(accountId, data[accountId]);
         notifyListeners();
       } else {
-        //print("Account ID not found in JSON data");
+        print("Account ID not found in JSON data");
       }
     } else {
       //print("No Account ID in SharedPreferences");
@@ -70,7 +74,8 @@ class AccountProvider with ChangeNotifier {
     String? accountId = prefs.getString('accountId');
     if (accountId == null) return;
 
-    String jsonData = await rootBundle.loadString('assets/data/mock_account.json');
+    String jsonData =
+        await rootBundle.loadString('assets/data/mock_account.json');
     Map<String, dynamic> data = jsonDecode(jsonData);
 
     if (_account != null) {

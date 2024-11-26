@@ -4,8 +4,8 @@ class Account {
   final String firstName;
   final String lastName;
   final String street;
-  final double houseNumber;
-  final double plz;
+  final int houseNumber;
+  final int plz;
   final String city;
   final String number;
 

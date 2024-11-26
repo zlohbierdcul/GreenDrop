@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:greendrop/src/features/account/domain/account_data_provider.dart';
 import 'package:greendrop/src/features/hamburger_menu/presentation/hamburger_menu.dart';
 import 'package:greendrop/src/features/login/login.dart';
 import 'package:greendrop/src/features/login/register_page.dart';
@@ -13,7 +14,8 @@ void main() {
     providers: [
       ChangeNotifierProvider(create: (_) => ShopDataProvider()),
       ChangeNotifierProvider(create: (_) => SortingProvider()),
-      ChangeNotifierProvider(create: (_) => FilterProvider())
+      ChangeNotifierProvider(create: (_) => FilterProvider()),
+      ChangeNotifierProvider(create: (_) => AccountProvider())
     ],
     child: const GreenDropApp(),
   ));
