@@ -1,0 +1,12 @@
+{
+  "1": {
+    "userName": "Biene",
+    "firstName": "Cedric",
+    "lastName": "Bienert",
+    "street": "Musterstraße",
+    "houseNumber": 123,
+    "plz": 12345,
+    "city": "Mannheim",
+    "number": "0157/123456789"
+  }
+}
