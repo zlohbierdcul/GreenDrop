@@ -4,6 +4,7 @@ import 'package:greendrop/src/features/login/login.dart';
 import 'package:greendrop/src/features/login/register_page.dart';
 import 'package:greendrop/src/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:greendrop/src/features/map/shops_map.dart';
 
 void main() {
   runApp(const GreenDropApp());
@@ -22,7 +23,7 @@ class GreenDropApp extends StatelessWidget {
           darkTheme: ThemeData.from(colorScheme: AppTheme.darkTheme),
           themeMode: context.watch<AppTheme>().themeMode,
           debugShowCheckedModeBanner: false,
-          home: const Login(),
+          home: const ShopsMap(),
           routes: {
             '/home': (context) => HamburgerMenu(),
             '/register': (context) => Registration(),
