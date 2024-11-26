@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:greendrop/src/features/orders/data/address.dart';
+import 'package:greendrop/src/features/order/data/address.dart';
 
 class Shop {
   final String id;
