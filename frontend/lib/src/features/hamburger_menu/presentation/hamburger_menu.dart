@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../account/presentation/account.dart';
+import '../../account/presentation/account_page.dart';
 import '../../orders/presentation/orders.dart';
 import '../../settings/presentation/info_page.dart';
 import '../../shops/presentation/pages/home.dart';
@@ -166,7 +166,9 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
       case 'Bestellungen':
         return const Orders();
       case 'Account':
-        return const Account();
+        return AccountPage();
+      case 'Einstellungen':
+        return Settings();
       case 'Impressum':
         return const InfoPage();
       default:
