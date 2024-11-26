@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:greendrop/src/features/settings/presentation/settings.dart';
 
 import '../../account/presentation/account_page.dart';
 import '../../orders/presentation/orders.dart';
 import '../../settings/presentation/info_page.dart';
-import '../../shops/presentation/landing_page.dart';
+import '../../shops/presentation/pages/home.dart';
 
 class HamburgerMenu extends StatefulWidget {
   const HamburgerMenu({super.key});
@@ -41,21 +40,35 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
           title: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  "GreenDrop",
-                  style: TextStyle(
-                      color: Colors.green, fontWeight: FontWeight.bold),
+                Flexible(
+                  child: Container(
+                    constraints: const BoxConstraints(maxWidth: 950),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "GreenDrop",
+                          style: TextStyle(
+                              color: Colors.green, fontWeight: FontWeight.bold),
+                        ),
+                        if (isLargeScreen) Expanded(child: _navBarItems())
+                      ],
+                    ),
+                  ),
                 ),
-                if (isLargeScreen) Expanded(child: _navBarItems())
               ],
             ),
           ),
-          actions: const [
+          actions: [
             Padding(
-              padding: EdgeInsets.only(right: 16.0),
-              child: CircleAvatar(child: Icon(Icons.logo_dev)),
+              padding: const EdgeInsets.only(right: 16.0),
+              child: CircleAvatar(
+                  child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Image.asset("assets/images/logo.png"),
+              )),
             )
           ],
         ),
@@ -63,12 +76,15 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
         body: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(
-              width: 1000,
-              child: ScrollConfiguration(
-                  behavior: ScrollConfiguration.of(context)
-                      .copyWith(scrollbars: false),
-                  child: activeScreen()),
+            Flexible(
+              child: Container(
+                width: double.infinity,
+                constraints: const BoxConstraints(maxWidth: 1000),
+                child: ScrollConfiguration(
+                    behavior: ScrollConfiguration.of(context)
+                        .copyWith(scrollbars: false),
+                    child: activeScreen()),
+              ),
             ),
           ],
         ),
@@ -93,11 +109,27 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
         ),
       );
 
+  TextStyle getNavItemStyle(String item) {
+    if (item == activePage) {
+      return TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 18,
+          color: Theme.of(context).colorScheme.primary);
+    } else {
+      return TextStyle(
+        fontSize: 18,
+        color: Theme.of(context).colorScheme.secondary,
+      );
+    }
+  }
+
   Widget _navBarItems() => Row(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: _menuItems
             .map((item) => InkWell(
+                  customBorder: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40)),
                   onTap: () {
                     setState(() {
                       activePage = item;
@@ -105,10 +137,15 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        vertical: 24.0, horizontal: 16),
-                    child: Text(
-                      item,
-                      style: const TextStyle(fontSize: 18),
+                        vertical: 8.0, horizontal: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          item,
+                          style: getNavItemStyle(item),
+                        ),
+                      ],
                     ),
                   ),
                 ))
@@ -119,22 +156,21 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
     'Startseite',
     'Bestellungen',
     'Account',
-    'Einstellungen',
     'Impressum',
   ];
 
   Widget activeScreen() {
     switch (activePage) {
       case 'Startseite':
-        return LandingPage();
+        return const HomePage();
       case 'Bestellungen':
-        return Orders();
+        return const Orders();
       case 'Account':
         return AccountPage();
       case 'Einstellungen':
         return Settings();
       case 'Impressum':
-        return InfoPage();
+        return const InfoPage();
       default:
         return const Text("Unknown Page");
     }
