@@ -173,11 +173,11 @@ class ShopDetailRow extends StatelessWidget {
             : const SizedBox(),
         const SizedBox(height: 16),
         Text(
-          "${shop.zipCode} ${shop.city}",
+          "${shop.address.zipCode} ${shop.address.city}",
           style: const TextStyle(fontSize: 14, color: Colors.grey),
         ),
         Text(
-          "${shop.street} ${shop.streetNumber}",
+          "${shop.address.street} ${shop.address.streetNumber}",
           style: const TextStyle(fontSize: 14, color: Colors.grey),
         ),
       ],
