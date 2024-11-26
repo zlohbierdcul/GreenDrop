@@ -8,6 +8,7 @@ class ShopDataProvider extends ChangeNotifier {
   }
 
   Map<String, Shop> _shopList = {};
+  Map<String, Shop> _originalShopList = {};
 
   Map<String, Shop> get shopList => _shopList;
 
@@ -18,6 +19,20 @@ class ShopDataProvider extends ChangeNotifier {
     List<Shop> shops = Shop.parseShops(response);
     _shopList =
         Map.fromIterable(shops, key: (shop) => shop.id, value: (shop) => shop);
+    _originalShopList = _shopList;
+    notifyListeners();
+  }
+
+  void filterDataBySearchTerm(String searchTerm) {
+    final filteredShopList = _originalShopList.entries
+        .where((entry) =>
+            entry.value.name.toLowerCase().contains(searchTerm.toLowerCase()))
+        .map((entry) => MapEntry(entry.key, entry.value));
+
+    final Map<String, Shop> filteredShopData =
+        Map.fromEntries(filteredShopList);
+
+    _shopList = filteredShopData;
     notifyListeners();
   }
 }

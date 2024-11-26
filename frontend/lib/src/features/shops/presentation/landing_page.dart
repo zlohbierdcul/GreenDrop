@@ -41,31 +41,28 @@ class LandingPage extends StatelessWidget {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
-          ChangeNotifierProvider<ShopDataProvider>(
-            create: (context) => ShopDataProvider(),
-            child: Consumer<ShopDataProvider>(
-              builder: (context, provider, child) {
-                // Check if shopList is empty
-                if (provider.shopList.isEmpty) {
-                  return const Center(child: Text("No shops available."));
-                }
+          Consumer<ShopDataProvider>(
+            builder: (context, provider, child) {
+              // Check if shopList is empty
+              if (provider.shopList.isEmpty) {
+                return const Center(child: Text("Keine Shops verfügbar."));
+              }
 
-                return ListView.separated(
-                  shrinkWrap: true,
-                  physics: const ClampingScrollPhysics(),
-                  padding: const EdgeInsets.all(16),
-                  separatorBuilder: (BuildContext context, int index) {
-                    return const SizedBox(height: 16);
-                  },
-                  itemCount: provider.shopList.length,
-                  itemBuilder: (BuildContext context, index) {
-                    // Assuming shopList is a Map or List
-                    final shop = provider.shopList.values.toList()[index];
-                    return ShopCard(shop: shop);
-                  },
-                );
-              },
-            ),
+              return ListView.separated(
+                shrinkWrap: true,
+                physics: const ClampingScrollPhysics(),
+                padding: const EdgeInsets.all(16),
+                separatorBuilder: (BuildContext context, int index) {
+                  return const SizedBox(height: 16);
+                },
+                itemCount: provider.shopList.length,
+                itemBuilder: (BuildContext context, index) {
+                  // Assuming shopList is a Map or List
+                  final shop = provider.shopList.values.toList()[index];
+                  return ShopCard(shop: shop);
+                },
+              );
+            },
           ),
         ],
       ),
