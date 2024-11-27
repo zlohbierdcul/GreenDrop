@@ -23,7 +23,7 @@ class GreenDropApp extends StatelessWidget {
           darkTheme: ThemeData.from(colorScheme: AppTheme.darkTheme),
           themeMode: context.watch<AppTheme>().themeMode,
           debugShowCheckedModeBanner: false,
-          home: const ShopsMap(),
+          home: const Login(),
           routes: {
             '/home': (context) => HamburgerMenu(),
             '/register': (context) => Registration(),
