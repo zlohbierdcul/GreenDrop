@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:greendrop/src/features/map/shops_map.dart';
 import 'package:greendrop/src/features/shops/presentation/search_bar.dart';
 import 'package:greendrop/src/features/shops/presentation/shop_card.dart';
 import 'package:provider/provider.dart';
@@ -10,8 +11,28 @@ class LandingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
+    return NestedScrollView(
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+        return <Widget>[
+          SliverAppBar(
+            expandedHeight: 300.0,
+            floating: false,
+            pinned: true,
+            stretch: true,
+            flexibleSpace: FlexibleSpaceBar(
+                centerTitle: true,
+                collapseMode: CollapseMode.parallax,
+                title: const Text("Collapsing Appbar",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.0,
+                    )),
+                background: ShopsMap(),
+            ),
+          ),
+        ];
+      },
+      body: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
