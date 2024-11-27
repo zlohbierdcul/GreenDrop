@@ -19,6 +19,7 @@ class _RegistrationState extends State<Registration> {
   final TextEditingController _zipController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _houseNumberController = TextEditingController();
 
   static Future<bool> checkAddress(String address) async {
     try {
@@ -93,8 +94,37 @@ class _RegistrationState extends State<Registration> {
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     ),
+                    _gap(),TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Vorname darf nicht leer sein!';
+                        }
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'Vorname',
+                        hintText: 'Dein Vorname',
+                        prefixIcon: Icon(Icons.person_outline),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
                     _gap(),
-                    // Name Input
+                    // Nachname Input
+                    TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Nachname darf nicht leer sein!';
+                        }
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'Nachname',
+                        hintText: 'Dein Nachname',
+                        prefixIcon: Icon(Icons.person_outline),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    _gap(),
                     TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -165,6 +195,25 @@ class _RegistrationState extends State<Registration> {
                       ),
                     ),
                     _gap(),
+                    TextFormField(
+                      controller: _houseNumberController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Hausnummer darf nicht leer sein!';
+                        }
+                        if (!RegExp(r'^\d+[a-zA-Z]?$').hasMatch(value)) {
+                          return 'Bitte eine gültige Hausnummer eingeben!';
+                        }
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'Hausnummer',
+                        hintText: '123 oder 123a',
+                        prefixIcon: Icon(Icons.home_outlined),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    _gap(),
                     // PLZ Input
                     TextFormField(
                       controller: _zipController,
@@ -222,6 +271,60 @@ class _RegistrationState extends State<Registration> {
                         border: OutlineInputBorder(),
                       ),
                       keyboardType: TextInputType.phone,
+                    ),
+                    _gap(),
+                    // Passwort Input
+                    TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Passwort darf nicht leer sein!';
+                        }
+                        if (value.length < 6) {
+                          return 'Passwort muss mindestens 6 Zeichen lang sein';
+                        }
+                        return null;
+                      },
+                      obscureText: !_isPasswordVisible,
+                      decoration: InputDecoration(
+                        labelText: 'Passwort',
+                        hintText: 'Erstelle ein Passwort',
+                        prefixIcon: const Icon(Icons.lock_outline_rounded),
+                        border: const OutlineInputBorder(),
+                        suffixIcon: IconButton(
+                          icon: Icon(_isPasswordVisible ? Icons.visibility_off : Icons.visibility),
+                          onPressed: () {
+                            setState(() {
+                              _isPasswordVisible = !_isPasswordVisible;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    _gap(),
+// Passwort Bestätigung Input
+                    TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Passwort-Bestätigung darf nicht leer sein!';
+                        }
+                        return null;
+                      },
+                      obscureText: !_isConfirmPasswordVisible,
+                      decoration: InputDecoration(
+                        labelText: 'Passwort bestätigen',
+                        hintText: 'Wiederhole dein Passwort',
+                        prefixIcon: const Icon(Icons.lock_outline_rounded),
+                        border: const OutlineInputBorder(),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                              _isConfirmPasswordVisible ? Icons.visibility_off : Icons.visibility),
+                          onPressed: () {
+                            setState(() {
+                              _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
+                            });
+                          },
+                        ),
+                      ),
                     ),
                     _gap(),
                     // Checkbox für Altersbestätigung
