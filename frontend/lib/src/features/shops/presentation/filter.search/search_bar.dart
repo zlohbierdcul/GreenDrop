@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:greendrop/src/features/shops/domain/shop_data_provider.dart';
+import 'package:greendrop/src/features/shops/presentation/provider/shop_data_provider.dart';
 import 'package:provider/provider.dart';
 
 class ShopSearchBar extends StatefulWidget {

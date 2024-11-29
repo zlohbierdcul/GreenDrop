@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:greendrop/src/features/shops/domain/filter_provider.dart';
-import 'package:greendrop/src/features/shops/domain/shop_data_provider.dart';
-import 'package:greendrop/src/features/shops/domain/sorting_provider.dart';
 import 'package:greendrop/src/features/shops/presentation/filter.search/filter_options.dart';
 import 'package:greendrop/src/features/shops/presentation/filter.search/sort_options.dart';
+import 'package:greendrop/src/features/shops/presentation/provider/filter_provider.dart';
+import 'package:greendrop/src/features/shops/presentation/provider/shop_data_provider.dart';
+import 'package:greendrop/src/features/shops/presentation/provider/sorting_provider.dart';
 import 'package:provider/provider.dart';
 
 class FilterDialog {

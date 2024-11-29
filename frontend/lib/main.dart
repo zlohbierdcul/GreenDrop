@@ -3,9 +3,9 @@ import 'package:greendrop/src/features/account/domain/account_data_provider.dart
 import 'package:greendrop/src/features/hamburger_menu/presentation/hamburger_menu.dart';
 import 'package:greendrop/src/features/login/login.dart';
 import 'package:greendrop/src/features/login/register_page.dart';
-import 'package:greendrop/src/features/shops/domain/filter_provider.dart';
-import 'package:greendrop/src/features/shops/domain/shop_data_provider.dart';
-import 'package:greendrop/src/features/shops/domain/sorting_provider.dart';
+import 'package:greendrop/src/features/shops/presentation/provider/filter_provider.dart';
+import 'package:greendrop/src/features/shops/presentation/provider/shop_data_provider.dart';
+import 'package:greendrop/src/features/shops/presentation/provider/sorting_provider.dart';
 import 'package:greendrop/src/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 

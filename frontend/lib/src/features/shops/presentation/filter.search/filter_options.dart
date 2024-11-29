@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:greendrop/src/features/shops/domain/filter_provider.dart';
+import 'package:greendrop/src/features/shops/presentation/provider/filter_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
