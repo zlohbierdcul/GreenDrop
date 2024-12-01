@@ -20,10 +20,9 @@ class LandingPage extends StatelessWidget {
             pinned: true,
             stretch: true,
             leading: Container(),
-            flexibleSpace: FlexibleSpaceBar(
+            flexibleSpace: const FlexibleSpaceBar(
                 centerTitle: true,
                 collapseMode: CollapseMode.parallax,
-
                 background: ShopsMap(),
             ),
           ),

@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 
 class Shop {
   final String id;
@@ -19,9 +20,8 @@ class Shop {
     required this.longitude,
   });
 
-  // Methode zum Berechnen der Entfernung in Kilometern
   double calculateDistance(double lat2, double lon2) {
-    const double radius = 6371; // Erdradius in km
+    const double radius = 6371;
     double dLat = _degreesToRadians(lat2 - latitude);
     double dLon = _degreesToRadians(lon2 - longitude);
 
@@ -33,14 +33,13 @@ class Shop {
 
     double c = 2 * atan2(sqrt(a), sqrt(1 - a));
 
-    return radius * c; // Entfernung in km
+    return radius * c;
   }
 
   static double _degreesToRadians(double degree) {
     return degree * pi / 180;
   }
 
-  // Shop-Daten aus der JSON einlesen und Geocoding durchführen
   static Future<List<Shop>> parseShops(String response) async {
     Map<String, dynamic> data = jsonDecode(response);
     List<Shop> shops = [];
@@ -78,31 +77,72 @@ class ShopsMap extends StatefulWidget {
 
 class _ShopsMapState extends State<ShopsMap> {
   List<Marker> _markers = [];
-  double latitudePerson = 49.492654; // Beispielstartposition
+  double latitudePerson = 49.492654; // Standardposition
   double longitudePerson = 8.471250;
 
   @override
   void initState() {
     super.initState();
-    _initializeMap();
+    _getUserLocation();
+  }
+
+  Future<void> _getUserLocation() async {
+    // Prüfe Standortberechtigungen
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        print('Standortberechtigungen abgelehnt.');
+        return;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      print('Standortberechtigungen permanent abgelehnt.');
+      return;
+    }
+
+    // Hole die aktuelle Position
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+
+    setState(() {
+      latitudePerson = position.latitude;
+      longitudePerson = position.longitude;
+    });
+
+    // Initialisiere die Shops und Marker
+    await _initializeMap();
   }
 
   Future<void> _initializeMap() async {
-    // Lade die JSON-Datei
     String response = await rootBundle.loadString('assets/data/mock-shops.json');
-
-    // Parse die Shops und berechne Marker
     List<Shop> shops = await Shop.parseShops(response);
-    double radius = 10.0; // Radius in km
+    double radius = 10.0;
 
-    List<Marker> markers = [];
+    List<Marker> markers = [
+      // Nutzerposition hinzufügen
+      Marker(
+        point: LatLng(latitudePerson, longitudePerson),
+        width: 40.0,
+        height: 40.0,
+        child: Icon(
+          Icons.person_pin,
+          size: 40.0,
+          color: Colors.red,
+        ),
+      ),
+    ];
+
     for (var shop in shops) {
       double distance = shop.calculateDistance(latitudePerson, longitudePerson);
       if (distance <= radius) {
         markers.add(
           Marker(
             point: LatLng(shop.latitude, shop.longitude),
-            child: const Icon(
+            width: 40.0,
+            height: 40.0,
+            child: Icon(
               Icons.location_on,
               size: 40.0,
               color: Colors.blue,
@@ -111,7 +151,6 @@ class _ShopsMapState extends State<ShopsMap> {
         );
       }
     }
-
     setState(() {
       _markers = markers;
     });
@@ -120,7 +159,7 @@ class _ShopsMapState extends State<ShopsMap> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: latitudePerson != 49.492654 && longitudePerson != 8.471250
+      body: latitudePerson == 49.492654 && longitudePerson == 8.471250
           ? const Center(child: CircularProgressIndicator())
           : FlutterMap(
         options: MapOptions(
