@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:greendrop/src/features/account/domain/account_data_provider.dart';
 import 'package:greendrop/src/features/account/presentation/account_page.dart';
+import 'package:greendrop/src/features/impressum/presentation/impressum_page.dart';
 import 'package:greendrop/src/features/login/login.dart';
 import 'package:greendrop/src/features/login/register_page.dart';
 import 'package:greendrop/src/features/shops/domain/filter_provider.dart';
@@ -41,7 +42,7 @@ class GreenDropApp extends StatelessWidget {
           '/register': (context) => Registration(),
           '/account': (context) => AccountPage(),
           //'/order history': (context) => Orders(),
-          //'/Impressum': (context) => Impressum(),
+          '/impressum': (context) => ImpressumPage(),
         },
       ),
     );

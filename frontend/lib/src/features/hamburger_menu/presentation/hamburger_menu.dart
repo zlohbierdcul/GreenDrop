@@ -47,7 +47,7 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.account_box),
             title: const Text('Account'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/account');
+              Navigator.pushNamed(context, '/account');
             },
           ),
           const Divider(),
@@ -55,7 +55,7 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.question_answer),
             title: const Text('Impressum'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/impressum');
+              Navigator.pushNamed(context, '/impressum');
             },
           ),
         ],

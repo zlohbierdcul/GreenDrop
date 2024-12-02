@@ -3,27 +3,30 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../hamburger_menu/presentation/hamburger_menu.dart';
+import '../../../common_widgets/dropdown.dart';
+import '../../../theme/theme_provider.dart';
 import '../domain/account.dart';
 import '../domain/account_data_provider.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({super.key});
 
-  // Initialisiere die TextEditingController hier
-  static final TextEditingController _userNameController =
-      TextEditingController();
-  static final TextEditingController _firstNameController =
-      TextEditingController();
-  static final TextEditingController _lastNameController =
-      TextEditingController();
-  static final TextEditingController _streetController =
-      TextEditingController();
-  static final TextEditingController _houseNumberController =
-      TextEditingController();
+  List<DropdownMenuItem<String>> get dropdownMenuItems {
+    return [
+      const DropdownMenuItem<String>(key: Key("theme_1"), value: "dark", child: Text("Dark")),
+      const DropdownMenuItem<String>(key: Key("theme_2"), value: "light", child: Text("Light")),
+      const DropdownMenuItem<String>(key: Key("theme_3"), value: "system", child: Text("System")),
+    ];
+  }
+
+  static final TextEditingController _userNameController = TextEditingController();
+  static final TextEditingController _firstNameController = TextEditingController();
+  static final TextEditingController _lastNameController = TextEditingController();
+  static final TextEditingController _streetController = TextEditingController();
+  static final TextEditingController _houseNumberController = TextEditingController();
   static final TextEditingController _plzController = TextEditingController();
   static final TextEditingController _cityController = TextEditingController();
-  static final TextEditingController _numberController =
-      TextEditingController();
+  static final TextEditingController _numberController = TextEditingController();
 
   void _initializeControllers(AccountProvider accountProvider) {
     Account? account = accountProvider.account;
@@ -62,9 +65,7 @@ class AccountPage extends StatelessWidget {
           title: const Text("Passwort ändern"),
           content: TextField(
             controller: newPasswordController,
-            decoration: const InputDecoration(
-              hintText: "Neues Passwort",
-            ),
+            decoration: const InputDecoration(hintText: "Neues Passwort"),
             obscureText: true,
           ),
           actions: [
@@ -94,9 +95,32 @@ class AccountPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Greendrobs'),
+            title: Row(
+              children: [
+                const Text('Greendrops'),
+                const SizedBox(width: 8),
+                TextButton(
+                  onPressed: () {
+                    print('2233 Greendrops');
+                  },
+                  child: const Text(
+                    '#2233',
+                  ),
+
+                ),
+              ],
+            ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 32.0),
+                child: Image.asset(
+                  'assets/images/logo.png',
+                  width: 40,
+                  height: 40,
+                ),
+              ),
+            ]
         ),
-        drawer: AppDrawer(),
         body: Consumer<AccountProvider>(
         builder: (context, accountProvider, child) {
           if (accountProvider.account == null) {
@@ -121,37 +145,40 @@ class AccountPage extends StatelessWidget {
                         child: Center(
                           child: Text(
                             "Account",
-                            style: TextStyle(
-                              fontSize: 24,
-                            ),
+                            style: TextStyle(fontSize: 24),
                           ),
                         ),
                       ),
                     ),
                   ),
+
+                  const SizedBox(height: 4.0),
+
                   Center(
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: RichText(
-                        text: TextSpan(
-                          text: 'Willkommen zurück, ',
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                      padding: const EdgeInsets.only(bottom: 20.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Willkommen zurück, ${accountProvider.account
+                                ?.userName ?? ''}',
+                            style: const TextStyle(fontSize: 18),
                           ),
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: accountProvider.account?.userName ?? '',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ],
-                        ),
+                        ],
                       ),
                     ),
                   ),
+
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: _buildColorSchemeDropdown(),
+                  ),
+
+                  const SizedBox(height: 24.0),
+
+                  // ListView für die Accountdaten
                   Expanded(
                     child: ListView(
                       children: [
@@ -163,17 +190,20 @@ class AccountPage extends StatelessWidget {
                             accountProvider.isEditing),
                         _buildEditableTile("Straße:", _streetController,
                             accountProvider.isEditing),
-                        _buildEditableTile("Hausnummer:", _houseNumberController,
+                        _buildEditableTile(
+                            "Hausnummer:", _houseNumberController,
                             accountProvider.isEditing),
                         _buildEditableTile(
                             "PLZ:", _plzController, accountProvider.isEditing),
-                        _buildEditableTile(
-                            "Stadt:", _cityController, accountProvider.isEditing),
+                        _buildEditableTile("Stadt:", _cityController,
+                            accountProvider.isEditing),
                         _buildEditableTile("Telefonnummer:", _numberController,
                             accountProvider.isEditing),
                       ],
                     ),
                   ),
+
+                  // Button für Passwortänderung
                   if (accountProvider.isEditing)
                     Padding(
                       padding: const EdgeInsets.only(bottom: 12.0),
@@ -186,6 +216,8 @@ class AccountPage extends StatelessWidget {
                         ),
                       ),
                     ),
+
+                  // Speichern und Abbrechen Button
                   if (accountProvider.isEditing)
                     Column(
                       children: [
@@ -204,15 +236,16 @@ class AccountPage extends StatelessWidget {
                               const SizedBox(width: 10),
                               FilledButton(
                                 onPressed: () async {
-                                  SharedPreferences prefs =
-                                      await SharedPreferences.getInstance();
-                                  String? accountId =
-                                      prefs.getString('accountId');
+                                  SharedPreferences prefs = await SharedPreferences
+                                      .getInstance();
+                                  String? accountId = prefs.getString(
+                                      'accountId');
                                   if (accountId != null) {
                                     accountProvider.updateAccount(
-                                        _createAccountFromControllers(accountId));
-                                    await accountProvider
-                                        .saveAccountData(context);
+                                        _createAccountFromControllers(
+                                            accountId));
+                                    await accountProvider.saveAccountData(
+                                        context);
                                     accountProvider.toggleEditing();
                                   }
                                 },
@@ -223,6 +256,8 @@ class AccountPage extends StatelessWidget {
                         ),
                       ],
                     ),
+
+                  // Button zum Bearbeiten der Accountdaten
                   if (!accountProvider.isEditing)
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -240,24 +275,27 @@ class AccountPage extends StatelessWidget {
             ),
           );
         },
-      ));
-    }
+        ));
+  }
 
   // Helper-Methode zum Erstellen eines editierbaren Textfeldes in einem ListTile
-  Widget _buildEditableTile(
-      String label, TextEditingController controller, bool isEditing) {
+  Widget _buildEditableTile(String label, TextEditingController controller, bool isEditing) {
     return ListTile(
       title: Row(
         children: [
-          Expanded(
-            flex: 1,
-            child: Text(
-              label,
-              style: const TextStyle(fontWeight: FontWeight.bold),
+          // Label für das Textfeld mit fester Breite
+          Padding(
+            padding: const EdgeInsets.only(left: 16.0), // Optional: für Abstand
+            child: SizedBox(
+              width: 150, // Feste Breite für das Label
+              child: Text(
+                label,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
           ),
+          // TextField, das den verbleibenden Platz einnimmt
           Expanded(
-            flex: 2,
             child: TextField(
               controller: controller,
               readOnly: !isEditing, // Nur im Bearbeitungsmodus editierbar
@@ -268,6 +306,50 @@ class AccountPage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  // Helper-Methode für das Farbschema-Dropdown
+  Widget _buildColorSchemeDropdown() {
+    return Row(
+      children: [
+        const Padding(
+          padding: EdgeInsets.only(left: 32.0), // Abstand nach links
+          child: SizedBox(
+            width: 150, // Feste Breite für das Label
+            child: Text(
+              "Farbschema:",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: Consumer<AppTheme>(
+              builder: (context, appTheme, child) {
+                return CustomDropdownButton(
+                  items: dropdownMenuItems,
+                  value: appTheme.themeMode.name,
+                  onChanged: (s) {
+                    switch (s) {
+                      case "dark":
+                        appTheme.themeMode = ThemeMode.dark;
+                        break;
+                      case "light":
+                        appTheme.themeMode = ThemeMode.light;
+                        break;
+                      case "system":
+                        appTheme.themeMode = ThemeMode.system;
+                        break;
+                    }
+                  },
+                );
+              },
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

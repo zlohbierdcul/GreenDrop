@@ -13,11 +13,11 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Row(
           children: [
-            const Text('Greendrobs'),
+            const Text('Greendrops'),
             const SizedBox(width: 8),
             TextButton(
               onPressed: () {
-                print('2233 Greendrobs');
+                print('2233 Greendrops');
               },
               child: const Text(
                 '#2233',
