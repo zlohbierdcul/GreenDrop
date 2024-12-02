@@ -8,7 +8,27 @@
     "city": "Mannheim",
     "rating": 4.2,
     "minOrder": 20,
-    "deliveryCost": 2
+    "deliveryCost": 2,
+    "products": [
+      {
+        "name": "Latte Macchiato",
+        "price": 3.5,
+        "origin": "Italy",
+        "type": "Coffee"
+      },
+      {
+        "name": "Blueberry Muffin",
+        "price": 3.0,
+        "origin": "Germany",
+        "type": "Snack"
+      },
+      {
+        "name": "Hot Chocolate",
+        "price": 3.0,
+        "origin": "Switzerland",
+        "type": "Drink"
+      }
+    ]
   },
   "2": {
     "name": "Java Corner",
@@ -19,7 +39,27 @@
     "city": "Mannheim",
     "rating": 4.1,
     "minOrder": 15,
-    "deliveryCost": 1.5
+    "deliveryCost": 1.5,
+    "products": [
+      {
+        "name": "Latte Macchiato",
+        "price": 3.5,
+        "origin": "Italy",
+        "type": "Coffee"
+      },
+      {
+        "name": "Blueberry Muffin",
+        "price": 3.0,
+        "origin": "Germany",
+        "type": "Snack"
+      },
+      {
+        "name": "Hot Chocolate",
+        "price": 3.0,
+        "origin": "Switzerland",
+        "type": "Drink"
+      }
+    ]
   },
   "3": {
     "name": "The Daily Grind",
@@ -30,7 +70,27 @@
     "city": "Mannheim",
     "rating": 4.8,
     "minOrder": 10,
-    "deliveryCost": 0
+    "deliveryCost": 0,
+    "products": [
+      {
+        "name": "Latte Macchiato",
+        "price": 3.5,
+        "origin": "Italy",
+        "type": "Coffee"
+      },
+      {
+        "name": "Blueberry Muffin",
+        "price": 3.0,
+        "origin": "Germany",
+        "type": "Snack"
+      },
+      {
+        "name": "Hot Chocolate",
+        "price": 3.0,
+        "origin": "Switzerland",
+        "type": "Drink"
+      }
+    ]
   },
   "4": {
     "name": "Espresso Express",
@@ -41,7 +101,27 @@
     "city": "Mannheim",
     "minOrder": 25,
     "rating": 2.8,
-    "deliveryCost": 3
+    "deliveryCost": 3,
+    "products": [
+      {
+        "name": "Latte Macchiato",
+        "price": 3.5,
+        "origin": "Italy",
+        "type": "Coffee"
+      },
+      {
+        "name": "Blueberry Muffin",
+        "price": 3.0,
+        "origin": "Germany",
+        "type": "Snack"
+      },
+      {
+        "name": "Hot Chocolate",
+        "price": 3.0,
+        "origin": "Switzerland",
+        "type": "Drink"
+      }
+    ]
   },
   "5": {
     "name": "Café Aroma",
@@ -52,7 +132,27 @@
     "city": "Mannheim",
     "minOrder": 30,
     "rating": 4.2,
-    "deliveryCost": 2.5
+    "deliveryCost": 2.5,
+    "products": [
+      {
+        "name": "Latte Macchiato",
+        "price": 3.5,
+        "origin": "Italy",
+        "type": "Coffee"
+      },
+      {
+        "name": "Blueberry Muffin",
+        "price": 3.0,
+        "origin": "Germany",
+        "type": "Snack"
+      },
+      {
+        "name": "Hot Chocolate",
+        "price": 3.0,
+        "origin": "Switzerland",
+        "type": "Drink"
+      }
+    ]
   },
   "6": {
     "name": "Latte Lounge",
@@ -63,7 +163,27 @@
     "city": "Mannheim",
     "minOrder": 18,
     "rating": 3.2,
-    "deliveryCost": 1
+    "deliveryCost": 1,
+    "products": [
+      {
+        "name": "Latte Macchiato",
+        "price": 3.5,
+        "origin": "Italy",
+        "type": "Coffee"
+      },
+      {
+        "name": "Blueberry Muffin",
+        "price": 3.0,
+        "origin": "Germany",
+        "type": "Snack"
+      },
+      {
+        "name": "Hot Chocolate",
+        "price": 3.0,
+        "origin": "Switzerland",
+        "type": "Drink"
+      }
+    ]
   },
   "7": {
     "name": "Bohnen & Blätter",
@@ -74,7 +194,27 @@
     "city": "Mannheim",
     "minOrder": 20,
     "rating": 4.1,
-    "deliveryCost": 2
+    "deliveryCost": 2,
+    "products": [
+      {
+        "name": "Latte Macchiato",
+        "price": 3.5,
+        "origin": "Italy",
+        "type": "Coffee"
+      },
+      {
+        "name": "Blueberry Muffin",
+        "price": 3.0,
+        "origin": "Germany",
+        "type": "Snack"
+      },
+      {
+        "name": "Hot Chocolate",
+        "price": 3.0,
+        "origin": "Switzerland",
+        "type": "Drink"
+      }
+    ]
   },
   "8": {
     "name": "Kaffeeklatsch",
@@ -85,7 +225,27 @@
     "city": "Mannheim",
     "rating": 4.7,
     "minOrder": 12,
-    "deliveryCost": 1
+    "deliveryCost": 1,
+    "products": [
+      {
+        "name": "Latte Macchiato",
+        "price": 3.5,
+        "origin": "Italy",
+        "type": "Coffee"
+      },
+      {
+        "name": "Blueberry Muffin",
+        "price": 3.0,
+        "origin": "Germany",
+        "type": "Snack"
+      },
+      {
+        "name": "Hot Chocolate",
+        "price": 3.0,
+        "origin": "Switzerland",
+        "type": "Drink"
+      }
+    ]
   },
   "9": {
     "name": "Black & White Coffee",
@@ -96,7 +256,27 @@
     "city": "Mannheim",
     "rating": 4.2,
     "minOrder": 15,
-    "deliveryCost": 0
+    "deliveryCost": 0,
+    "products": [
+      {
+        "name": "Latte Macchiato",
+        "price": 3.5,
+        "origin": "Italy",
+        "type": "Coffee"
+      },
+      {
+        "name": "Blueberry Muffin",
+        "price": 3.0,
+        "origin": "Germany",
+        "type": "Snack"
+      },
+      {
+        "name": "Hot Chocolate",
+        "price": 3.0,
+        "origin": "Switzerland",
+        "type": "Drink"
+      }
+    ]
   },
   "10": {
     "name": "Koffein Kultur",
@@ -107,6 +287,26 @@
     "city": "Mannheim",
     "rating": 4.5,
     "minOrder": 25,
-    "deliveryCost": 2.5
+    "deliveryCost": 2.5,
+    "products": [
+      {
+        "name": "Latte Macchiato",
+        "price": 3.5,
+        "origin": "Italy",
+        "type": "Coffee"
+      },
+      {
+        "name": "Blueberry Muffin",
+        "price": 3.0,
+        "origin": "Germany",
+        "type": "Snack"
+      },
+      {
+        "name": "Hot Chocolate",
+        "price": 3.0,
+        "origin": "Switzerland",
+        "type": "Drink"
+      }
+    ]
   }
 }
