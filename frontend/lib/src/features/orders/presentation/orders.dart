@@ -186,7 +186,7 @@ class OrdersList extends StatelessWidget {
                             children: [
                               Text("${order.itemCount} items"),
                               Text(
-                                "\$${order.totalAmount.toStringAsFixed(2)}",
+                                "€${order.totalAmount.toStringAsFixed(2)}",
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,

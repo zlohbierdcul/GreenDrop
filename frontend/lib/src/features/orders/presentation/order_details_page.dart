@@ -17,6 +17,7 @@ class OrderDetailsPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.asset(
               order.shopImage,
@@ -63,7 +64,6 @@ class OrderDetailsPage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 4.0),
                     child: Row(
                       children: [
-
                         Text(
                           '${item.number}.',
                           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -79,7 +79,7 @@ class OrderDetailsPage extends StatelessWidget {
                         ),
 
                         Text(
-                          '\$${item.price.toStringAsFixed(2)}',
+                          "€${item.price.toStringAsFixed(2)}",
                           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                       ],
@@ -91,13 +91,23 @@ class OrderDetailsPage extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            Text(
-              "Bezahlter Gesamtbetrag: €${order.totalAmount.toStringAsFixed(2)}",
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+            Row(
+              children: [
+                Expanded(
+                  child: Container(), // Leerer Container für Platzierung
+                ),
+                Text(
+                  "Bezahlter Gesamtbetrag: €${order.totalAmount.toStringAsFixed(2)}",
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.right,
+                ),
+              ],
             ),
+            
+            const SizedBox(height: 20),
             
             ElevatedButton(
               onPressed: () {
