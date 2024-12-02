@@ -3,7 +3,7 @@ import 'package:greendrop/src/features/order/presentation/pages/order.dart';
 import 'package:greendrop/src/features/settings/presentation/settings.dart';
 
 import '../../account/presentation/account_page.dart';
-import '../../settings/presentation/info_page.dart';
+import '../../impressum/presentation/impressum_page.dart';
 import '../../shops/presentation/pages/home.dart';
 
 class HamburgerMenu extends StatefulWidget {
@@ -171,7 +171,7 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
       case 'Einstellungen':
         return Settings();
       case 'Impressum':
-        return const InfoPage();
+        return const ImpressumPage();
       default:
         return const Text("Unknown Page");
     }
