@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:greendrop/src/features/account/domain/account_data_provider.dart';
-import 'package:greendrop/src/features/hamburger_menu/presentation/hamburger_menu.dart';
+import 'package:greendrop/src/features/account/presentation/account_page.dart';
+import 'package:greendrop/src/features/impressum/presentation/impressum_page.dart';
 import 'package:greendrop/src/features/login/login.dart';
 import 'package:greendrop/src/features/login/register_page.dart';
 import 'package:greendrop/src/features/shops/domain/filter_provider.dart';
 import 'package:greendrop/src/features/shops/domain/shop_data_provider.dart';
 import 'package:greendrop/src/features/shops/domain/sorting_provider.dart';
+import 'package:greendrop/src/features/shops/presentation/pages/home.dart';
 import 'package:greendrop/src/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -36,8 +38,11 @@ class GreenDropApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: const Login(),
         routes: {
-          '/home': (context) => HamburgerMenu(),
+          '/home': (context) => HomePage(),
           '/register': (context) => Registration(),
+          '/account': (context) => AccountPage(),
+          //'/order history': (context) => Orders(),
+          '/impressum': (context) => ImpressumPage(),
         },
       ),
     );
