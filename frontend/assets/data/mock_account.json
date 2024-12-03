@@ -3,6 +3,7 @@
     "userName": "Biene",
     "firstName": "Cedric",
     "lastName": "Bienert",
+    "email": "test@test.de",
     "street": "Musterstraße",
     "houseNumber": 123,
     "plz": 12345,

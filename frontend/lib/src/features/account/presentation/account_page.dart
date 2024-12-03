@@ -21,6 +21,7 @@ class AccountPage extends StatelessWidget {
   static final TextEditingController _userNameController = TextEditingController();
   static final TextEditingController _firstNameController = TextEditingController();
   static final TextEditingController _lastNameController = TextEditingController();
+  static final TextEditingController _emailController = TextEditingController();
   static final TextEditingController _streetController = TextEditingController();
   static final TextEditingController _houseNumberController = TextEditingController();
   static final TextEditingController _plzController = TextEditingController();
@@ -33,6 +34,7 @@ class AccountPage extends StatelessWidget {
       _userNameController.text = account.userName;
       _firstNameController.text = account.firstName;
       _lastNameController.text = account.lastName;
+      _emailController.text = account.email;
       _streetController.text = account.street;
       _houseNumberController.text = account.houseNumber.toInt().toString();
       _plzController.text = account.plz.toInt().toString();
@@ -46,6 +48,7 @@ class AccountPage extends StatelessWidget {
       id: id,
       userName: _userNameController.text,
       firstName: _firstNameController.text,
+      email: _emailController.text,
       lastName: _lastNameController.text,
       street: _streetController.text,
       houseNumber: int.tryParse(_houseNumberController.text) ?? 0,
@@ -154,6 +157,7 @@ class AccountPage extends StatelessWidget {
                     _buildEditableTile("Username:", _userNameController, accountProvider.isEditing),
                     _buildEditableTile("Vorname:", _firstNameController, accountProvider.isEditing),
                     _buildEditableTile("Nachname:", _lastNameController, accountProvider.isEditing),
+                    _buildEditableTile("E-Mail:", _emailController, accountProvider.isEditing),
                     _buildEditableTile("Straße:", _streetController, accountProvider.isEditing),
                     _buildEditableTile("Hausnummer:", _houseNumberController, accountProvider.isEditing),
                     _buildEditableTile("PLZ:", _plzController, accountProvider.isEditing),
