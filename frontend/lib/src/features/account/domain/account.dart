@@ -3,6 +3,7 @@ class Account {
   final String userName;
   final String firstName;
   final String lastName;
+  final String email;
   final String street;
   final int houseNumber;
   final int plz;
@@ -14,6 +15,7 @@ class Account {
     required this.userName,
     required this.firstName,
     required this.lastName,
+    required this.email,
     required this.street,
     required this.houseNumber,
     required this.plz,
@@ -28,6 +30,7 @@ class Account {
       userName: json['userName'],
       firstName: json['firstName'],
       lastName: json['lastName'],
+      email: json['email'],
       street: json['street'],
       houseNumber: json['houseNumber'],
       plz: json['plz'],
@@ -42,6 +45,7 @@ class Account {
       'userName': userName,
       'firstName': firstName,
       'lastName': lastName,
+      'email': email,
       'street': street,
       'houseNumber': houseNumber,
       'plz': plz,
