@@ -1,11 +1,42 @@
 import 'package:flutter/material.dart';
 
+import '../../hamburger_menu/presentation/hamburger_menu.dart';
+
 class ImpressumPage extends StatelessWidget {
   const ImpressumPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Scaffold(
+      appBar: AppBar(
+          title: Row(
+            children: [
+              const Text('Greendrops'),
+              const SizedBox(width: 8),
+              TextButton(
+                onPressed: () {
+                  print('2233 Greendrobs');
+                },
+                child: const Text(
+                  '#2233',
+                ),
+
+              ),
+            ],
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 32.0),
+              child: Image.asset(
+                'assets/images/logo.png',
+                width: 40,
+                height: 40,
+              ),
+            ),
+          ]
+      ),
+    drawer: const AppDrawer(),
+    body: const Center(
       child: Padding(
         padding: EdgeInsets.all(8.0),
         child: Column(
@@ -123,6 +154,7 @@ class ImpressumPage extends StatelessWidget {
           ],
         ),
       ),
+    ),
     );
   }
 }

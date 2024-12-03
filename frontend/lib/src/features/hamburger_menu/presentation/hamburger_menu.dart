@@ -1,179 +1,65 @@
 import 'package:flutter/material.dart';
-import 'package:greendrop/src/features/order/presentation/pages/order.dart';
-import 'package:greendrop/src/features/settings/presentation/settings.dart';
 
-import '../../account/presentation/account_page.dart';
-import '../../impressum/presentation/impressum_page.dart';
-import '../../shops/presentation/pages/home.dart';
-
-class HamburgerMenu extends StatefulWidget {
-  const HamburgerMenu({super.key});
-
-  @override
-  State<HamburgerMenu> createState() => _HamburgerMenuState();
-}
-
-class _HamburgerMenuState extends State<HamburgerMenu> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  String activePage = "Startseite";
+class AppDrawer extends StatelessWidget {
+  const AppDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final bool isLargeScreen = width > 800;
-
-    return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      onVerticalDragUpdate: (_) =>
-          FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          titleSpacing: 0,
-          leading: isLargeScreen
-              ? null
-              : IconButton(
-                  icon: const Icon(Icons.menu),
-                  onPressed: () => _scaffoldKey.currentState?.openDrawer(),
-                ),
-          title: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+    return Drawer(
+      child: ListView(
+        children: <Widget>[
+          ListTile(
+            title: Row(
               children: [
-                Flexible(
-                  child: Container(
-                    constraints: const BoxConstraints(maxWidth: 950),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        const Text(
-                          "GreenDrop",
-                          style: TextStyle(
-                              color: Colors.green, fontWeight: FontWeight.bold),
-                        ),
-                        if (isLargeScreen) Expanded(child: _navBarItems())
-                      ],
-                    ),
-                  ),
+                Image.asset(
+                  alignment: AlignmentDirectional.topStart,
+                  "assets/images/logo.png",
+                  width: 60,
+                  height: 60,
                 ),
-              ],
+                const SizedBox(width: 12),
+                const Text("Greendrobs",
+                style:TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+                )
+              ]
             ),
           ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: CircleAvatar(
-                  child: Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Image.asset("assets/images/logo.png"),
-              )),
-            )
-          ],
-        ),
-        drawer: isLargeScreen ? null : _drawer(),
-        body: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Flexible(
-              child: Container(
-                width: double.infinity,
-                constraints: const BoxConstraints(maxWidth: 1000),
-                child: ScrollConfiguration(
-                    behavior: ScrollConfiguration.of(context)
-                        .copyWith(scrollbars: false),
-                    child: activeScreen()),
-              ),
-            ),
-          ],
-        ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.home),
+            title: const Text('Startseite'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/home');
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.shopping_bag),
+            title: const Text('Bestllungen'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/order history');
+            },
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.account_box),
+            title: const Text('Account'),
+            onTap: () {
+              Navigator.pushNamed(context, '/account');
+            },
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.question_answer),
+            title: const Text('Impressum'),
+            onTap: () {
+              Navigator.pushNamed(context, '/impressum');
+            },
+          ),
+        ],
       ),
     );
-  }
-
-  Widget _drawer() => Drawer(
-        child: ListView(
-          children: _menuItems
-              .map((item) => ListTile(
-                    onTap: () {
-                      setState(() {
-                        activePage =
-                            item; // Update activePage with selected item
-                      });
-                      _scaffoldKey.currentState?.openEndDrawer();
-                    },
-                    title: Text(item),
-                  ))
-              .toList(),
-        ),
-      );
-
-  TextStyle getNavItemStyle(String item) {
-    if (item == activePage) {
-      return TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 18,
-          color: Theme.of(context).colorScheme.primary);
-    } else {
-      return TextStyle(
-        fontSize: 18,
-        color: Theme.of(context).colorScheme.secondary,
-      );
-    }
-  }
-
-  Widget _navBarItems() => Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: _menuItems
-            .map((item) => InkWell(
-                  customBorder: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40)),
-                  onTap: () {
-                    setState(() {
-                      activePage = item;
-                    });
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 8.0, horizontal: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          item,
-                          style: getNavItemStyle(item),
-                        ),
-                      ],
-                    ),
-                  ),
-                ))
-            .toList(),
-      );
-
-  final List<String> _menuItems = <String>[
-    'Startseite',
-    'Bestellungen',
-    'Account',
-    'Impressum',
-  ];
-
-  Widget activeScreen() {
-    switch (activePage) {
-      case 'Startseite':
-        return const HomePage();
-      case 'Bestellungen':
-        return const Order();
-      case 'Account':
-        return AccountPage();
-      case 'Einstellungen':
-        return Settings();
-      case 'Impressum':
-        return const ImpressumPage();
-      default:
-        return const Text("Unknown Page");
-    }
   }
 }
