@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../features/hamburger_menu/presentation/hamburger_menu.dart';
 
 import '../../../common_widgets/dropdown.dart';
 import '../../../theme/theme_provider.dart';
@@ -105,31 +106,7 @@ class AccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: Row(
-              children: [
-                const Text('Greendrops'),
-                const SizedBox(width: 8),
-                TextButton(
-                  onPressed: () {
-                    print('2233 Greendrops');
-                  },
-                  child: const Text(
-                    '#2233',
-                  ),
-                ),
-              ],
-            ),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(right: 32.0),
-                child: Image.asset(
-                  'assets/images/logo.png',
-                  width: 40,
-                  height: 40,
-                ),
-              ),
-            ]),
+        appBar: AppDrawer.buildGreendropsAppBar(),
         body: Consumer<AccountProvider>(
           builder: (context, accountProvider, child) {
             if (accountProvider.account == null) {
