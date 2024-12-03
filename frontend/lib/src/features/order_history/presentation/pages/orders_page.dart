@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'order_details_page.dart';
-import '../../../theme/theme_provider.dart';
+import '../../../../theme/theme_provider.dart';
 
 class OrdersPage extends StatelessWidget {
   const OrdersPage({super.key});
