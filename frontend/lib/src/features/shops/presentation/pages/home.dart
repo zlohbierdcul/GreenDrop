@@ -3,6 +3,7 @@ import 'package:greendrop/src/features/shops/presentation/filter.search/filter_d
 import 'package:greendrop/src/features/shops/presentation/filter.search/search_bar.dart';
 import 'package:greendrop/src/features/shops/presentation/shops/shop_list.dart';
 import '../../../hamburger_menu/presentation/hamburger_menu.dart';
+import '../../../map/shops_map.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -10,34 +11,51 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            const Text('Greendrops'),
-            const SizedBox(width: 8),
-            TextButton(
-              onPressed: () {
-                print('2233 Greendrops');
-              },
-              child: const Text(
-                '#2233',
-              ),
+        appBar: AppBar(
+            title: Row(
+              children: [
+                const Text('Greendrops'),
+                const SizedBox(width: 8),
+                TextButton(
+                  onPressed: () {
+                    print('2233 Greendrops');
+                  },
+                  child: const Text(
+                    '#2233',
+                  ),
 
+                ),
+              ],
             ),
-          ],
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 32.0),
+                child: Image.asset(
+                  'assets/images/logo.png',
+                  width: 40,
+                  height: 40,
+                ),
+              ),
+            ]
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 32.0),
-            child: Image.asset(
-              'assets/images/logo.png',
-              width: 40,
-              height: 40,
+        drawer: const AppDrawer(),
+      body: NestedScrollView(
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+        return <Widget>[
+          SliverAppBar(
+            expandedHeight: 300.0,
+            floating: false,
+            pinned: true,
+            stretch: true,
+            leading: Container(),
+            flexibleSpace: const FlexibleSpaceBar(
+              centerTitle: true,
+              collapseMode: CollapseMode.parallax,
+              background: ShopsMap(),
             ),
           ),
-        ]
-      ),
-      drawer: const AppDrawer(),
+        ];
+      },
       body: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -73,6 +91,7 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
+    )
     );
   }
 }
