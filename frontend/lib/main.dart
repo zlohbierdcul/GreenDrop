@@ -4,6 +4,7 @@ import 'package:greendrop/src/features/account/presentation/account_page.dart';
 import 'package:greendrop/src/features/impressum/presentation/impressum_page.dart';
 import 'package:greendrop/src/features/login/login.dart';
 import 'package:greendrop/src/features/login/register_page.dart';
+import 'package:greendrop/src/features/order_history/presentation/pages/orders_page.dart';
 import 'package:greendrop/src/features/shops/domain/filter_provider.dart';
 import 'package:greendrop/src/features/shops/domain/shop_data_provider.dart';
 import 'package:greendrop/src/features/shops/domain/sorting_provider.dart';
@@ -38,11 +39,11 @@ class GreenDropApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: const Login(),
         routes: {
-          '/home': (context) => HomePage(),
-          '/register': (context) => Registration(),
-          '/account': (context) => AccountPage(),
-          //'/order history': (context) => Orders(),
-          '/impressum': (context) => ImpressumPage(),
+          '/home': (context) => const HomePage(),
+          '/register': (context) => const Registration(),
+          '/account': (context) => const AccountPage(),
+          '/order_history': (context) => const OrdersPage(),
+          '/impressum': (context) => const ImpressumPage(),
         },
       ),
     );

@@ -9,23 +9,22 @@ class AppDrawer extends StatelessWidget {
       child: ListView(
         children: <Widget>[
           ListTile(
-            title: Row(
-              children: [
-                Image.asset(
-                  alignment: AlignmentDirectional.topStart,
-                  "assets/images/logo.png",
-                  width: 60,
-                  height: 60,
-                ),
-                const SizedBox(width: 12),
-                const Text("Greendrobs",
-                style:TextStyle(
+            title: Row(children: [
+              Image.asset(
+                alignment: AlignmentDirectional.topStart,
+                "assets/images/logo.png",
+                width: 60,
+                height: 60,
+              ),
+              const SizedBox(width: 12),
+              const Text(
+                "Greendrobs",
+                style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
-                )
-              ]
-            ),
+              )
+            ]),
           ),
           const Divider(),
           ListTile(
@@ -37,9 +36,9 @@ class AppDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.shopping_bag),
-            title: const Text('Bestllungen'),
+            title: const Text('Bestellungen'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/order history');
+              Navigator.pushReplacementNamed(context, '/order_history');
             },
           ),
           const Divider(),

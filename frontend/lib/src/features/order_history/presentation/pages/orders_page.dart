@@ -1,29 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'order_details_page.dart';
+
 import '../../../../theme/theme_provider.dart';
+import 'order_details_page.dart';
 
 class OrdersPage extends StatelessWidget {
   const OrdersPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
+    return Scaffold(
+      appBar: AppBar(
+          title: Row(
             children: [
-              Expanded(
-                // Ändere dies hier, um die Karte zu dehnen
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Card(
-                    child: OrdersList(),
-                  ),
+              const Text('Greendrops'),
+              const SizedBox(width: 8),
+              TextButton(
+                onPressed: () {
+                  print('2233 Greendrops');
+                },
+                child: const Text(
+                  '#2233',
                 ),
               ),
             ],
-          )),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 32.0),
+              child: Image.asset(
+                'assets/images/logo.png',
+                width: 40,
+                height: 40,
+              ),
+            ),
+          ]),
+      body: Center(
+        child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Expanded(
+                  // Ändere dies hier, um die Karte zu dehnen
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Card(
+                      child: OrdersList(),
+                    ),
+                  ),
+                ),
+              ],
+            )),
+      ),
     );
   }
 }
