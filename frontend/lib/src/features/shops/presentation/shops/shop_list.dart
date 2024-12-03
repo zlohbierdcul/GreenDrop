@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:greendrop/src/features/shops/domain/shop_data_provider.dart';
+import 'package:greendrop/src/features/shops/presentation/provider/shop_data_provider.dart';
 import 'package:greendrop/src/features/shops/presentation/shops/shop_card.dart';
 import 'package:provider/provider.dart';
 

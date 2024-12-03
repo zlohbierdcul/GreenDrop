@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:greendrop/src/features/shops/data/sorting_model.dart';
-import 'package:greendrop/src/features/shops/domain/sorting_provider.dart';
+import 'package:greendrop/src/features/shops/presentation/provider/sorting_provider.dart';
 import 'package:provider/provider.dart';
 
 class SortingRadioList extends StatelessWidget {

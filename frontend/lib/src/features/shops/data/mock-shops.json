@@ -7,7 +7,27 @@
     "zipCode": "68165",
     "city": "Mannheim",
     "minOrder": 20,
-    "deliveryCost": 2
+    "deliveryCost": 2,
+    "products": [
+      {
+        "name": "Espresso",
+        "price": 2.5,
+        "origin": "Italy",
+        "type": "Coffee"
+      },
+      {
+        "name": "Cappuccino",
+        "price": 3.5,
+        "origin": "Italy",
+        "type": "Coffee"
+      },
+      {
+        "name": "Croissant",
+        "price": 2.0,
+        "origin": "France",
+        "type": "Snack"
+      }
+    ]
   },
   "2": {
     "name": "Java Corner",
@@ -17,7 +37,27 @@
     "zipCode": "68161",
     "city": "Mannheim",
     "minOrder": 15,
-    "deliveryCost": 1.5
+    "deliveryCost": 1.5,
+    "products": [
+      {
+        "name": "Flat White",
+        "price": 4.0,
+        "origin": "Australia",
+        "type": "Coffee"
+      },
+      {
+        "name": "Vegan Muffin",
+        "price": 3.0,
+        "origin": "Germany",
+        "type": "Snack"
+      },
+      {
+        "name": "Cold Brew",
+        "price": 4.5,
+        "origin": "Ethiopia",
+        "type": "Coffee"
+      }
+    ]
   },
   "3": {
     "name": "The Daily Grind",
@@ -27,7 +67,27 @@
     "zipCode": "68163",
     "city": "Mannheim",
     "minOrder": 10,
-    "deliveryCost": 0
+    "deliveryCost": 0,
+    "products": [
+      {
+        "name": "Americano",
+        "price": 2.0,
+        "origin": "USA",
+        "type": "Coffee"
+      },
+      {
+        "name": "Bagel Sandwich",
+        "price": 4.5,
+        "origin": "USA",
+        "type": "Snack"
+      },
+      {
+        "name": "Matcha Latte",
+        "price": 4.0,
+        "origin": "Japan",
+        "type": "Drink"
+      }
+    ]
   },
   "4": {
     "name": "Espresso Express",
@@ -37,7 +97,27 @@
     "zipCode": "68161",
     "city": "Mannheim",
     "minOrder": 25,
-    "deliveryCost": 3
+    "deliveryCost": 3,
+    "products": [
+      {
+        "name": "Espresso",
+        "price": 2.5,
+        "origin": "Italy",
+        "type": "Coffee"
+      },
+      {
+        "name": "Macchiato",
+        "price": 3.0,
+        "origin": "Italy",
+        "type": "Coffee"
+      },
+      {
+        "name": "Cannoli",
+        "price": 3.5,
+        "origin": "Italy",
+        "type": "Snack"
+      }
+    ]
   },
   "5": {
     "name": "Café Aroma",
@@ -47,7 +127,27 @@
     "zipCode": "68165",
     "city": "Mannheim",
     "minOrder": 30,
-    "deliveryCost": 2.5
+    "deliveryCost": 2.5,
+    "products": [
+      {
+        "name": "Latte Macchiato",
+        "price": 3.5,
+        "origin": "Italy",
+        "type": "Coffee"
+      },
+      {
+        "name": "Blueberry Muffin",
+        "price": 3.0,
+        "origin": "Germany",
+        "type": "Snack"
+      },
+      {
+        "name": "Hot Chocolate",
+        "price": 3.0,
+        "origin": "Switzerland",
+        "type": "Drink"
+      }
+    ]
   },
   "6": {
     "name": "Latte Lounge",
@@ -57,7 +157,27 @@
     "zipCode": "68161",
     "city": "Mannheim",
     "minOrder": 18,
-    "deliveryCost": 1
+    "deliveryCost": 1,
+    "products": [
+      {
+        "name": "Latte Macchiato",
+        "price": 3.5,
+        "origin": "Italy",
+        "type": "Coffee"
+      },
+      {
+        "name": "Blueberry Muffin",
+        "price": 3.0,
+        "origin": "Germany",
+        "type": "Snack"
+      },
+      {
+        "name": "Hot Chocolate",
+        "price": 3.0,
+        "origin": "Switzerland",
+        "type": "Drink"
+      }
+    ]
   },
   "7": {
     "name": "Bohnen & Blätter",
@@ -67,7 +187,27 @@
     "zipCode": "68167",
     "city": "Mannheim",
     "minOrder": 20,
-    "deliveryCost": 2
+    "deliveryCost": 2,
+    "products": [
+      {
+        "name": "Latte Macchiato",
+        "price": 3.5,
+        "origin": "Italy",
+        "type": "Coffee"
+      },
+      {
+        "name": "Blueberry Muffin",
+        "price": 3.0,
+        "origin": "Germany",
+        "type": "Snack"
+      },
+      {
+        "name": "Hot Chocolate",
+        "price": 3.0,
+        "origin": "Switzerland",
+        "type": "Drink"
+      }
+    ]
   },
   "8": {
     "name": "Kaffeeklatsch",
@@ -77,7 +217,27 @@
     "zipCode": "68159",
     "city": "Mannheim",
     "minOrder": 12,
-    "deliveryCost": 1
+    "deliveryCost": 1,
+    "products": [
+      {
+        "name": "Latte Macchiato",
+        "price": 3.5,
+        "origin": "Italy",
+        "type": "Coffee"
+      },
+      {
+        "name": "Blueberry Muffin",
+        "price": 3.0,
+        "origin": "Germany",
+        "type": "Snack"
+      },
+      {
+        "name": "Hot Chocolate",
+        "price": 3.0,
+        "origin": "Switzerland",
+        "type": "Drink"
+      }
+    ]
   },
   "9": {
     "name": "Black & White Coffee",
@@ -87,7 +247,27 @@
     "zipCode": "68161",
     "city": "Mannheim",
     "minOrder": 15,
-    "deliveryCost": 0
+    "deliveryCost": 0,
+    "products": [
+      {
+        "name": "Latte Macchiato",
+        "price": 3.5,
+        "origin": "Italy",
+        "type": "Coffee"
+      },
+      {
+        "name": "Blueberry Muffin",
+        "price": 3.0,
+        "origin": "Germany",
+        "type": "Snack"
+      },
+      {
+        "name": "Hot Chocolate",
+        "price": 3.0,
+        "origin": "Switzerland",
+        "type": "Drink"
+      }
+    ]
   },
   "10": {
     "name": "Koffein Kultur",
@@ -97,6 +277,26 @@
     "zipCode": "68169",
     "city": "Mannheim",
     "minOrder": 25,
-    "deliveryCost": 2.5
+    "deliveryCost": 2.5,
+    "products": [
+      {
+        "name": "Latte Macchiato",
+        "price": 3.5,
+        "origin": "Italy",
+        "type": "Coffee"
+      },
+      {
+        "name": "Blueberry Muffin",
+        "price": 3.0,
+        "origin": "Germany",
+        "type": "Snack"
+      },
+      {
+        "name": "Hot Chocolate",
+        "price": 3.0,
+        "origin": "Switzerland",
+        "type": "Drink"
+      }
+    ]
   }
 }
