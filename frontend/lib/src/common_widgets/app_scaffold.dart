@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:greendrop/src/features/account/presentation/account_page.dart';
+import 'package:greendrop/src/features/impressum/presentation/impressum_page.dart';
 import 'package:greendrop/src/features/order/presentation/pages/order.dart';
-import 'package:greendrop/src/features/settings/presentation/info_page.dart';
 import 'package:greendrop/src/features/settings/presentation/settings.dart';
 import 'package:greendrop/src/features/shops/presentation/pages/home.dart';
 
@@ -177,7 +177,7 @@ class _AppScaffoldState extends State<AppScaffold> {
       case 'Einstellungen':
         return Settings();
       case 'Impressum':
-        return const InfoPage();
+        return const ImpressumPage();
       default:
         return const Text("Unknown Page");
     }
