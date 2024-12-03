@@ -1,72 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'order_details_page.dart';
-
-import '../../../common_widgets/dropdown.dart';
 import '../../../theme/theme_provider.dart';
 
-class Orders extends StatelessWidget {
-  const Orders({super.key});
-
-  List<DropdownMenuItem<String>> get dropdownMenuItems {
-    return [
-      const DropdownMenuItem<String>(
-          key: Key("theme_1"), value: "dark", child: Text("Dark")),
-      const DropdownMenuItem<String>(
-          key: Key("theme_2"), value: "light", child: Text("Light")),
-      const DropdownMenuItem<String>(
-          key: Key("theme_3"), value: "system", child: Text("System")),
-    ];
-  }
+class OrdersPage extends StatelessWidget {
+  const OrdersPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Expanded(
-              // Ändere dies hier, um die Karte zu dehnen
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: Card(
-                  child: OrdersList(),
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Expanded(
+                // Ändere dies hier, um die Karte zu dehnen
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Card(
+                    child: OrdersList(),
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 12.0),
-              child: FilledButton(
-                  onPressed: () => print("hello"), child: const Text("Button")),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: Consumer<AppTheme>(
-                builder: (context, appTheme, child) {
-                  return CustomDropdownButton(
-                    items: dropdownMenuItems,
-                    value: appTheme.themeMode.name,
-                    onChanged: (s) {
-                      switch (s) {
-                        case "dark":
-                          appTheme.themeMode = ThemeMode.dark;
-                          break;
-                        case "light":
-                          appTheme.themeMode = ThemeMode.light;
-                          break;
-                        case "system":
-                          appTheme.themeMode = ThemeMode.system;
-                          break;
-                      }
-                    },
-                  );
-                },
-              ),
-            )
-          ],
-        ),
-      ),
+            ],
+          )),
     );
   }
 }
@@ -126,7 +83,6 @@ class OrdersList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<AppTheme>(builder: (context, appTheme, child) {
-      // Wählen Sie die Hintergrundfarbe basierend auf dem aktuellen ThemeMode
       Color cardColor = Theme.of(context).cardColor;
       return Padding(
         padding: const EdgeInsets.all(8.0),

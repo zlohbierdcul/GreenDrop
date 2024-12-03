@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'orders.dart';
+import 'orders_page.dart';
 
 //import '../features/orders/presentation/order_provider.dart';
 
@@ -14,7 +14,8 @@ class OrderDetailsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Details Bestellung vom ${order.date}"),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
+        child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -25,9 +26,7 @@ class OrderDetailsPage extends StatelessWidget {
               height: 200,
               fit: BoxFit.cover,
             ),
-
             const SizedBox(height: 10),
-
             Text(
               order.shopName,
               style: const TextStyle(
@@ -35,16 +34,12 @@ class OrderDetailsPage extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-
             const SizedBox(height: 10),
-
             Text(
               "Bestellnummer: ${order.date}", //TODO: Bestellnummer ändern
               style: const TextStyle(fontSize: 16, color: Colors.grey),
             ),
-
             const SizedBox(height: 20),
-
             const Text(
               "Sie haben folgende Artikel bestellt:",
               style: TextStyle(
@@ -52,45 +47,41 @@ class OrderDetailsPage extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-
             const SizedBox(height: 10),
-
-            Expanded(
-              child: ListView.builder(
-                itemCount: order.items.length,
-                itemBuilder: (context, index) {
-                  final item = order.items[index];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4.0),
-                    child: Row(
-                      children: [
-                        Text(
-                          '${item.number}.',
-                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ListView.builder(
+              shrinkWrap: true, // Hinzugefügt, um die Liste auf die Größe des Inhalts zu beschränken
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: order.items.length,
+              itemBuilder: (context, index) {
+                final item = order.items[index];
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        '${item.number}.',
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          item.name,
+                          style: const TextStyle(fontSize: 16),
                         ),
-
-                        const SizedBox(width: 10),
-
-                        Expanded(
-                          child: Text(
-                            item.name,
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                        ),
-
-                        Text(
-                          "€${item.price.toStringAsFixed(2)}",
-                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
+                      ),
+                      Text(
+                        "€${item.price.toStringAsFixed(2)}",
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
-
+            
             const SizedBox(height: 20),
-
             Row(
               children: [
                 Expanded(
@@ -106,9 +97,7 @@ class OrderDetailsPage extends StatelessWidget {
                 ),
               ],
             ),
-            
             const SizedBox(height: 20),
-            
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context); // Zurück zur Bestellliste
@@ -117,7 +106,7 @@ class OrderDetailsPage extends StatelessWidget {
             )
           ],
         ),
-      ),
+      )),
     );
   }
 }
