@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../hamburger_menu/presentation/hamburger_menu.dart';
 import '../../../common_widgets/dropdown.dart';
 import '../../../theme/theme_provider.dart';
 import '../domain/account.dart';
@@ -13,21 +12,30 @@ class AccountPage extends StatelessWidget {
 
   List<DropdownMenuItem<String>> get dropdownMenuItems {
     return [
-      const DropdownMenuItem<String>(key: Key("theme_1"), value: "dark", child: Text("Dark")),
-      const DropdownMenuItem<String>(key: Key("theme_2"), value: "light", child: Text("Light")),
-      const DropdownMenuItem<String>(key: Key("theme_3"), value: "system", child: Text("System")),
+      const DropdownMenuItem<String>(
+          key: Key("theme_1"), value: "dark", child: Text("Dark")),
+      const DropdownMenuItem<String>(
+          key: Key("theme_2"), value: "light", child: Text("Light")),
+      const DropdownMenuItem<String>(
+          key: Key("theme_3"), value: "system", child: Text("System")),
     ];
   }
 
-  static final TextEditingController _userNameController = TextEditingController();
-  static final TextEditingController _firstNameController = TextEditingController();
-  static final TextEditingController _lastNameController = TextEditingController();
+  static final TextEditingController _userNameController =
+      TextEditingController();
+  static final TextEditingController _firstNameController =
+      TextEditingController();
+  static final TextEditingController _lastNameController =
+      TextEditingController();
   static final TextEditingController _emailController = TextEditingController();
-  static final TextEditingController _streetController = TextEditingController();
-  static final TextEditingController _houseNumberController = TextEditingController();
+  static final TextEditingController _streetController =
+      TextEditingController();
+  static final TextEditingController _houseNumberController =
+      TextEditingController();
   static final TextEditingController _plzController = TextEditingController();
   static final TextEditingController _cityController = TextEditingController();
-  static final TextEditingController _numberController = TextEditingController();
+  static final TextEditingController _numberController =
+      TextEditingController();
 
   void _initializeControllers(AccountProvider accountProvider) {
     Account? account = accountProvider.account;
@@ -109,7 +117,6 @@ class AccountPage extends StatelessWidget {
                   child: const Text(
                     '#2233',
                   ),
-
                 ),
               ],
             ),
@@ -122,182 +129,166 @@ class AccountPage extends StatelessWidget {
                   height: 40,
                 ),
               ),
-            ]
-        ),
+            ]),
         body: Consumer<AccountProvider>(
-        builder: (context, accountProvider, child) {
-          if (accountProvider.account == null) {
-            accountProvider.loadAccountData(context).then((_) {
-              _initializeControllers(accountProvider);
-            });
-            return const Center(child: CircularProgressIndicator());
-          }
+          builder: (context, accountProvider, child) {
+            if (accountProvider.account == null) {
+              accountProvider.loadAccountData(context).then((_) {
+                _initializeControllers(accountProvider);
+              });
+              return const Center(child: CircularProgressIndicator());
+            }
 
-          return Center(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 8.0),
-                    child: SizedBox(
-                      width: double.infinity,
-                      height: 60,
-                      child: Card(
-                        child: Center(
-                          child: Text(
-                            "Account",
-                            style: TextStyle(fontSize: 24),
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 8.0),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 60,
+                        child: Card(
+                          child: Center(
+                            child: Text(
+                              "Account",
+                              style: TextStyle(fontSize: 24),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
 
-                  const SizedBox(height: 4.0),
+                    const SizedBox(height: 4.0),
 
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 20.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 20.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Willkommen zurück, ${accountProvider.account?.userName ?? ''}',
+                              style: const TextStyle(fontSize: 18),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: _buildColorSchemeDropdown(),
+                    ),
+
+                    // ListView für die Accountdaten
+                    Expanded(
+                      child: ListView(
                         children: [
-                          Text(
-                            'Willkommen zurück, ${accountProvider.account
-                                ?.userName ?? ''}',
-                            style: const TextStyle(fontSize: 18),
-                          ),
+                          _buildEditableTile("Username:", _userNameController,
+                              accountProvider.isEditing),
+                          _buildEditableTile("Vorname:", _firstNameController,
+                              accountProvider.isEditing),
+                          _buildEditableTile("Nachname:", _lastNameController,
+                              accountProvider.isEditing),
+                          _buildEditableTile("E-Mail:", _emailController,
+                              accountProvider.isEditing),
+                          _buildEditableTile("Straße:", _streetController,
+                              accountProvider.isEditing),
+                          _buildEditableTile(
+                              "Hausnummer:",
+                              _houseNumberController,
+                              accountProvider.isEditing),
+                          _buildEditableTile("PLZ:", _plzController,
+                              accountProvider.isEditing),
+                          _buildEditableTile("Stadt:", _cityController,
+                              accountProvider.isEditing),
+                          _buildEditableTile("Telefonnummer:",
+                              _numberController, accountProvider.isEditing),
                         ],
                       ),
                     ),
-                  ),
+                    // Button für Passwortänderung
+                    if (accountProvider.isEditing)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 12.0),
+                        child: Center(
+                          child: FilledButton(
+                            onPressed: () {
+                              _showChangePasswordDialog(context);
+                            },
+                            child: const Text("Passwort ändern"),
+                          ),
+                        ),
+                      ),
 
+                    // Speichern und Abbrechen Button
+                    if (accountProvider.isEditing)
+                      Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 12.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                FilledButton(
+                                  onPressed: () async {
+                                    await accountProvider
+                                        .cancelEditing(context);
+                                    _initializeControllers(accountProvider);
+                                  },
+                                  child: const Text("Abbrechen"),
+                                ),
+                                const SizedBox(width: 10),
+                                FilledButton(
+                                  onPressed: () async {
+                                    SharedPreferences prefs =
+                                        await SharedPreferences.getInstance();
+                                    String? accountId =
+                                        prefs.getString('accountId');
+                                    if (accountId != null) {
+                                      accountProvider.updateAccount(
+                                          _createAccountFromControllers(
+                                              accountId));
+                                      await accountProvider
+                                          .saveAccountData(context);
+                                      accountProvider.toggleEditing();
+                                    }
+                                  },
+                                  child: const Text("Speichern"),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
 
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: _buildColorSchemeDropdown(),
-                  ),
-
-              // ListView für die Accountdaten
-              Expanded(
-                child: ListView(
-                  children: [
-                    _buildEditableTile("Username:", _userNameController, accountProvider.isEditing),
-                    _buildEditableTile("Vorname:", _firstNameController, accountProvider.isEditing),
-                    _buildEditableTile("Nachname:", _lastNameController, accountProvider.isEditing),
-                    _buildEditableTile("E-Mail:", _emailController, accountProvider.isEditing),
-                    _buildEditableTile("Straße:", _streetController, accountProvider.isEditing),
-                    _buildEditableTile("Hausnummer:", _houseNumberController, accountProvider.isEditing),
-                    _buildEditableTile("PLZ:", _plzController, accountProvider.isEditing),
-                    _buildEditableTile("Stadt:", _cityController, accountProvider.isEditing),
-                    _buildEditableTile("Telefonnummer:", _numberController, accountProvider.isEditing),
+                    // Button zum Bearbeiten der Accountdaten
+                    if (!accountProvider.isEditing)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12.0),
+                        child: Center(
+                          child: FilledButton(
+                            onPressed: () {
+                              accountProvider.toggleEditing();
+                            },
+                            child: const Text("Accountdaten bearbeiten"),
+                          ),
+                        ),
+                      ),
                   ],
                 ),
               ),
-
-                  // ListView für die Accountdaten
-                  Expanded(
-                    child: ListView(
-                      children: [
-                        _buildEditableTile("Username:", _userNameController,
-                            accountProvider.isEditing),
-                        _buildEditableTile("Vorname:", _firstNameController,
-                            accountProvider.isEditing),
-                        _buildEditableTile("Nachname:", _lastNameController,
-                            accountProvider.isEditing),
-                        _buildEditableTile("Straße:", _streetController,
-                            accountProvider.isEditing),
-                        _buildEditableTile(
-                            "Hausnummer:", _houseNumberController,
-                            accountProvider.isEditing),
-                        _buildEditableTile(
-                            "PLZ:", _plzController, accountProvider.isEditing),
-                        _buildEditableTile("Stadt:", _cityController,
-                            accountProvider.isEditing),
-                        _buildEditableTile("Telefonnummer:", _numberController,
-                            accountProvider.isEditing),
-                      ],
-                    ),
-                  ),
-
-                  // Button für Passwortänderung
-                  if (accountProvider.isEditing)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 12.0),
-                      child: Center(
-                        child: FilledButton(
-                          onPressed: () {
-                            _showChangePasswordDialog(context);
-                          },
-                          child: const Text("Passwort ändern"),
-                        ),
-                      ),
-                    ),
-
-                  // Speichern und Abbrechen Button
-                  if (accountProvider.isEditing)
-                    Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 12.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              FilledButton(
-                                onPressed: () async {
-                                  await accountProvider.cancelEditing(context);
-                                  _initializeControllers(accountProvider);
-                                },
-                                child: const Text("Abbrechen"),
-                              ),
-                              const SizedBox(width: 10),
-                              FilledButton(
-                                onPressed: () async {
-                                  SharedPreferences prefs = await SharedPreferences
-                                      .getInstance();
-                                  String? accountId = prefs.getString(
-                                      'accountId');
-                                  if (accountId != null) {
-                                    accountProvider.updateAccount(
-                                        _createAccountFromControllers(
-                                            accountId));
-                                    await accountProvider.saveAccountData(
-                                        context);
-                                    accountProvider.toggleEditing();
-                                  }
-                                },
-                                child: const Text("Speichern"),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-
-                  // Button zum Bearbeiten der Accountdaten
-                  if (!accountProvider.isEditing)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12.0),
-                      child: Center(
-                        child: FilledButton(
-                          onPressed: () {
-                            accountProvider.toggleEditing();
-                          },
-                          child: const Text("Accountdaten bearbeiten"),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
-          );
-        },
+            );
+          },
         ));
   }
 
   // Helper-Methode zum Erstellen eines editierbaren Textfeldes in einem ListTile
-  Widget _buildEditableTile(String label, TextEditingController controller, bool isEditing) {
+  Widget _buildEditableTile(
+      String label, TextEditingController controller, bool isEditing) {
     return ListTile(
       title: Row(
         children: [
