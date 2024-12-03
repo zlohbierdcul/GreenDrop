@@ -3,6 +3,8 @@ import 'package:greendrop/src/features/products/presentation/widgets/shop_info.d
 import 'package:greendrop/src/features/products/presentation/widgets/shop_product_list.dart';
 import 'package:greendrop/src/features/shops/data/shop.dart';
 
+import '../../../hamburger_menu/presentation/hamburger_menu.dart';
+
 class ShopPage extends StatelessWidget {
   final Shop shop;
 
@@ -11,31 +13,7 @@ class ShopPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: Row(
-              children: [
-                const Text('Greendrops'),
-                const SizedBox(width: 8),
-                TextButton(
-                  onPressed: () {
-                    print('2233 Greendrops');
-                  },
-                  child: const Text(
-                    '#2233',
-                  ),
-                ),
-              ],
-            ),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(right: 32.0),
-                child: Image.asset(
-                  'assets/images/logo.png',
-                  width: 40,
-                  height: 40,
-                ),
-              ),
-            ]),
+        appBar: AppDrawer.buildGreendropsAppBar(),
         body: Column(
           children: [
             Expanded(

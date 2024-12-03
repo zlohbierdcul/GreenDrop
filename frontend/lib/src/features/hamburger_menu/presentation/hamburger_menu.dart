@@ -3,6 +3,35 @@ import 'package:flutter/material.dart';
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
 
+  static PreferredSizeWidget buildGreendropsAppBar() {
+    return AppBar(
+      title: Row(
+        children: [
+          const Text('GreenDrops'),
+          const SizedBox(width: 8),
+          TextButton(
+            onPressed: () {
+              print('2233 GreenDrops');
+            },
+            child: const Text(
+              '#2233',
+            ),
+          ),
+        ],
+      ),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 32.0),
+          child: Image.asset(
+            'assets/images/logo.png',
+            width: 40,
+            height: 40,
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -18,7 +47,7 @@ class AppDrawer extends StatelessWidget {
               ),
               const SizedBox(width: 12),
               const Text(
-                "Greendrobs",
+                "GreenDrops",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
