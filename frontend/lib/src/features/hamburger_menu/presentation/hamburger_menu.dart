@@ -31,14 +31,14 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.home),
             title: const Text('Startseite'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/home');
+              Navigator.pushNamed(context, '/home');
             },
           ),
           ListTile(
             leading: const Icon(Icons.shopping_bag),
             title: const Text('Bestellungen'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/order_history');
+              Navigator.pushNamed(context, '/order_history');
             },
           ),
           const Divider(),

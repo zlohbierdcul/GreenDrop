@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:greendrop/src/features/order/data/address.dart';
+import 'package:greendrop/src/features/order/domain/address.dart';
+import 'package:greendrop/src/features/products/domain/product.dart';
 
 class Shop {
   final String id;
@@ -10,6 +11,7 @@ class Shop {
   final double rating;
   final double minOrder;
   final double deliveryCost;
+  final List<Product> products;
 
   Shop({
     required this.id,
@@ -19,6 +21,7 @@ class Shop {
     required this.rating,
     required this.minOrder,
     required this.deliveryCost,
+    required this.products,
   });
 
   // Factory constructor to create a Shop object from a JSON entry
@@ -31,6 +34,9 @@ class Shop {
       rating: (json['rating'] as num).toDouble(),
       minOrder: (json['minOrder'] as num).toDouble(),
       deliveryCost: (json['deliveryCost'] as num).toDouble(),
+      products: (json['products'] as List<dynamic>)
+          .map((productJson) => Product.fromJson(productJson))
+          .toList(),
     );
   }
 

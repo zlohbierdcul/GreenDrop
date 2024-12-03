@@ -1,28 +1,34 @@
 import 'dart:convert';
 
+import 'package:greendrop/src/features/order/domain/address.dart';
+
 class User {
   final String id;
   final String name;
   final String birthdate;
   final int greenDrops;
   final String eMail;
+  final List<Address> addresses;
 
   User(
       {required this.id,
       required this.name,
       required this.birthdate,
       required this.greenDrops,
-      required this.eMail});
+      required this.eMail,
+      required this.addresses});
 
   // Factory constructor to create a User object from a JSON entry
   factory User.fromJson(String id, Map<String, dynamic> json) {
     return User(
-      id: id,
-      name: json['name'],
-      birthdate: json['birthdate'],
-      greenDrops: json['greenDrops'],
-      eMail: json['eMail'],
-    );
+        id: id,
+        name: json['name'],
+        birthdate: json['birthdate'],
+        greenDrops: json['greenDrops'],
+        eMail: json['eMail'],
+        addresses: (json['addresses'] as List<dynamic>)
+            .map((addressJson) => Address.fromJson(addressJson))
+            .toList());
   }
 
   // Static method to parse mock data and create a list of Users

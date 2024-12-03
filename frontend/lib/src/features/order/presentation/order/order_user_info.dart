@@ -1,22 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:greendrop/src/features/order/data/address.dart';
-import 'package:greendrop/src/features/order/data/user.dart';
+import 'package:greendrop/src/features/account/domain/account.dart';
 
 class OrderUserInfo extends StatelessWidget {
-  final User user;
-  final Address address;
+  final Account account;
 
-  const OrderUserInfo({super.key, required this.user, required this.address});
+  const OrderUserInfo({super.key, required this.account});
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Row(
-        children: [
-          Text(this.user.name),
-          Text("${address.zipCode} ${address.city}"),
-          Text("${address.street} ${address.streetNumber}")
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Bestellddetails:",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
+                Text("${account.firstName} ${account.lastName}"),
+                Text("${account.plz} ${account.city}"),
+                Text("${account.street} ${account.houseNumber}")
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
