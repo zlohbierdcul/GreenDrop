@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
 
 class Registration extends StatefulWidget {
   const Registration({Key? key}) : super(key: key);
@@ -11,53 +10,8 @@ class Registration extends StatefulWidget {
 class _RegistrationState extends State<Registration> {
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
-  bool _isAbove18 = false;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  final TextEditingController _streetController = TextEditingController();
-  final TextEditingController _zipController = TextEditingController();
-  final TextEditingController _cityController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _houseNumberController = TextEditingController();
-
-  static Future<bool> checkAddress(String address) async {
-    try {
-      final locations = await locationFromAddress(address);
-      return locations.isNotEmpty;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  void _validateAndRegister() async {
-    if (_formKey.currentState?.validate() ?? false) {
-      if (!_isAbove18) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Bitte bestätigen Sie, dass Sie mindestens 18 Jahre alt sind.'),
-          ),
-        );
-        return;
-      }
-
-      final fullAddress =
-          '${_streetController.text}, ${_zipController.text}, ${_cityController.text}';
-      final isAddressValid = await checkAddress(fullAddress);
-
-      if (!isAddressValid) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Die eingegebene Adresse ist ungültig. Bitte überprüfen Sie Ihre Angaben.'),
-          ),
-        );
-        return;
-      }
-
-      // Wenn alles gültig ist
-      Navigator.pushNamed(context, '/home');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,37 +48,8 @@ class _RegistrationState extends State<Registration> {
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     ),
-                    _gap(),TextFormField(
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Vorname darf nicht leer sein!';
-                        }
-                        return null;
-                      },
-                      decoration: const InputDecoration(
-                        labelText: 'Vorname',
-                        hintText: 'Dein Vorname',
-                        prefixIcon: Icon(Icons.person_outline),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
                     _gap(),
-                    // Nachname Input
-                    TextFormField(
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Nachname darf nicht leer sein!';
-                        }
-                        return null;
-                      },
-                      decoration: const InputDecoration(
-                        labelText: 'Nachname',
-                        hintText: 'Dein Nachname',
-                        prefixIcon: Icon(Icons.person_outline),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    _gap(),
+                    // Name Input
                     TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -147,7 +72,7 @@ class _RegistrationState extends State<Registration> {
                           return 'Email darf nicht leer sein!';
                         }
                         bool emailValid = RegExp(
-                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                             .hasMatch(value);
                         if (!emailValid) {
                           return 'Bitte geben Sie eine gültige Email ein';
@@ -162,99 +87,24 @@ class _RegistrationState extends State<Registration> {
                       ),
                     ),
                     _gap(),
-                    // Geburtsdatum Input
+                    // Adresse Input
                     TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Geburtsdatum darf nicht leer sein!';
+                          return 'Adresse darf nicht leer sein!';
                         }
                         return null;
                       },
                       decoration: const InputDecoration(
-                        labelText: 'Geburtsdatum',
-                        hintText: 'TT/MM/JJJJ',
-                        prefixIcon: Icon(Icons.calendar_today_outlined),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    _gap(),
-                    // Straße Input
-                    TextFormField(
-                      controller: _streetController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Straße darf nicht leer sein!';
-                        }
-                        return null;
-                      },
-                      decoration: const InputDecoration(
-                        labelText: 'Straße',
-                        hintText: 'Deine Straße',
-                        prefixIcon: Icon(Icons.location_on_outlined),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    _gap(),
-                    TextFormField(
-                      controller: _houseNumberController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Hausnummer darf nicht leer sein!';
-                        }
-                        if (!RegExp(r'^\d+[a-zA-Z]?$').hasMatch(value)) {
-                          return 'Bitte eine gültige Hausnummer eingeben!';
-                        }
-                        return null;
-                      },
-                      decoration: const InputDecoration(
-                        labelText: 'Hausnummer',
-                        hintText: '123 oder 123a',
+                        labelText: 'Adresse',
+                        hintText: 'Deine Adresse',
                         prefixIcon: Icon(Icons.home_outlined),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    _gap(),
-                    // PLZ Input
-                    TextFormField(
-                      controller: _zipController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'PLZ darf nicht leer sein!';
-                        }
-                        if (!RegExp(r'^\d{5}$').hasMatch(value)) {
-                          return 'Bitte eine gültige PLZ eingeben!';
-                        }
-                        return null;
-                      },
-                      decoration: const InputDecoration(
-                        labelText: 'PLZ',
-                        hintText: '12345',
-                        prefixIcon: Icon(Icons.local_post_office_outlined),
-                        border: OutlineInputBorder(),
-                      ),
-                      keyboardType: TextInputType.number,
-                    ),
-                    _gap(),
-                    // Stadt Input
-                    TextFormField(
-                      controller: _cityController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Stadt darf nicht leer sein!';
-                        }
-                        return null;
-                      },
-                      decoration: const InputDecoration(
-                        labelText: 'Stadt',
-                        hintText: 'Deine Stadt',
-                        prefixIcon: Icon(Icons.location_city_outlined),
                         border: OutlineInputBorder(),
                       ),
                     ),
                     _gap(),
                     // Handynummer Input
                     TextFormField(
-                      controller: _phoneController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Handynummer darf nicht leer sein!';
@@ -286,22 +136,23 @@ class _RegistrationState extends State<Registration> {
                       },
                       obscureText: !_isPasswordVisible,
                       decoration: InputDecoration(
-                        labelText: 'Passwort',
-                        hintText: 'Erstelle ein Passwort',
-                        prefixIcon: const Icon(Icons.lock_outline_rounded),
-                        border: const OutlineInputBorder(),
-                        suffixIcon: IconButton(
-                          icon: Icon(_isPasswordVisible ? Icons.visibility_off : Icons.visibility),
-                          onPressed: () {
-                            setState(() {
-                              _isPasswordVisible = !_isPasswordVisible;
-                            });
-                          },
-                        ),
-                      ),
+                          labelText: 'Passwort',
+                          hintText: 'Erstelle ein Passwort',
+                          prefixIcon: const Icon(Icons.lock_outline_rounded),
+                          border: const OutlineInputBorder(),
+                          suffixIcon: IconButton(
+                            icon: Icon(_isPasswordVisible
+                                ? Icons.visibility_off
+                                : Icons.visibility),
+                            onPressed: () {
+                              setState(() {
+                                _isPasswordVisible = !_isPasswordVisible;
+                              });
+                            },
+                          )),
                     ),
                     _gap(),
-// Passwort Bestätigung Input
+                    // Passwort Bestätigung Input
                     TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -311,40 +162,21 @@ class _RegistrationState extends State<Registration> {
                       },
                       obscureText: !_isConfirmPasswordVisible,
                       decoration: InputDecoration(
-                        labelText: 'Passwort bestätigen',
-                        hintText: 'Wiederhole dein Passwort',
-                        prefixIcon: const Icon(Icons.lock_outline_rounded),
-                        border: const OutlineInputBorder(),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                              _isConfirmPasswordVisible ? Icons.visibility_off : Icons.visibility),
-                          onPressed: () {
-                            setState(() {
-                              _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
-                            });
-                          },
-                        ),
-                      ),
-                    ),
-                    _gap(),
-                    // Checkbox für Altersbestätigung
-                    Row(
-                      children: [
-                        Checkbox(
-                          value: _isAbove18,
-                          onChanged: (value) {
-                            setState(() {
-                              _isAbove18 = value ?? false;
-                            });
-                          },
-                        ),
-                        Expanded(
-                          child: Text(
-                            'Ich bestätige, dass ich mindestens 18 Jahre alt bin',
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ),
-                      ],
+                          labelText: 'Passwort bestätigen',
+                          hintText: 'Wiederhole dein Passwort',
+                          prefixIcon: const Icon(Icons.lock_outline_rounded),
+                          border: const OutlineInputBorder(),
+                          suffixIcon: IconButton(
+                            icon: Icon(_isConfirmPasswordVisible
+                                ? Icons.visibility_off
+                                : Icons.visibility),
+                            onPressed: () {
+                              setState(() {
+                                _isConfirmPasswordVisible =
+                                    !_isConfirmPasswordVisible;
+                              });
+                            },
+                          )),
                     ),
                     _gap(),
                     SizedBox(
@@ -362,7 +194,11 @@ class _RegistrationState extends State<Registration> {
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                         ),
-                        onPressed: _validateAndRegister,
+                        onPressed: () {
+                          if (_formKey.currentState?.validate() ?? false) {
+                            Navigator.pushNamed(context, '/home');
+                          }
+                        },
                       ),
                     ),
                     _gap(),

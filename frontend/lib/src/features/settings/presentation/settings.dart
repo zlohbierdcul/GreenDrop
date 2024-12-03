@@ -23,14 +23,22 @@ class Settings extends StatelessWidget {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Einstellungen",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+              ),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Farbschema: "),
+                  const Text(
+                    "Farbschema: ",
+                    style: TextStyle(fontSize: 20),
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
                     child: Consumer<AppTheme>(
@@ -56,9 +64,9 @@ class Settings extends StatelessWidget {
                     ),
                   )
                 ],
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
