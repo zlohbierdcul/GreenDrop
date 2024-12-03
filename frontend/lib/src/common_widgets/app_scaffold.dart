@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:greendrop/src/features/account/presentation/account_page.dart';
 import 'package:greendrop/src/features/impressum/presentation/impressum_page.dart';
-import 'package:greendrop/src/features/order/presentation/pages/order.dart';
+import 'package:greendrop/src/features/order_history/presentation/pages/orders_page.dart';
 import 'package:greendrop/src/features/settings/presentation/settings.dart';
 import 'package:greendrop/src/features/shops/presentation/pages/home.dart';
 
@@ -171,7 +171,7 @@ class _AppScaffoldState extends State<AppScaffold> {
       case 'Startseite':
         return const HomePage();
       case 'Bestellungen':
-        return const Order();
+        return const OrdersPage();
       case 'Account':
         return AccountPage();
       case 'Einstellungen':

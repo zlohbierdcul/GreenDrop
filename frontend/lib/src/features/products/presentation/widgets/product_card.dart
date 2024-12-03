@@ -50,7 +50,9 @@ class ProductCard extends StatelessWidget {
                           style: const TextStyle(fontSize: 14),
                         ),
                         FilledButton(
-                            onPressed: () => print, child: Icon(Icons.add))
+                            onPressed: () =>
+                                {Navigator.pushNamed(context, "/order")},
+                            child: Icon(Icons.add))
                       ],
                     ),
                   ],
