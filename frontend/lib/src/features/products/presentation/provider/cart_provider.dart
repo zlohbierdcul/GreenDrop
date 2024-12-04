@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:greendrop/src/features/products/domain/product.dart';
 
 class CartProvider extends ChangeNotifier {
-  final Map<Product, int> _cart = {};
+  Map<Product, int> _cart = {};
 
   Map<Product, int> get cart => _cart;
 
@@ -23,5 +23,10 @@ class CartProvider extends ChangeNotifier {
     return _cart.entries
         .map((entry) => entry.value * entry.key.price)
         .reduce((a, b) => a + b);
+  }
+
+  void resetCart() {
+    _cart = {};
+    notifyListeners();
   }
 }
