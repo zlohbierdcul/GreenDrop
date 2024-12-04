@@ -68,6 +68,12 @@ class OrderDetailsPage extends StatelessWidget {
                             style: const TextStyle(
                                 fontSize: 16, color: Colors.grey),
                           ),
+                          Text(
+                            "Bestelldatum: ${order.date}",
+                            //TODO: Bestellnummer ändern
+                            style: const TextStyle(
+                                fontSize: 16, color: Colors.grey),
+                          ),
                           const SizedBox(height: 20),
                           const Text(
                             "Sie haben folgende Artikel bestellt:",

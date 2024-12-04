@@ -55,7 +55,7 @@ class OrderConfirmationPage extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: 4),
-                          Text("Bestellnummer"),
+                          Text("GDObestellnummer123"),
                           SizedBox(height: 24),
                           Text(
                             "Verdiente GreenDrops:",
@@ -64,7 +64,8 @@ class OrderConfirmationPage extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: 4),
-                          Text("Anzahl"),
+                          Text("100"),
+                          SizedBox(height: 24),
                         ],
                       ),
                     ),
