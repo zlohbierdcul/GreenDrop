@@ -7,7 +7,7 @@ import 'package:latlong2/latlong.dart';
 class ShopsMap extends StatefulWidget {
   final Map<String, Shop> shopMap;
 
-  const ShopsMap({Key? key, required this.shopMap}) : super(key: key);
+  const ShopsMap({super.key, required this.shopMap});
 
   @override
   State<ShopsMap> createState() => _ShopsMapState();

@@ -106,7 +106,7 @@ class AccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppDrawer.buildGreendropsAppBar(),
+        appBar: AppDrawer.buildGreendropsAppBar(context),
         body: Consumer<AccountProvider>(
           builder: (context, accountProvider, child) {
             if (accountProvider.account == null) {

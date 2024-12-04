@@ -14,7 +14,7 @@ class OrderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppDrawer.buildGreendropsAppBar(),
+      appBar: AppDrawer.buildGreendropsAppBar(context),
       body: Consumer<AccountProvider>(
         builder: (context, accountProvider, child) =>
             Stack(alignment: Alignment.bottomCenter, children: [

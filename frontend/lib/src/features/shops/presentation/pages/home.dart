@@ -14,7 +14,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppDrawer.buildGreendropsAppBar(),
+        appBar: AppDrawer.buildGreendropsAppBar(context),
         drawer: const AppDrawer(),
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {

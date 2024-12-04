@@ -18,7 +18,7 @@ class ShopPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<CartProvider>(
       builder: (context, cartProvider, child) => Scaffold(
-          appBar: AppDrawer.buildGreendropsAppBar(),
+          appBar: AppDrawer.buildGreendropsAppBar(context),
           body: Stack(alignment: Alignment.bottomCenter, children: [
             Column(
               children: [

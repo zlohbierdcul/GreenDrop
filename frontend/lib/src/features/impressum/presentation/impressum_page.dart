@@ -8,7 +8,7 @@ class ImpressumPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppDrawer.buildGreendropsAppBar(),
+      appBar: AppDrawer.buildGreendropsAppBar(context),
       body: const Center(
         child: Padding(
           padding: EdgeInsets.all(8.0),

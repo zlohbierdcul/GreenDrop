@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Registration extends StatefulWidget {
-  const Registration({Key? key}) : super(key: key);
+  const Registration({super.key});
 
   @override
   State<Registration> createState() => _RegistrationState();

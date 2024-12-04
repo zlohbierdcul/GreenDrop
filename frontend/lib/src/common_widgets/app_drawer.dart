@@ -3,32 +3,67 @@ import 'package:flutter/material.dart';
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
 
-  static PreferredSizeWidget buildGreendropsAppBar() {
+  static PreferredSizeWidget buildGreendropsAppBar(BuildContext context) {
     return AppBar(
       title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const Text('GreenDrop'),
-          const SizedBox(width: 8),
-          TextButton(
-            onPressed: () {
-              print('2233 GreenDrops');
-            },
-            child: const Text(
-              '#2233',
+          Padding(
+            padding: const EdgeInsets.only(right: 10.0),
+            child: OutlinedButton(
+              onPressed: () => _showPopup(context),
+              child: Center(child: Row(
+                children: [
+                  Image.asset(
+                    'assets/images/logo.png',
+                    width: 22,
+                    height: 22,
+                  ),
+                  const SizedBox(width: 5),
+                  Text(
+                    '2233',
+                    style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSecondaryContainer),
+                  ),
+                ],
+              )),
             ),
           ),
         ],
       ),
-      actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 32.0),
-          child: Image.asset(
-            'assets/images/logo.png',
-            width: 40,
-            height: 40,
+    );
+  }
+
+  static void _showPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('GreenDrops Information'),
+          content: const Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Die Zahl oben zeigt deinen aktuellen GreenDrop-Punktestand!',
+                style: TextStyle(fontSize: 16),
+              ),
+              SizedBox(height: 8,),
+              Text("GreenDrops können für Rabatte auf deinen Einkauf eingelöst werden.", style: TextStyle(fontSize: 16)),
+              SizedBox(height: 8,),
+              Text("Für alle 2 Euro die du ausgibst erhältst du einen GreenDrop von uns!", style: TextStyle(fontSize: 16)),
+
+            ]
           ),
-        ),
-      ],
+          actions: [
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Schließt das Popup
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -41,7 +76,7 @@ class AppDrawer extends StatelessWidget {
             title: Row(children: [
               Image.asset(
                 alignment: AlignmentDirectional.topStart,
-                "assets/images/logo.png",
+                "assets/images/logo_old.png",
                 width: 60,
                 height: 60,
               ),

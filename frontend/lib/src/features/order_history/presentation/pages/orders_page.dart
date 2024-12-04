@@ -11,7 +11,7 @@ class OrdersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppDrawer.buildGreendropsAppBar(),
+      appBar: AppDrawer.buildGreendropsAppBar(context),
       body: Center(
         child: Padding(
             padding: const EdgeInsets.all(8.0),

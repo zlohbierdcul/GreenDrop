@@ -61,6 +61,7 @@ flutter:
   assets:
     - assets/images/shop1.jpg
     - assets/images/logo.png
+    - assets/images/logo_old.png
     - assets/data/mock-shops.json
     - assets/data/mock_account.json
 
