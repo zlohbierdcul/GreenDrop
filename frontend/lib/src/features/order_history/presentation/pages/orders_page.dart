@@ -17,6 +17,23 @@ class OrdersPage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 8.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 60,
+                    child: Card(
+                      child: Center(
+                        child: Text(
+                          "Bestellhistorie",
+                          style: TextStyle(
+                            fontSize: 24,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 Expanded(
                   // Ändere dies hier, um die Karte zu dehnen
                   child: Padding(
