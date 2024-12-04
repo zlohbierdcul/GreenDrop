@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:greendrop/src/features/account/domain/account_data_provider.dart';
-import 'package:greendrop/src/features/account/presentation/account_page.dart';
-import 'package:greendrop/src/features/impressum/presentation/impressum_page.dart';
-import 'package:greendrop/src/features/login/login.dart';
-import 'package:greendrop/src/features/login/register_page.dart';
-import 'package:greendrop/src/features/order/presentation/pages/order_page.dart';
-import 'package:greendrop/src/features/order/presentation/provider/order_provider.dart';
-import 'package:greendrop/src/features/order_history/presentation/pages/orders_page.dart';
-import 'package:greendrop/src/features/products/presentation/provider/cart_provider.dart';
-import 'package:greendrop/src/features/products/presentation/provider/product_provider.dart';
-import 'package:greendrop/src/features/shops/presentation/pages/home.dart';
-import 'package:greendrop/src/features/shops/presentation/provider/filter_provider.dart';
-import 'package:greendrop/src/features/shops/presentation/provider/shop_data_provider.dart';
-import 'package:greendrop/src/features/shops/presentation/provider/sorting_provider.dart';
-import 'package:greendrop/src/theme/theme_provider.dart';
+import 'package:greendrop/src/presentation/account/pages/account_page.dart';
+import 'package:greendrop/src/presentation/account/provider/account_data_provider.dart';
+import 'package:greendrop/src/presentation/impressum/pages/impressum_page.dart';
+import 'package:greendrop/src/presentation/login/pages/login_page.dart';
+import 'package:greendrop/src/presentation/login/pages/register_page.dart';
+import 'package:greendrop/src/presentation/order/pages/order_page.dart';
+import 'package:greendrop/src/presentation/order/provider/order_provider.dart';
+import 'package:greendrop/src/presentation/order_history/pages/order_history_page.dart';
+import 'package:greendrop/src/presentation/products/provider/cart_provider.dart';
+import 'package:greendrop/src/presentation/products/provider/product_provider.dart';
+import 'package:greendrop/src/presentation/shops/pages/home_page.dart';
+import 'package:greendrop/src/presentation/shops/provider/filter_provider.dart';
+import 'package:greendrop/src/presentation/shops/provider/shop_data_provider.dart';
+import 'package:greendrop/src/presentation/shops/provider/sorting_provider.dart';
+import 'package:greendrop/src/presentation/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -44,14 +44,14 @@ class GreenDropApp extends StatelessWidget {
         darkTheme: ThemeData.from(colorScheme: AppTheme.darkTheme),
         themeMode: context.watch<AppTheme>().themeMode,
         debugShowCheckedModeBanner: false,
-        home: const Login(),
+        home: const LoginPage(),
         routes: {
-          '/home': (context) => HomePage(),
-          '/register': (context) => Registration(),
-          '/account': (context) => AccountPage(),
-          '/order_history': (context) => OrdersPage(),
-          '/impressum': (context) => ImpressumPage(),
-          '/order': (context) => OrderPage()
+          '/home': (context) => const HomePage(),
+          '/register': (context) => const Registration(),
+          '/account': (context) => const AccountPage(),
+          '/order_history': (context) => const OrderHistoryPage(),
+          '/impressum': (context) => const ImpressumPage(),
+          '/order': (context) => const OrderPage()
         },
       ),
     );
