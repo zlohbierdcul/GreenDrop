@@ -17,6 +17,7 @@ class AccountProvider with ChangeNotifier {
   AccountProvider() {
     // Speichere die Test-Account-ID, wenn der Provider initialisiert wird
     saveTestAccountId();
+    loadAccountData();
   }
 
   //Test Account für Shared Preferences später automatisch über login
@@ -27,14 +28,14 @@ class AccountProvider with ChangeNotifier {
   }
 
   // Account-Daten aus SharedPreferences oder einer Mock-Datei laden
-  Future<void> loadAccountData(BuildContext context) async {
+  Future<void> loadAccountData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accountId = prefs.getString('accountId');
     print("Account ID: $accountId");
 
     if (accountId != null) {
-      String jsonData = await DefaultAssetBundle.of(context)
-          .loadString('assets/data/mock_account.json');
+      String jsonData =
+          await rootBundle.loadString('assets/data/mock_account.json');
       //print("JSON Data: $jsonData");
       Map<String, dynamic> data = jsonDecode(jsonData);
 
@@ -64,7 +65,7 @@ class AccountProvider with ChangeNotifier {
   // Methode zum Abbrechen und Zurücksetzen
   Future<void> cancelEditing(BuildContext context) async {
     _isEditing = false;
-    await loadAccountData(context); // Lädt die ursprünglichen Daten erneut
+    await loadAccountData(); // Lädt die ursprünglichen Daten erneut
     notifyListeners();
   }
 
