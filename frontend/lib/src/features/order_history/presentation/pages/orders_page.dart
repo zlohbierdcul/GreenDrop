@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../common_widgets/app_drawer.dart';
 import '../../../../theme/theme_provider.dart';
-import '../../../hamburger_menu/presentation/hamburger_menu.dart';
 import 'order_details_page.dart';
 
 class OrdersPage extends StatelessWidget {
@@ -55,6 +55,7 @@ class OrdersList extends StatelessWidget {
     Order(
         shopImage: "assets/images/shop1.jpg",
         shopName: "Shop A",
+        orderReference: "GDO12345",
         date: "2024-12-01",
         itemCount: 3,
         totalAmount: 29.99,
@@ -66,6 +67,7 @@ class OrdersList extends StatelessWidget {
     Order(
         shopImage: "assets/images/shop1.jpg",
         shopName: "Shop B",
+        orderReference: "GDO12345",
         date: "2024-11-24",
         itemCount: 5,
         totalAmount: 49.99,
@@ -80,6 +82,7 @@ class OrdersList extends StatelessWidget {
         shopImage: "assets/images/shop1.jpg",
         shopName: "Shop B",
         date: "2024-12-28",
+        orderReference: "GDO12345",
         itemCount: 2,
         totalAmount: 49.99,
         items: [
@@ -90,6 +93,7 @@ class OrdersList extends StatelessWidget {
     Order(
         shopImage: "assets/images/shop1.jpg",
         shopName: "Shop B",
+        orderReference: "GDO12345",
         date: "2024-11-22",
         itemCount: 1,
         totalAmount: 49.99,
@@ -187,6 +191,7 @@ class OrdersList extends StatelessWidget {
 class Order {
   final String shopImage;
   final String shopName;
+  final String orderReference;
   final String date;
   final int itemCount;
   final double totalAmount;
@@ -195,6 +200,7 @@ class Order {
   Order({
     required this.shopImage,
     required this.shopName,
+    required this.orderReference,
     required this.date,
     required this.itemCount,
     required this.totalAmount,

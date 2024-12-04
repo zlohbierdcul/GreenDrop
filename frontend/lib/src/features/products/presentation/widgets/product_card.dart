@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:greendrop/src/features/products/domain/product.dart';
+import 'package:greendrop/src/features/products/presentation/provider/cart_provider.dart';
+import 'package:provider/provider.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
@@ -12,9 +14,10 @@ class ProductCard extends StatelessWidget {
         MediaQuery.of(context).size.width - 32; // Subtract padding.
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+      padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
       child: Card(
-        elevation: 10,
+        elevation: 5,
+        color: Theme.of(context).colorScheme.surfaceContainer,
         child: Row(
           children: [
             ClipRRect(
@@ -39,7 +42,7 @@ class ProductCard extends StatelessWidget {
                     Text(
                       product.name,
                       style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 14),
+                          fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                     Text("Ursprung: ${product.origin}"),
                     Row(
@@ -47,12 +50,49 @@ class ProductCard extends StatelessWidget {
                       children: [
                         Text(
                           "${product.price.toStringAsFixed(2)}€",
-                          style: const TextStyle(fontSize: 14),
+                          style: const TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
                         ),
-                        FilledButton(
-                            onPressed: () =>
-                                {Navigator.pushNamed(context, "/order")},
-                            child: Icon(Icons.add))
+                        Consumer<CartProvider>(
+                          builder: (context, cartProvider, child) => Stack(
+                            alignment: Alignment.topRight,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: FilledButton(
+                                    onPressed: () => {
+                                          //
+                                          cartProvider.addProductToCart(product)
+                                        },
+                                    child: Icon(Icons.add)),
+                              ),
+                              if (cartProvider
+                                      .getProductCountByProduct(product) >
+                                  0) ...[
+                                Container(
+                                  width: 30,
+                                  height: 30,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimary,
+                                      borderRadius: BorderRadius.circular(15)),
+                                  child: Text(
+                                    cartProvider
+                                        .getProductCountByProduct(product)
+                                        .toString(),
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary),
+                                  ),
+                                )
+                              ]
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   ],

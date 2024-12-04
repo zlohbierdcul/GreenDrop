@@ -7,7 +7,7 @@ class AppDrawer extends StatelessWidget {
     return AppBar(
       title: Row(
         children: [
-          const Text('GreenDrops'),
+          const Text('GreenDrop'),
           const SizedBox(width: 8),
           TextButton(
             onPressed: () {
@@ -47,7 +47,7 @@ class AppDrawer extends StatelessWidget {
               ),
               const SizedBox(width: 12),
               const Text(
-                "GreenDrops",
+                "GreenDrop",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,

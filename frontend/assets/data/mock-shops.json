@@ -27,6 +27,42 @@
         "price": 3.0,
         "origin": "Switzerland",
         "type": "Drink"
+      },
+      {
+        "name": "Latte Macchiato",
+        "price": 3.5,
+        "origin": "Italy",
+        "type": "Coffee"
+      },
+      {
+        "name": "Blueberry Muffin",
+        "price": 3.0,
+        "origin": "Germany",
+        "type": "Snack"
+      },
+      {
+        "name": "Hot Chocolate",
+        "price": 3.0,
+        "origin": "Switzerland",
+        "type": "Drink"
+      },
+      {
+        "name": "Latte Macchiato",
+        "price": 3.5,
+        "origin": "Italy",
+        "type": "Coffee"
+      },
+      {
+        "name": "Blueberry Muffin",
+        "price": 3.0,
+        "origin": "Germany",
+        "type": "Snack"
+      },
+      {
+        "name": "Hot Chocolate",
+        "price": 3.0,
+        "origin": "Switzerland",
+        "type": "Drink"
       }
     ]
   },

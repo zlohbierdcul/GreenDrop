@@ -18,9 +18,13 @@ class ShopDataProvider extends ChangeNotifier {
     // Temporary implementation
     String response =
         await rootBundle.loadString("assets/data/mock-shops.json");
-    List<Shop> shops = Shop.parseShops(response);
-    _shopList =
-        Map.fromIterable(shops, key: (shop) => shop.id, value: (shop) => shop);
+    List<Future<Shop>> shops = Shop.parseShops(response);
+
+    for (Future<Shop> shop in shops) {
+      Shop shopData = await shop;
+      _shopList.putIfAbsent(shopData.id, () => shopData);
+    }
+
     _originalShopList = _shopList;
     sortShopsBySingleCriterion(criterion: SortingModel.defaultState);
     notifyListeners();

@@ -23,6 +23,6 @@ class Address {
 
   @override
   String toString() {
-    return 'Address(street: $street, streetNumber: $streetNumber, zipCode: $zipCode, city: $city)';
+    return '$street $streetNumber $zipCode $city';
   }
 }

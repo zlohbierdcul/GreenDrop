@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../hamburger_menu/presentation/hamburger_menu.dart';
+
+import '../../../../common_widgets/app_drawer.dart';
 import 'orders_page.dart';
 
 class OrderDetailsPage extends StatelessWidget {
@@ -25,7 +26,7 @@ class OrderDetailsPage extends StatelessWidget {
                   child: Card(
                     child: Center(
                       child: Text(
-                        "Details Bestellung vom ${order.date}",
+                        "Bestellung ${order.orderReference}",
                         style: const TextStyle(
                           fontSize: 24,
                         ),
@@ -43,7 +44,8 @@ class OrderDetailsPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(16.0), // Setzt die Rundung der Ecken
+                            borderRadius: BorderRadius.circular(
+                                16.0), // Setzt die Rundung der Ecken
                             child: Image.asset(
                               order.shopImage,
                               width: double.infinity,
@@ -61,8 +63,10 @@ class OrderDetailsPage extends StatelessWidget {
                           ),
                           const SizedBox(height: 10),
                           Text(
-                            "Bestellnummer: ${order.date}", //TODO: Bestellnummer ändern
-                            style: const TextStyle(fontSize: 16, color: Colors.grey),
+                            "Bestellnummer: ${order.orderReference}",
+                            //TODO: Bestellnummer ändern
+                            style: const TextStyle(
+                                fontSize: 16, color: Colors.grey),
                           ),
                           const SizedBox(height: 20),
                           const Text(
@@ -74,19 +78,22 @@ class OrderDetailsPage extends StatelessWidget {
                           ),
                           const SizedBox(height: 10),
                           ListView.builder(
-                            shrinkWrap: true, // Hinzugefügt, um die Liste auf die Größe des Inhalts zu beschränken
+                            shrinkWrap: true,
+                            // Hinzugefügt, um die Liste auf die Größe des Inhalts zu beschränken
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: order.items.length,
                             itemBuilder: (context, index) {
                               final item = order.items[index];
                               return Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 4.0),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 4.0),
                                 child: Row(
                                   children: [
                                     Text(
                                       '${item.number}.',
                                       style: const TextStyle(
-                                          fontSize: 16, fontWeight: FontWeight.bold),
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                     const SizedBox(width: 10),
                                     Expanded(
@@ -98,7 +105,8 @@ class OrderDetailsPage extends StatelessWidget {
                                     Text(
                                       "€${item.price.toStringAsFixed(2)}",
                                       style: const TextStyle(
-                                          fontSize: 16, fontWeight: FontWeight.bold),
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ],
                                 ),
@@ -109,7 +117,8 @@ class OrderDetailsPage extends StatelessWidget {
                           Row(
                             children: [
                               Expanded(
-                                child: Container(), // Leerer Container für Platzierung
+                                child:
+                                    Container(), // Leerer Container für Platzierung
                               ),
                               Text(
                                 "Bezahlter Gesamtbetrag: €${order.totalAmount.toStringAsFixed(2)}",

@@ -22,13 +22,13 @@ class Order {
   });
 
   // Factory constructor to create an Order object from a JSON entry
-  factory Order.fromJson(String id, Map<String, dynamic> json) {
+  static Future<Order> fromJson(String id, Map<String, dynamic> json) async {
     return Order(
       id: id,
       status: json['status'],
       user: User.fromJson(json['user']['id'], json['user']),
       // Adjusted for nested user parsing
-      shop: Shop.fromJson(json['shop']['id'], json['shop']),
+      shop: await Shop.fromJson(json['shop']['id'], json['shop']),
       // Adjusted for nested shop parsing
       address: Address.fromJson(json),
       paymentMethod: json['paymentMethod'],
@@ -36,10 +36,10 @@ class Order {
   }
 
   // Static method to parse mock data and create a list of Orders
-  static List<Order> parseOrders(String jsonData) {
+  static List<Future<Order>> parseOrders(String jsonData) {
     final Map<String, dynamic> data = json.decode(jsonData);
     return data.entries
-        .map((entry) => Order.fromJson(entry.key, entry.value))
+        .map((entry) async => await Order.fromJson(entry.key, entry.value))
         .toList();
   }
 

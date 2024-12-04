@@ -115,10 +115,10 @@ class _LoginState extends State<Login> {
                     _gap(),
                     SizedBox(
                       width: double.infinity,
-                      child: ElevatedButton(
+                      child: FilledButton(
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(4)),
+                              borderRadius: BorderRadius.circular(12)),
                         ),
                         child: const Padding(
                           padding: EdgeInsets.all(10.0),

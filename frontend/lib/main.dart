@@ -7,6 +7,7 @@ import 'package:greendrop/src/features/login/register_page.dart';
 import 'package:greendrop/src/features/order/presentation/pages/order_page.dart';
 import 'package:greendrop/src/features/order/presentation/provider/order_provider.dart';
 import 'package:greendrop/src/features/order_history/presentation/pages/orders_page.dart';
+import 'package:greendrop/src/features/products/presentation/provider/cart_provider.dart';
 import 'package:greendrop/src/features/products/presentation/provider/product_provider.dart';
 import 'package:greendrop/src/features/shops/presentation/pages/home.dart';
 import 'package:greendrop/src/features/shops/presentation/provider/filter_provider.dart';
@@ -23,7 +24,8 @@ void main() {
       ChangeNotifierProvider(create: (_) => FilterProvider()),
       ChangeNotifierProvider(create: (_) => AccountProvider()),
       ChangeNotifierProvider(create: (_) => ProductProvider()),
-      ChangeNotifierProvider(create: (_) => OrderProvider())
+      ChangeNotifierProvider(create: (_) => OrderProvider()),
+      ChangeNotifierProvider(create: (_) => CartProvider())
     ],
     child: const GreenDropApp(),
   ));

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../hamburger_menu/presentation/hamburger_menu.dart';
+import '../../../common_widgets/app_drawer.dart';
 
 class ImpressumPage extends StatelessWidget {
   const ImpressumPage({super.key});

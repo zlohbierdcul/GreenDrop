@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:greendrop/src/common_widgets/app_drawer.dart';
 import 'package:greendrop/src/features/account/domain/account_data_provider.dart';
-import 'package:greendrop/src/features/hamburger_menu/presentation/hamburger_menu.dart';
 import 'package:greendrop/src/features/order/presentation/order/order_greendrop_discount.dart';
 import 'package:greendrop/src/features/order/presentation/order/order_payment_selection.dart';
+import 'package:greendrop/src/features/order/presentation/order/order_product_list.dart';
 import 'package:greendrop/src/features/order/presentation/order/order_user_info.dart';
 import 'package:greendrop/src/features/order/presentation/pages/order_confirmation.dart';
 import 'package:provider/provider.dart';
@@ -28,11 +29,12 @@ class OrderPage extends StatelessWidget {
                 OrderUserInfo(account: accountProvider.account),
                 OrderPaymentSelection(),
                 OrderGreendropDiscount(),
+                OrderProductList()
               ],
             ),
           ),
           Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(16.0),
               child: FilledButton(
                   onPressed: () => {
                         Navigator.of(context).push(MaterialPageRoute(
@@ -49,7 +51,7 @@ class OrderPage extends StatelessWidget {
                       const SizedBox(
                         width: 10,
                       ),
-                      const Icon(Icons.shopping_cart)
+                      const Icon(Icons.receipt)
                     ],
                   )))
         ]),
