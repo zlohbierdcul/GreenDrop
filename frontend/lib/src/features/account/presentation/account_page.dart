@@ -110,7 +110,7 @@ class AccountPage extends StatelessWidget {
         body: Consumer<AccountProvider>(
           builder: (context, accountProvider, child) {
             if (accountProvider.account == null) {
-              accountProvider.loadAccountData(context).then((_) {
+              accountProvider.loadAccountData().then((_) {
                 _initializeControllers(accountProvider);
               });
               return const Center(child: CircularProgressIndicator());

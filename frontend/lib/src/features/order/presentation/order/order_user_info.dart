@@ -20,15 +20,14 @@ class OrderUserInfo extends StatelessWidget {
                   "Bestellddetails:",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
-                account != null
-                    ? Row(
-                        children: [
-                          Text("${account?.firstName} ${account?.lastName}"),
-                          Text("${account?.plz} ${account?.city}"),
-                          Text("${account?.street} ${account?.houseNumber}")
-                        ],
-                      )
-                    : Row()
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("${account?.firstName} ${account?.lastName}"),
+                    Text("${account?.plz} ${account?.city}"),
+                    Text("${account?.street} ${account?.houseNumber}")
+                  ],
+                )
               ],
             ),
           ],
