@@ -12,7 +12,7 @@ class AppDrawer extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 10.0),
             child: OutlinedButton(
-              onPressed: () => _showPopup(context),
+              onPressed: () => showPopup(context),
               child: Center(child: Row(
                 children: [
                   Image.asset(
@@ -34,7 +34,7 @@ class AppDrawer extends StatelessWidget {
     );
   }
 
-  static void _showPopup(BuildContext context) {
+  static void showPopup(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
