@@ -7,9 +7,13 @@ import 'package:greendrop/src/presentation/order/widgets/order_payment_selection
 import 'package:greendrop/src/presentation/order/widgets/order_product_list.dart';
 import 'package:greendrop/src/presentation/order/widgets/order_user_info.dart';
 import 'package:provider/provider.dart';
+import 'package:greendrop/src/domain/models/shop.dart';
 
 class OrderPage extends StatelessWidget {
-  const OrderPage({super.key});
+  final Shop shop;
+
+  const OrderPage({super.key, required this.shop});
+
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +26,19 @@ class OrderPage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                const Text(
-                  "Bestellung bei {shop}",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                const SizedBox(height: 12),
+                Text(
+                  "Bestellung bei ${shop.name}",
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
+                const SizedBox(height: 12),
                 OrderUserInfo(account: accountProvider.account),
+                const SizedBox(height: 12),
                 OrderPaymentSelection(),
-                OrderGreendropDiscount(),
-                OrderProductList()
+                const SizedBox(height: 12),
+                const OrderGreendropDiscount(),
+                const SizedBox(height: 12),
+                const OrderProductList()
               ],
             ),
           ),
@@ -38,20 +47,21 @@ class OrderPage extends StatelessWidget {
               child: FilledButton(
                   onPressed: () => {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => OrderConfirmationPage()))
+                            builder: (context) =>
+                                const OrderConfirmationPage()))
                       },
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
+                      Text(
                         "Jetzt bestellen!",
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),
-                      const SizedBox(
+                      SizedBox(
                         width: 10,
                       ),
-                      const Icon(Icons.receipt)
+                      Icon(Icons.receipt)
                     ],
                   )))
         ]),

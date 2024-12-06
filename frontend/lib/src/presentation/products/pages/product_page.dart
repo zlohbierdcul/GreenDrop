@@ -42,7 +42,7 @@ class ShopPage extends StatelessWidget {
                                 ProductList(
                                     productMap: productProvider.productMap),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 80,
                           )
                         ]),
@@ -55,17 +55,19 @@ class ShopPage extends StatelessWidget {
                   padding: const EdgeInsets.all(16.0),
                   child: FilledButton(
                       onPressed: () => {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => OrderPage()))
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => OrderPage(shop: shop)))
                           },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.shopping_cart),
-                          SizedBox(width: 20),
+                          const Icon(Icons.shopping_cart),
+                          const SizedBox(width: 20),
                           const Text(
                             "Zum Warenkorb",
-                            style: const TextStyle(
+                            style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18),
                           ),
                           const SizedBox(
