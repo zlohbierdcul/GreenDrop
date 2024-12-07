@@ -19,6 +19,17 @@ class CartProvider extends ChangeNotifier {
     return _cart[product] ?? 0;
   }
 
+  void removeProductFromCart(Product product) {
+    if (_cart.containsKey(product)) {
+      if (_cart[product] == 1) {
+        _cart.remove(product);
+      } else {
+        _cart.update(product, (v) => v - 1);
+      }
+    }
+    notifyListeners();
+  }
+
   double getTotalCosts() {
     return _cart.entries
         .map((entry) => entry.value * entry.key.price)
