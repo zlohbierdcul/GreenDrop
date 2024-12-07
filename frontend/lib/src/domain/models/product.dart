@@ -3,24 +3,28 @@ import 'dart:convert';
 class Product {
   final String name;
   final double price;
-  final String origin;
-  final String type;
+  final int stock;
+  final String category;
+  final String imageUrl;
+  final String description;
 
-  Product({
-    required this.name,
-    required this.price,
-    required this.origin,
-    required this.type,
-  });
+  Product(
+      {required this.name,
+      required this.price,
+      required this.stock,
+      required this.category,
+      required this.imageUrl,
+      required this.description});
 
   // Factory constructor to create a Product object from a JSON entry
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-      name: json['name'],
-      price: (json['price'] as num).toDouble(),
-      origin: json['origin'],
-      type: json['type'],
-    );
+        name: json['name'],
+        price: (json['price'] as num).toDouble(),
+        stock: json['stock'],
+        category: json['category'],
+        imageUrl: json['imageUrl'],
+        description: json['description']);
   }
 
   // Static method to parse mock data and create a list of Products
@@ -34,8 +38,8 @@ class Product {
     return 'Product('
         'name: $name, '
         'price: $price, '
-        'origin: $origin, '
-        'type: $type'
+        'stock: $stock, '
+        'type: $category'
         ')';
   }
 
@@ -44,8 +48,10 @@ class Product {
     return {
       'name': name,
       'price': price,
-      'origin': origin,
-      'type': type,
+      'stock': stock,
+      'type': category,
+      'imageUrl': imageUrl,
+      'description': description
     };
   }
 }

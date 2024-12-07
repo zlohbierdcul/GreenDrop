@@ -55,6 +55,7 @@ class Shop {
   // Static method to parse mock data and create a list of Shops
   static List<Future<Shop>> parseShops(String jsonData) {
     final Map<String, dynamic> data = json.decode(jsonData);
+    print(data);
     return data.entries
         .map((entry) async => await Shop.fromJson(entry.key, entry.value))
         .toList();
