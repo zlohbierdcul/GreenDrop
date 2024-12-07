@@ -6,6 +6,8 @@ import 'package:greendrop/src/presentation/order/provider/order_provider.dart';
 import 'package:provider/provider.dart';
 
 class OrderGreendropDiscount extends StatelessWidget {
+  const OrderGreendropDiscount({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Card(

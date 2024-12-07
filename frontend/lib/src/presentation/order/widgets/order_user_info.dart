@@ -16,7 +16,7 @@ class OrderUserInfo extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   "Bestellddetails:",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),

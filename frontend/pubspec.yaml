@@ -19,6 +19,8 @@ dependencies:
   geocoding: ^2.0.5
   geolocator: ^13.0.2
   cupertino_icons: ^1.0.8
+  dio: ^5.7.0
+  flutter_dotenv: ^5.2.1
 
 dev_dependencies:
   flutter_test:
@@ -27,6 +29,7 @@ dev_dependencies:
 
 flutter:
   assets:
+    - .env
     - assets/images/shop1.jpg
     - assets/images/logo.png
     - assets/images/logo_old.png

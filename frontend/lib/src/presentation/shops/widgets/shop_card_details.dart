@@ -35,6 +35,9 @@ class ShopDetailRow extends StatelessWidget {
                       shop.rating.toStringAsFixed(1),
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
+                    Text(
+                      " (${shop.reviewCount.toString()})"
+                    )
                   ],
                 ),
               ),
