@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
-
-import 'package:geocoding/geocoding.dart';
+import 'package:geocode/geocode.dart' hide Address;
 import 'package:greendrop/src/domain/models/address.dart';
 
 class Shop {
@@ -32,8 +31,7 @@ class Shop {
   // Factory constructor to create a Shop object from a JSON entry
   static Future<Shop> fromJson(Map<String, dynamic> json) async {
     final address = Address.fromJson(json);
-    final latitude = await getLatitude(address.toString());
-    final longitude = await getLongitude(address.toString());
+    Coordinates coordinates = await getCoordinatesOfAddress(address.toString());
     final List<dynamic> reviews = json['reviews'];
 
     final int reviewCount = reviews.length;
@@ -53,8 +51,8 @@ class Shop {
       reviewCount: reviewCount,
       minOrder: (json['minimum_order'] as num).toDouble(),
       deliveryCost: (json['delivery_costs'] as num).toDouble(),
-      latitude: latitude,
-      longitude: longitude,
+      latitude: coordinates.latitude ?? 0,
+      longitude: coordinates.longitude ?? 0,
     );
   }
 
@@ -86,30 +84,15 @@ class Shop {
     return degree * pi / 180;
   }
 
-  static Future<double> getLongitude(String address) async {
+  static Future<Coordinates> getCoordinatesOfAddress(String address) async {
+    GeoCode geoCode = GeoCode();
     try {
-      final locations = await locationFromAddress(address);
-      if (locations.isNotEmpty) {
-        final location = locations.first;
-        return location.longitude;
-      }
+      Coordinates coordinates = await geoCode.forwardGeocoding(address: address);
+      return coordinates;
     } catch (e) {
-      print('Geocoding-Fehler für $address: $e');
+      print('Longitude - Geocoding-Fehler für $address: $e');
     }
-    return 0;
-  }
-
-  static Future<double> getLatitude(String address) async {
-    try {
-      final locations = await locationFromAddress(address);
-      if (locations.isNotEmpty) {
-        final location = locations.first;
-        return location.latitude;
-      }
-    } catch (e) {
-      print('Geocoding-Fehler für $address: $e');
-    }
-    return 0;
+    return Coordinates(latitude: 0, longitude: 0);
   }
 
   @override
