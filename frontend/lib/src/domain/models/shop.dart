@@ -47,7 +47,7 @@ class Shop {
       name: json['name'],
       description: json['description'],
       address: address,
-      rating: rating, // TODO: get rating from reviews
+      rating: rating,
       reviewCount: reviewCount,
       minOrder: (json['minimum_order'] as num).toDouble(),
       deliveryCost: (json['delivery_costs'] as num).toDouble(),
@@ -90,7 +90,7 @@ class Shop {
       Coordinates coordinates = await geoCode.forwardGeocoding(address: address);
       return coordinates;
     } catch (e) {
-      print('Longitude - Geocoding-Fehler für $address: $e');
+      print('Error: Geocoding-Fehler für $address: $e');
     }
     return Coordinates(latitude: 0, longitude: 0);
   }
