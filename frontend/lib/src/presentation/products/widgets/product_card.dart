@@ -44,7 +44,6 @@ class ProductCard extends StatelessWidget {
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 16),
                     ),
-                    Text("Ursprung: ${product.origin}"),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -65,7 +64,7 @@ class ProductCard extends StatelessWidget {
                                           //
                                           cartProvider.addProductToCart(product)
                                         },
-                                    child: Icon(Icons.add)),
+                                    child: const Icon(Icons.add)),
                               ),
                               if (cartProvider
                                       .getProductCountByProduct(product) >

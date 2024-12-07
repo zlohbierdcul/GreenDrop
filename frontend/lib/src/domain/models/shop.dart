@@ -15,7 +15,6 @@ class Shop {
   final double deliveryCost;
   final double latitude;
   final double longitude;
-  final List<Product> products;
 
   Shop({
     required this.id,
@@ -27,37 +26,32 @@ class Shop {
     required this.deliveryCost,
     required this.latitude,
     required this.longitude,
-    required this.products,
   });
 
   // Factory constructor to create a Shop object from a JSON entry
-  static Future<Shop> fromJson(String id, Map<String, dynamic> json) async {
+  static Future<Shop> fromJson(Map<String, dynamic> json) async {
     final address = Address.fromJson(json);
     final latitude = await getLatitude(address.toString());
     final longitude = await getLongitude(address.toString());
 
     return Shop(
-      id: id,
+      id: json['documentId'].toString(),
       name: json['name'],
       description: json['description'],
       address: address,
-      rating: (json['rating'] as num).toDouble(),
-      minOrder: (json['minOrder'] as num).toDouble(),
-      deliveryCost: (json['deliveryCost'] as num).toDouble(),
+      rating: 4.8, // TODO: get rating from reviews
+      minOrder: (json['minimum_order'] as num).toDouble(),
+      deliveryCost: (json['delivery_costs'] as num).toDouble(),
       latitude: latitude,
       longitude: longitude,
-      products: (json['products'] as List<dynamic>)
-          .map((productJson) => Product.fromJson(productJson))
-          .toList(),
     );
   }
 
   // Static method to parse mock data and create a list of Shops
   static List<Future<Shop>> parseShops(String jsonData) {
     final Map<String, dynamic> data = json.decode(jsonData);
-    print(data);
     return data.entries
-        .map((entry) async => await Shop.fromJson(entry.key, entry.value))
+        .map((entry) async => await Shop.fromJson(entry.value))
         .toList();
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:greendrop/src/presentation/account/pages/account_page.dart';
 import 'package:greendrop/src/presentation/account/provider/account_data_provider.dart';
 import 'package:greendrop/src/presentation/impressum/pages/impressum_page.dart';
@@ -16,7 +17,9 @@ import 'package:greendrop/src/presentation/shops/provider/sorting_provider.dart'
 import 'package:greendrop/src/presentation/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+Future main() async {
+  await dotenv.load();
+
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => ShopDataProvider()),

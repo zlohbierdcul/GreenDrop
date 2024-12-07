@@ -1,5 +1,6 @@
 {
   "1": {
+    "id": "1",
     "name": "Brew Haven",
     "description": "Ein gemütlicher Ort, um die besten Kaffeespezialitäten und hausgemachte Snacks zu genießen. Perfekt für Kaffeeliebhaber und Entspannungssuchende.",
     "street": "Hauptstraße",
@@ -37,6 +38,7 @@
     ]
   },
   "2": {
+    "id": "2",
     "name": "Java Corner",
     "description": "Moderne Kaffee-Bar mit Fokus auf nachhaltige Bohnen und innovative Zubereitungsmethoden. Eine Oase für experimentierfreudige Genießer.",
     "street": "Marktplatz",

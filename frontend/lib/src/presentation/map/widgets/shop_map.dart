@@ -66,7 +66,6 @@ class _ShopMapState extends State<ShopMap> {
   Future<void> _initializeMap() async {
     List<Shop> shops = widget.shopMap.values.toList();
     double radius = 10.0;
-    print(shops);
 
     List<Marker> markers = [
       // Nutzerposition hinzufügen

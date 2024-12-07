@@ -16,9 +16,9 @@ class Address {
   factory Address.fromJson(Map<String, dynamic> json) {
     return Address(
       street: json['street'],
-      streetNumber: json['streetNumber'],
-      zipCode: json['zipCode'],
-      city: json['city'],
+      streetNumber: json['street_no'],
+      zipCode: json['zip_code'],
+      city: "Mannheim", // TODO: !!! Backend needs to change Shop Entity
       isPrimary: false,
     );
   }

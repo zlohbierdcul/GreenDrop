@@ -3,7 +3,6 @@ import 'package:greendrop/src/domain/models/shop.dart';
 import 'package:greendrop/src/presentation/common_widgets/app_drawer.dart';
 import 'package:greendrop/src/presentation/order/pages/order_page.dart';
 import 'package:greendrop/src/presentation/products/provider/cart_provider.dart';
-import 'package:greendrop/src/presentation/products/provider/product_provider.dart';
 import 'package:greendrop/src/presentation/products/widgets/product_list.dart';
 import 'package:greendrop/src/presentation/products/widgets/shop_info.dart';
 import 'package:provider/provider.dart';
@@ -37,12 +36,8 @@ class ShopPage extends StatelessWidget {
                                   fontWeight: FontWeight.bold, fontSize: 18),
                             ),
                           ),
-                          Consumer<ProductProvider>(
-                            builder: (context, productProvider, child) =>
-                                ProductList(
-                                    productMap: productProvider.productMap),
-                          ),
-                          SizedBox(
+                          const ProductList(),
+                          const SizedBox(
                             height: 80,
                           )
                         ]),
@@ -56,13 +51,13 @@ class ShopPage extends StatelessWidget {
                   child: FilledButton(
                       onPressed: () => {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => OrderPage()))
+                                builder: (context) => const OrderPage()))
                           },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.shopping_cart),
-                          SizedBox(width: 20),
+                          const Icon(Icons.shopping_cart),
+                          const SizedBox(width: 20),
                           const Text(
                             "Zum Warenkorb",
                             style: const TextStyle(
