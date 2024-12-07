@@ -38,20 +38,20 @@ class OrderPage extends StatelessWidget {
               child: FilledButton(
                   onPressed: () => {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => OrderConfirmationPage()))
+                            builder: (context) => const OrderConfirmationPage()))
                       },
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
+                      Text(
                         "Jetzt bestellen!",
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),
-                      const SizedBox(
+                      SizedBox(
                         width: 10,
                       ),
-                      const Icon(Icons.receipt)
+                      Icon(Icons.receipt)
                     ],
                   )))
         ]),

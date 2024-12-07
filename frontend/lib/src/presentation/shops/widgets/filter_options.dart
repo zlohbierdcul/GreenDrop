@@ -12,7 +12,7 @@ class FilterOptions extends StatelessWidget {
       builder: (context, filterProvider, child) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           const Text("Lieferkosten:"),
           Row(
             mainAxisSize: MainAxisSize.max,

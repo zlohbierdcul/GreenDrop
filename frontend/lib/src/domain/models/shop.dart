@@ -3,7 +3,6 @@ import 'dart:math';
 
 import 'package:geocoding/geocoding.dart';
 import 'package:greendrop/src/domain/models/address.dart';
-import 'package:greendrop/src/domain/models/product.dart';
 
 class Shop {
   final String id;

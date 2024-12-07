@@ -105,6 +105,8 @@ class OrdersList extends StatelessWidget {
         ]),
   ];
 
+  OrdersList({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Consumer<AppTheme>(builder: (context, appTheme, child) {

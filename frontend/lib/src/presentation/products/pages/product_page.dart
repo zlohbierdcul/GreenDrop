@@ -60,7 +60,7 @@ class ShopPage extends StatelessWidget {
                           const SizedBox(width: 20),
                           const Text(
                             "Zum Warenkorb",
-                            style: const TextStyle(
+                            style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18),
                           ),
                           const SizedBox(
