@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:greendrop/src/domain/models/product.dart';
 import 'package:greendrop/src/presentation/products/provider/cart_provider.dart';
 import 'package:provider/provider.dart';
@@ -26,10 +27,7 @@ class ProductCard extends StatelessWidget {
               child: SizedBox(
                 width: cardWidth * 0.25,
                 height: 120,
-                child: Image.asset(
-                  "assets/images/shop1.jpg",
-                  fit: BoxFit.cover,
-                ),
+                child: Image.network("${dotenv.env["API_BASE_URL"]}${product.imageUrl}", fit: BoxFit.cover,),
               ),
             ),
             Expanded(

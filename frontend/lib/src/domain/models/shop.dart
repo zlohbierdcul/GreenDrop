@@ -10,6 +10,7 @@ class Shop {
   final String description;
   final Address address;
   final double rating;
+  final int reviewCount;
   final double minOrder;
   final double deliveryCost;
   final double latitude;
@@ -21,6 +22,7 @@ class Shop {
     required this.description,
     required this.address,
     required this.rating,
+    required this.reviewCount,
     required this.minOrder,
     required this.deliveryCost,
     required this.latitude,
@@ -32,13 +34,23 @@ class Shop {
     final address = Address.fromJson(json);
     final latitude = await getLatitude(address.toString());
     final longitude = await getLongitude(address.toString());
+    final List<dynamic> reviews = json['reviews'];
+
+    final int reviewCount = reviews.length;
+    double rating = 0.0;
+
+    // calculate rating from reviews
+    if (reviewCount > 0) {
+      rating = reviews.map((r) => r["rating"]).reduce((a, b) => a + b) / reviewCount;
+    }
 
     return Shop(
       id: json['documentId'].toString(),
       name: json['name'],
       description: json['description'],
       address: address,
-      rating: 4.8, // TODO: get rating from reviews
+      rating: rating, // TODO: get rating from reviews
+      reviewCount: reviewCount,
       minOrder: (json['minimum_order'] as num).toDouble(),
       deliveryCost: (json['delivery_costs'] as num).toDouble(),
       latitude: latitude,

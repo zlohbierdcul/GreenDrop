@@ -7,6 +7,7 @@ import 'package:greendrop/src/domain/models/shop.dart';
 
 class StrapiShopRepository extends IShopRepository{
   Dio dio = Dio();
+  StrapiAPI api = StrapiAPI();
 
   // Add authorization token to every request
   StrapiShopRepository() {
@@ -19,8 +20,6 @@ class StrapiShopRepository extends IShopRepository{
       )
     );
   }
-  
-  StrapiAPI api = StrapiAPI();
 
   @override
   Future<List<Shop>> getAllShops() async  {

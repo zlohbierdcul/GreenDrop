@@ -12,6 +12,11 @@ class ProductProvider extends ChangeNotifier {
 
   Map<String, List<Product>> get productMap => _productMap;
 
+  void clearProducts() {
+    _productMap = {};
+    notifyListeners();
+  }
+
   void setShopProducts(List<Product> products) {
     _productMap = groupBy(products, (p) => p.category);
     notifyListeners();
@@ -21,6 +26,5 @@ class ProductProvider extends ChangeNotifier {
     List<Product> products = await repository.getAllShopProducts(shop.id);
     _productMap = groupBy(products, (p) => p.category);
     notifyListeners();
-
   }
 }
