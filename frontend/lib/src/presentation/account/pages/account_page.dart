@@ -246,6 +246,7 @@ class AccountPage extends StatelessWidget {
                       FilledButton(
                           onPressed: () {
                             accountProvider.signOut();
+                            Navigator.pushReplacementNamed(context, "/login");
                           },
                           child: const Row(
                             children: [Text("Ausloggen"), Icon(Icons.logout)],
