@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:greendrop/src/presentation/shops/provider/shop_data_provider.dart';
 import 'package:greendrop/src/presentation/shops/widgets/shop_card.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +12,9 @@ class ShopList extends StatelessWidget {
     return Consumer<ShopDataProvider>(
       builder: (context, provider, child) {
         // Check if shopList is empty
+        if (provider.isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
         if (provider.shopList.isEmpty) {
           return const Row(
             mainAxisAlignment: MainAxisAlignment.start,

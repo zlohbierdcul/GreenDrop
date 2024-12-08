@@ -11,14 +11,19 @@ class ShopDataProvider extends ChangeNotifier {
     _getInitialData();
   }
 
+  bool _isLoading = false;
+
   Map<String, Shop> _shopList = {};
   Map<String, Shop> _filteredShopList = {};
   Map<String, Shop> _originalShopList = {};
 
   Map<String, Shop> get shopList => _shopList;
+  bool get isLoading => _isLoading;
 
   Future<void> _getInitialData() async {
-    // Temporary implementation
+    _isLoading = true;
+    notifyListeners();
+
     List<Shop> shops = await repository.getAllShops();
     for (Shop shop in shops) {
       Shop shopData = shop;
@@ -27,6 +32,8 @@ class ShopDataProvider extends ChangeNotifier {
 
     _originalShopList = _shopList;
     sortShopsBySingleCriterion(criterion: SortingModel.defaultState);
+
+    _isLoading = false;
     notifyListeners();
   }
 

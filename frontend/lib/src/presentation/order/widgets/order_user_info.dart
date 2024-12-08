@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:greendrop/src/domain/models/account.dart';
+import 'package:greendrop/src/domain/models/user.dart';
 
 class OrderUserInfo extends StatelessWidget {
-  final Account? account;
+  final User? account;
 
   const OrderUserInfo({super.key, required this.account});
 
@@ -24,8 +24,10 @@ class OrderUserInfo extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("${account?.firstName} ${account?.lastName}"),
-                    Text("${account?.plz} ${account?.city}"),
-                    Text("${account?.street} ${account?.houseNumber}")
+                    if (account!.addresses.isNotEmpty) ...[
+                      Text("${account?.addresses[0].zipCode} ${account?.addresses[0].city}"),
+                      Text("${account?.addresses[0].street}} ${account?.addresses[0].streetNumber}")
+                    ]
                   ],
                 )
               ],

@@ -26,7 +26,7 @@ class Order {
     return Order(
       id: id,
       status: json['status'],
-      user: User.fromJson(json['user']['id'], json['user']),
+      user: User.fromJson(json['user']),
       // Adjusted for nested user parsing
       shop: await Shop.fromJson(json['shop']),
       // Adjusted for nested shop parsing
