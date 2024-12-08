@@ -1,23 +1,35 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:greendrop/src/data/db/strapi.db.dart';
 import 'package:greendrop/src/data/repositories/interfaces/authentication_repository.dart';
 import 'package:greendrop/src/domain/models/user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class StrapiAuthenticationRepository extends IAuthenticationRepository {
   Dio dio = Dio();
   StrapiAPI api = StrapiAPI();
-  late User _user;
-
-  User get user => _user;
+  User? _user;
 
   // Add authorization token to every request
-  StrapiAuthenticationRepository() {
+  StrapiAuthenticationRepository._privateConstructor() {
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) {
         options.headers["Authorization"] = api.getAuth();
         return handler.next(options);
       },
     ));
+  }
+
+  static final StrapiAuthenticationRepository _singleton = StrapiAuthenticationRepository._privateConstructor() ;
+
+  factory StrapiAuthenticationRepository() {
+    return _singleton;
+  }
+
+
+  @override
+  User? getUser() {
+    return _user;
   }
 
   @override
@@ -34,16 +46,33 @@ class StrapiAuthenticationRepository extends IAuthenticationRepository {
     bool success = response.statusCode == 200;
 
     if (success) {
-      Response userResponse =
-          await dio.get(api.getUser(response.data["user"]["id"].toString()));
-      dynamic data = userResponse.data;
-      _user = User.fromJson(data);
+      await fetchUser(response.data["user"]["id"].toString());
+      const secureStorage = FlutterSecureStorage();
+      secureStorage.write(key: "userId", value: _user!.id);
     }
     return success;
   }
 
   @override
-  void signOut(String email) {
-    // TODO: implement signOut
+  void signOut() async {
+    print('signout');
+    _user = null;
+    // remove "remember me" token
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove("isLoggedIn");
+  }
+
+  @override
+  void updateUser(User user) {
+    _user = user;
+    dio.put(api.updateUser(user), data: user.toJson());
+  }
+
+  Future<User> fetchUser(String id) async {
+    Response response = await dio.get(api.getUser(id));
+    dynamic data = response.data;
+    _user = User.fromJson(data);
+    print("fetchUser: $_user");
+    return _user!;
   }
 }
