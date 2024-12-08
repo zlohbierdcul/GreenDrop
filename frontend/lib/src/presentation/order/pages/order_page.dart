@@ -26,10 +26,10 @@ class OrderPage extends StatelessWidget {
                   "Bestellung bei {shop}",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
-                OrderUserInfo(account: accountProvider.account),
-                OrderPaymentSelection(),
-                OrderGreendropDiscount(),
-                OrderProductList()
+                OrderUserInfo(account: accountProvider.user),
+                const OrderPaymentSelection(),
+                const OrderGreendropDiscount(),
+                const OrderProductList()
               ],
             ),
           ),
