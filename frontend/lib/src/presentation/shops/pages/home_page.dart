@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget {
                   flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
                     collapseMode: CollapseMode.parallax,
-                    background: ShopMap(shopMap: shopDataProvider.shopList),
+                    background: ShopMap(shops: shopDataProvider.shopList.values.toList()),
                   ),
                 ),
               ),
