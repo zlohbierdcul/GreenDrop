@@ -1,38 +1,66 @@
 import 'package:flutter/material.dart';
-import 'package:greendrop/src/features/account/domain/account_data_provider.dart';
-import 'package:greendrop/src/features/account/presentation/account_page.dart';
-import 'package:greendrop/src/features/impressum/presentation/impressum_page.dart';
-import 'package:greendrop/src/features/login/login.dart';
-import 'package:greendrop/src/features/login/register_page.dart';
-import 'package:greendrop/src/features/order/presentation/pages/order_page.dart';
-import 'package:greendrop/src/features/order/presentation/provider/order_provider.dart';
-import 'package:greendrop/src/features/order_history/presentation/pages/orders_page.dart';
-import 'package:greendrop/src/features/products/presentation/provider/cart_provider.dart';
-import 'package:greendrop/src/features/products/presentation/provider/product_provider.dart';
-import 'package:greendrop/src/features/shops/presentation/pages/home.dart';
-import 'package:greendrop/src/features/shops/presentation/provider/filter_provider.dart';
-import 'package:greendrop/src/features/shops/presentation/provider/shop_data_provider.dart';
-import 'package:greendrop/src/features/shops/presentation/provider/sorting_provider.dart';
-import 'package:greendrop/src/theme/theme_provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:greendrop/src/data/repositories/strapi/strapi_authentication_repository.dart';
+import 'package:greendrop/src/presentation/account/pages/account_page.dart';
+import 'package:greendrop/src/presentation/account/provider/account_data_provider.dart';
+import 'package:greendrop/src/presentation/impressum/pages/impressum_page.dart';
+import 'package:greendrop/src/presentation/login/pages/login_page.dart';
+import 'package:greendrop/src/presentation/login/pages/register_page.dart';
+import 'package:greendrop/src/presentation/login/provider/login_provider.dart';
+import 'package:greendrop/src/presentation/map/provider/shop_map_provider.dart';
+import 'package:greendrop/src/presentation/order/provider/order_provider.dart';
+import 'package:greendrop/src/presentation/order_history/pages/order_history_page.dart';
+import 'package:greendrop/src/presentation/products/provider/cart_provider.dart';
+import 'package:greendrop/src/presentation/products/provider/product_provider.dart';
+import 'package:greendrop/src/presentation/shops/pages/home_page.dart';
+import 'package:greendrop/src/presentation/shops/provider/filter_provider.dart';
+import 'package:greendrop/src/presentation/shops/provider/shop_data_provider.dart';
+import 'package:greendrop/src/presentation/shops/provider/sorting_provider.dart';
+import 'package:greendrop/src/presentation/theme/theme_provider.dart';
+import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+Future main() async {
+  Logger.root.level = Level.ALL; // defaults to Level.INFO
+  Logger.root.onRecord.listen((record) {
+  });
+
+  await dotenv.load();
+
+  // check if user is already logged in
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool isLoggedIn = prefs.getBool("isLoggedIn") ?? false;
+
+  FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+  String? userId = await secureStorage.read(key: "userId");
+
+  if (userId != null) {
+    StrapiAuthenticationRepository authRepo = StrapiAuthenticationRepository();
+    authRepo.fetchUser(userId);
+  }
+
+
   runApp(MultiProvider(
     providers: [
+      ChangeNotifierProvider(create: (_) => LoginProvider()),
       ChangeNotifierProvider(create: (_) => ShopDataProvider()),
       ChangeNotifierProvider(create: (_) => SortingProvider()),
       ChangeNotifierProvider(create: (_) => FilterProvider()),
       ChangeNotifierProvider(create: (_) => AccountProvider()),
       ChangeNotifierProvider(create: (_) => ProductProvider()),
       ChangeNotifierProvider(create: (_) => OrderProvider()),
-      ChangeNotifierProvider(create: (_) => CartProvider())
+      ChangeNotifierProvider(create: (_) => CartProvider()),
+      ChangeNotifierProvider(create: (_) => ShopMapProvider())
     ],
-    child: const GreenDropApp(),
+    child: GreenDropApp(isLoggedIn: isLoggedIn),
   ));
 }
 
 class GreenDropApp extends StatelessWidget {
-  const GreenDropApp({super.key});
+  final bool isLoggedIn;
+  const GreenDropApp({super.key, required this.isLoggedIn});
 
   @override
   Widget build(BuildContext context) {
@@ -44,14 +72,13 @@ class GreenDropApp extends StatelessWidget {
         darkTheme: ThemeData.from(colorScheme: AppTheme.darkTheme),
         themeMode: context.watch<AppTheme>().themeMode,
         debugShowCheckedModeBanner: false,
-        home: const Login(),
+        home: isLoggedIn ? const HomePage() : LoginPage(),
         routes: {
-          '/home': (context) => HomePage(),
-          '/register': (context) => Registration(),
-          '/account': (context) => AccountPage(),
-          '/order_history': (context) => OrdersPage(),
-          '/impressum': (context) => ImpressumPage(),
-          '/order': (context) => OrderPage()
+          '/home': (context) => const HomePage(),
+          '/register': (context) => const Registration(),
+          '/account': (context) => const AccountPage(),
+          '/order_history': (context) => const OrderHistoryPage(),
+          '/impressum': (context) => const ImpressumPage(),
         },
       ),
     );

@@ -1,5 +1,6 @@
 {
   "1": {
+    "id": "1",
     "name": "Brew Haven",
     "description": "Ein gemütlicher Ort, um die besten Kaffeespezialitäten und hausgemachte Snacks zu genießen. Perfekt für Kaffeeliebhaber und Entspannungssuchende.",
     "street": "Hauptstraße",
@@ -13,60 +14,31 @@
       {
         "name": "Latte Macchiato",
         "price": 3.5,
-        "origin": "Italy",
-        "type": "Coffee"
+        "stock": 50,
+        "category": "Coffee",
+        "imageUrl": "https://example.com/images/latte_macchiato.jpg",
+        "description": "Ein klassischer italienischer Kaffee mit Milch und Milchschaum."
       },
       {
         "name": "Blueberry Muffin",
         "price": 3.0,
-        "origin": "Germany",
-        "type": "Snack"
+        "stock": 30,
+        "category": "Snack",
+        "imageUrl": "https://example.com/images/blueberry_muffin.jpg",
+        "description": "Ein fluffiger Muffin mit frischen Heidelbeeren."
       },
       {
         "name": "Hot Chocolate",
         "price": 3.0,
-        "origin": "Switzerland",
-        "type": "Drink"
-      },
-      {
-        "name": "Latte Macchiato",
-        "price": 3.5,
-        "origin": "Italy",
-        "type": "Coffee"
-      },
-      {
-        "name": "Blueberry Muffin",
-        "price": 3.0,
-        "origin": "Germany",
-        "type": "Snack"
-      },
-      {
-        "name": "Hot Chocolate",
-        "price": 3.0,
-        "origin": "Switzerland",
-        "type": "Drink"
-      },
-      {
-        "name": "Latte Macchiato",
-        "price": 3.5,
-        "origin": "Italy",
-        "type": "Coffee"
-      },
-      {
-        "name": "Blueberry Muffin",
-        "price": 3.0,
-        "origin": "Germany",
-        "type": "Snack"
-      },
-      {
-        "name": "Hot Chocolate",
-        "price": 3.0,
-        "origin": "Switzerland",
-        "type": "Drink"
+        "stock": 40,
+        "category": "Drink",
+        "imageUrl": "https://example.com/images/hot_chocolate.jpg",
+        "description": "Cremige heiße Schokolade aus feinster Schweizer Schokolade."
       }
     ]
   },
   "2": {
+    "id": "2",
     "name": "Java Corner",
     "description": "Moderne Kaffee-Bar mit Fokus auf nachhaltige Bohnen und innovative Zubereitungsmethoden. Eine Oase für experimentierfreudige Genießer.",
     "street": "Marktplatz",
@@ -80,268 +52,26 @@
       {
         "name": "Latte Macchiato",
         "price": 3.5,
-        "origin": "Italy",
-        "type": "Coffee"
+        "stock": 60,
+        "category": "Coffee",
+        "imageUrl": "https://example.com/images/latte_macchiato.jpg",
+        "description": "Ein klassischer italienischer Kaffee mit Milch und Milchschaum."
       },
       {
         "name": "Blueberry Muffin",
         "price": 3.0,
-        "origin": "Germany",
-        "type": "Snack"
+        "stock": 25,
+        "category": "Snack",
+        "imageUrl": "https://example.com/images/blueberry_muffin.jpg",
+        "description": "Ein fluffiger Muffin mit frischen Heidelbeeren."
       },
       {
         "name": "Hot Chocolate",
         "price": 3.0,
-        "origin": "Switzerland",
-        "type": "Drink"
-      }
-    ]
-  },
-  "3": {
-    "name": "The Daily Grind",
-    "description": "Ein urbanes Kaffeehaus, das klassische Kaffeespezialitäten mit einem modernen Twist serviert. Perfekt für Meetings oder eine Pause zwischendurch.",
-    "street": "Seckenheimer Straße",
-    "streetNumber": "42",
-    "zipCode": "68163",
-    "city": "Mannheim",
-    "rating": 4.8,
-    "minOrder": 10,
-    "deliveryCost": 0,
-    "products": [
-      {
-        "name": "Latte Macchiato",
-        "price": 3.5,
-        "origin": "Italy",
-        "type": "Coffee"
-      },
-      {
-        "name": "Blueberry Muffin",
-        "price": 3.0,
-        "origin": "Germany",
-        "type": "Snack"
-      },
-      {
-        "name": "Hot Chocolate",
-        "price": 3.0,
-        "origin": "Switzerland",
-        "type": "Drink"
-      }
-    ]
-  },
-  "4": {
-    "name": "Espresso Express",
-    "description": "Kleine, aber feine Espresso-Bar mit Fokus auf schnellen Service und hochwertigen Kaffee für unterwegs.",
-    "street": "Quadrat Q5",
-    "streetNumber": "10",
-    "zipCode": "68161",
-    "city": "Mannheim",
-    "minOrder": 25,
-    "rating": 2.8,
-    "deliveryCost": 3,
-    "products": [
-      {
-        "name": "Latte Macchiato",
-        "price": 3.5,
-        "origin": "Italy",
-        "type": "Coffee"
-      },
-      {
-        "name": "Blueberry Muffin",
-        "price": 3.0,
-        "origin": "Germany",
-        "type": "Snack"
-      },
-      {
-        "name": "Hot Chocolate",
-        "price": 3.0,
-        "origin": "Switzerland",
-        "type": "Drink"
-      }
-    ]
-  },
-  "5": {
-    "name": "Café Aroma",
-    "description": "Eine gemütliche Atmosphäre und der Duft von frisch gemahlenem Kaffee machen dieses Café zum perfekten Ort für jede Tageszeit.",
-    "street": "Augustaanlage",
-    "streetNumber": "17",
-    "zipCode": "68165",
-    "city": "Mannheim",
-    "minOrder": 30,
-    "rating": 4.2,
-    "deliveryCost": 2.5,
-    "products": [
-      {
-        "name": "Latte Macchiato",
-        "price": 3.5,
-        "origin": "Italy",
-        "type": "Coffee"
-      },
-      {
-        "name": "Blueberry Muffin",
-        "price": 3.0,
-        "origin": "Germany",
-        "type": "Snack"
-      },
-      {
-        "name": "Hot Chocolate",
-        "price": 3.0,
-        "origin": "Switzerland",
-        "type": "Drink"
-      }
-    ]
-  },
-  "6": {
-    "name": "Latte Lounge",
-    "description": "Hier dreht sich alles um Milchschaum-Kunst und eine entspannte Atmosphäre. Ideal für Latte-Liebhaber.",
-    "street": "O7",
-    "streetNumber": "3",
-    "zipCode": "68161",
-    "city": "Mannheim",
-    "minOrder": 18,
-    "rating": 3.2,
-    "deliveryCost": 1,
-    "products": [
-      {
-        "name": "Latte Macchiato",
-        "price": 3.5,
-        "origin": "Italy",
-        "type": "Coffee"
-      },
-      {
-        "name": "Blueberry Muffin",
-        "price": 3.0,
-        "origin": "Germany",
-        "type": "Snack"
-      },
-      {
-        "name": "Hot Chocolate",
-        "price": 3.0,
-        "origin": "Switzerland",
-        "type": "Drink"
-      }
-    ]
-  },
-  "7": {
-    "name": "Bohnen & Blätter",
-    "description": "Ein charmantes Café, das neben Kaffee auch eine Auswahl an feinen Tees anbietet. Perfekt für Kaffeetrinker und Teegenießer gleichermaßen.",
-    "street": "Neckarstraße",
-    "streetNumber": "22",
-    "zipCode": "68167",
-    "city": "Mannheim",
-    "minOrder": 20,
-    "rating": 4.1,
-    "deliveryCost": 2,
-    "products": [
-      {
-        "name": "Latte Macchiato",
-        "price": 3.5,
-        "origin": "Italy",
-        "type": "Coffee"
-      },
-      {
-        "name": "Blueberry Muffin",
-        "price": 3.0,
-        "origin": "Germany",
-        "type": "Snack"
-      },
-      {
-        "name": "Hot Chocolate",
-        "price": 3.0,
-        "origin": "Switzerland",
-        "type": "Drink"
-      }
-    ]
-  },
-  "8": {
-    "name": "Kaffeeklatsch",
-    "description": "Der Treffpunkt für Freunde und Familien, die bei gutem Kaffee und leckeren Kuchen zusammenkommen möchten.",
-    "street": "Luisenring",
-    "streetNumber": "5",
-    "zipCode": "68159",
-    "city": "Mannheim",
-    "rating": 4.7,
-    "minOrder": 12,
-    "deliveryCost": 1,
-    "products": [
-      {
-        "name": "Latte Macchiato",
-        "price": 3.5,
-        "origin": "Italy",
-        "type": "Coffee"
-      },
-      {
-        "name": "Blueberry Muffin",
-        "price": 3.0,
-        "origin": "Germany",
-        "type": "Snack"
-      },
-      {
-        "name": "Hot Chocolate",
-        "price": 3.0,
-        "origin": "Switzerland",
-        "type": "Drink"
-      }
-    ]
-  },
-  "9": {
-    "name": "Black & White Coffee",
-    "description": "Minimalistisch und stylisch - hier steht der reine Kaffeegenuss im Vordergrund. Spezialisiert auf Schwarz- und Milchkaffee.",
-    "street": "E4",
-    "streetNumber": "8",
-    "zipCode": "68161",
-    "city": "Mannheim",
-    "rating": 4.2,
-    "minOrder": 15,
-    "deliveryCost": 0,
-    "products": [
-      {
-        "name": "Latte Macchiato",
-        "price": 3.5,
-        "origin": "Italy",
-        "type": "Coffee"
-      },
-      {
-        "name": "Blueberry Muffin",
-        "price": 3.0,
-        "origin": "Germany",
-        "type": "Snack"
-      },
-      {
-        "name": "Hot Chocolate",
-        "price": 3.0,
-        "origin": "Switzerland",
-        "type": "Drink"
-      }
-    ]
-  },
-  "10": {
-    "name": "Koffein Kultur",
-    "description": "Ein kreatives Kaffeehaus mit einer einzigartigen Mischung aus Kaffee, Kunst und Kultur. Für kreative Köpfe und Kaffeeenthusiasten.",
-    "street": "Tullastraße",
-    "streetNumber": "19",
-    "zipCode": "68169",
-    "city": "Mannheim",
-    "rating": 4.5,
-    "minOrder": 25,
-    "deliveryCost": 2.5,
-    "products": [
-      {
-        "name": "Latte Macchiato",
-        "price": 3.5,
-        "origin": "Italy",
-        "type": "Coffee"
-      },
-      {
-        "name": "Blueberry Muffin",
-        "price": 3.0,
-        "origin": "Germany",
-        "type": "Snack"
-      },
-      {
-        "name": "Hot Chocolate",
-        "price": 3.0,
-        "origin": "Switzerland",
-        "type": "Drink"
+        "stock": 45,
+        "category": "Drink",
+        "imageUrl": "https://example.com/images/hot_chocolate.jpg",
+        "description": "Cremige heiße Schokolade aus feinster Schweizer Schokolade."
       }
     ]
   }
