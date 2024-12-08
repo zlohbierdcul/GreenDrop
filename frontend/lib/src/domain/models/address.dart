@@ -18,9 +18,19 @@ class Address {
       street: json['street'],
       streetNumber: json['street_no'],
       zipCode: json['zip_code'],
-      city: "Mannheim", // TODO: !!! Backend needs to change Shop Entity
+      city: "Mannheim", // TODO: ! Backend needs to change Shop Entity
       isPrimary: false,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'street': street,
+      'street_no': streetNumber,
+      'zip_code': zipCode,
+      'city': city,
+      'is_primary': isPrimary,
+    };
   }
 
   @override

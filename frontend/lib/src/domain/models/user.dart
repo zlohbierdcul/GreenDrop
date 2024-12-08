@@ -12,6 +12,23 @@ class User {
   final String eMail;
   final List<Address> addresses;
 
+  static final genericUser = User(
+      id: "000",
+      userName: "MaMu",
+      firstName: "Max",
+      lastName: "Mustermann",
+      birthdate: "12-12-2024",
+      greenDrops: 1337,
+      eMail: "max.musterman@example.com",
+      addresses: [
+        Address(
+            street: "Beispielstraße",
+            streetNumber: "42",
+            zipCode: "68163",
+            city: "Mannheim",
+            isPrimary: true)
+      ]);
+
   User(
       {required this.id,
       required this.userName,
@@ -37,12 +54,23 @@ class User {
             .toList());
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'username': userName,
+      'first_name': firstName,
+      'last_name': lastName,
+      'birthdate': birthdate,
+      'green_drops': greenDrops,
+      'email': eMail,
+      'addresses': addresses.map((address) => address.toJson()).toList(),
+    };
+  }
+
   // Static method to parse mock data and create a list of Users
   static List<User> parseUsers(String jsonData) {
     final Map<String, dynamic> data = json.decode(jsonData);
-    return data.entries
-        .map((entry) => User.fromJson(entry.value))
-        .toList();
+    return data.entries.map((entry) => User.fromJson(entry.value)).toList();
   }
 
   @override
