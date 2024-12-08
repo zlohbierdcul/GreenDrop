@@ -2,15 +2,18 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:greendrop/src/data/repositories/interfaces/authentication_repository.dart';
+import 'package:greendrop/src/data/repositories/strapi/strapi_authentication_repository.dart';
+import 'package:greendrop/src/domain/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../domain/models/account.dart';
-
 class AccountProvider with ChangeNotifier {
-  Account? _account;
+  IAuthenticationRepository authRepository = StrapiAuthenticationRepository();
+
+  User? _account;
   bool _isEditing = false;
 
-  Account? get account => _account;
+  User? get account => _account;
 
   bool get isEditing => _isEditing;
 
@@ -31,7 +34,6 @@ class AccountProvider with ChangeNotifier {
   Future<void> loadAccountData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? accountId = prefs.getString('accountId');
-    print("Account ID: $accountId");
 
     if (accountId != null) {
       String jsonData =
@@ -40,7 +42,7 @@ class AccountProvider with ChangeNotifier {
       Map<String, dynamic> data = jsonDecode(jsonData);
 
       if (data.containsKey(accountId)) {
-        _account = Account.fromJson(accountId, data[accountId]);
+        _account = User.fromJson(data[accountId]);
         notifyListeners();
       } else {
         print("Account ID not found in JSON data");
@@ -51,7 +53,7 @@ class AccountProvider with ChangeNotifier {
   }
 
   // Methode zum Bearbeiten der Account-Daten
-  void updateAccount(Account newAccount) {
+  void updateAccount(User newAccount) {
     _account = newAccount;
     notifyListeners();
   }
@@ -60,6 +62,12 @@ class AccountProvider with ChangeNotifier {
   void toggleEditing() {
     _isEditing = !_isEditing;
     notifyListeners();
+  }
+
+  void logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove("isLoggedIn");
+
   }
 
   // Methode zum Abbrechen und Zurücksetzen
@@ -79,14 +87,5 @@ class AccountProvider with ChangeNotifier {
         await rootBundle.loadString('assets/data/mock_account.json');
     Map<String, dynamic> data = jsonDecode(jsonData);
 
-    if (_account != null) {
-      data[accountId] = _account!.toJson();
-
-      String updatedJsonData = jsonEncode(data);
-      // Hier soll ein SQL Befehl ausgeführt werden, der die neuen Daten absspeichert.
-      // Danach sollen die neuen Daten geladen und im Account angezeigt werden.
-
-      //print("Updated JSON Data: $updatedJsonData");
-    }
   }
 }

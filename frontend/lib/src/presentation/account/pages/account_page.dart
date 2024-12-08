@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
+mport 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../../domain/models/account.dart';
-import '../../common_widgets/app_drawer.dart';
+ , Icon()Icons.logoulogoutUserUserUser.accountAUserUserimport '../../common_widgets/app_drawer.dart';
 import '../../common_widgets/dropdown.dart';
 import '../../theme/theme_provider.dart';
 import '../provider/account_data_provider.dart';
@@ -39,7 +37,7 @@ class AccountPage extends StatelessWidget {
       TextEditingController();
 
   void _initializeControllers(AccountProvider accountProvider) {
-    Account? account = accountProvider.account;
+    User? account = accountProvider.account;
     if (account != null) {
       _userNameController.text = account.userName;
       _firstNameController.text = account.firstName;
@@ -53,8 +51,8 @@ class AccountPage extends StatelessWidget {
     }
   }
 
-  Account _createAccountFromControllers(String id) {
-    return Account(
+  User _createAccountFromControllers(String id) {
+    return User(
       id: id,
       userName: _userNameController.text,
       firstName: _firstNameController.text,
@@ -255,6 +253,10 @@ class AccountPage extends StatelessWidget {
                           ),
                         ),
                       ),
+
+                      FilledButton(onPressed: () {
+                        accountProvider.logout();
+                      }, child: Row(children: [Text("Ausloggen"), Icon(Icons.logout)],))
                   ],
                 ),
               ),

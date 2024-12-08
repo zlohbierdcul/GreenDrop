@@ -16,6 +16,15 @@ class StrapiAPI {
     return "$baseUrl/api/drugs/$id?populate=*";
   }
 
+  String getSignIn() {
+    return "$baseUrl/api/auth/local?populate=*";
+  }
+
+  String getUser(String id) {
+    print(id);
+    return "$baseUrl/api/users/$id?populate=*";
+  }
+
   getAuth() {
     return "Bearer ${dotenv.env["API_TOKEN"]}";
   }

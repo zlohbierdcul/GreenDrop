@@ -5,6 +5,7 @@ import 'package:greendrop/src/presentation/account/provider/account_data_provide
 import 'package:greendrop/src/presentation/impressum/pages/impressum_page.dart';
 import 'package:greendrop/src/presentation/login/pages/login_page.dart';
 import 'package:greendrop/src/presentation/login/pages/register_page.dart';
+import 'package:greendrop/src/presentation/login/provider/login_provider.dart';
 import 'package:greendrop/src/presentation/order/pages/order_page.dart';
 import 'package:greendrop/src/presentation/order/provider/order_provider.dart';
 import 'package:greendrop/src/presentation/order_history/pages/order_history_page.dart';
@@ -16,12 +17,18 @@ import 'package:greendrop/src/presentation/shops/provider/shop_data_provider.dar
 import 'package:greendrop/src/presentation/shops/provider/sorting_provider.dart';
 import 'package:greendrop/src/presentation/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future main() async {
   await dotenv.load();
 
+  // check if user is already logged in
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool isLoggedIn = prefs.getBool("isLoggedIn") ?? false;
+
   runApp(MultiProvider(
     providers: [
+      ChangeNotifierProvider(create: (_) => LoginProvider()),
       ChangeNotifierProvider(create: (_) => ShopDataProvider()),
       ChangeNotifierProvider(create: (_) => SortingProvider()),
       ChangeNotifierProvider(create: (_) => FilterProvider()),
@@ -30,12 +37,13 @@ Future main() async {
       ChangeNotifierProvider(create: (_) => OrderProvider()),
       ChangeNotifierProvider(create: (_) => CartProvider())
     ],
-    child: const GreenDropApp(),
+    child: GreenDropApp(isLoggedIn: isLoggedIn),
   ));
 }
 
 class GreenDropApp extends StatelessWidget {
-  const GreenDropApp({super.key});
+  final bool isLoggedIn;
+  const GreenDropApp({super.key, required this.isLoggedIn});
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +55,7 @@ class GreenDropApp extends StatelessWidget {
         darkTheme: ThemeData.from(colorScheme: AppTheme.darkTheme),
         themeMode: context.watch<AppTheme>().themeMode,
         debugShowCheckedModeBanner: false,
-        home: const LoginPage(),
+        home: isLoggedIn ? HomePage() : LoginPage(),
         routes: {
           '/home': (context) => const HomePage(),
           '/register': (context) => const Registration(),

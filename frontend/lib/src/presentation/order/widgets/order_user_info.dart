@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:greendrop/src/domain/models/account.dart';
 
 class OrderUserInfo extends StatelessWidget {
-  final Account? account;
+  final User? account;
 
   const OrderUserInfo({super.key, required this.account});
 
