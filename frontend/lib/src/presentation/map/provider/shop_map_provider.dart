@@ -22,7 +22,7 @@ class ShopMapProvider extends ChangeNotifier {
 
   void initializeMap(List<Shop> shops, BuildContext context) async {
     _markers = [];
-    _createUserMarker(context);
+    await _createUserMarker(context);
     _createShopMarker(shops, context);
   }
 
