@@ -26,7 +26,6 @@ class StrapiAuthenticationRepository extends IAuthenticationRepository {
     return _singleton;
   }
 
-
   @override
   User? getUser() {
     return _user;
@@ -55,7 +54,6 @@ class StrapiAuthenticationRepository extends IAuthenticationRepository {
 
   @override
   void signOut() async {
-    print('signout');
     _user = null;
     // remove "remember me" token
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -68,11 +66,11 @@ class StrapiAuthenticationRepository extends IAuthenticationRepository {
     dio.put(api.updateUser(user), data: user.toJson());
   }
 
+  @override
   Future<User> fetchUser(String id) async {
     Response response = await dio.get(api.getUser(id));
     dynamic data = response.data;
     _user = User.fromJson(data);
-    print("fetchUser: $_user");
     return _user!;
   }
 }

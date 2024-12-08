@@ -28,7 +28,7 @@ class OrderPaymentSelection extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Text(paymentMethod.label!),
                       ) : const SizedBox(),
-                      paymentMethod.image != null ? Container(height: 20, child: Image.asset(paymentMethod.image!)) : const SizedBox(), 
+                      paymentMethod.image != null ? SizedBox(height: 20, child: Image.asset(paymentMethod.image!)) : const SizedBox(), 
                     ],
                   ),
                   onChanged: (_) =>

@@ -9,7 +9,6 @@ import 'package:greendrop/src/presentation/login/pages/login_page.dart';
 import 'package:greendrop/src/presentation/login/pages/register_page.dart';
 import 'package:greendrop/src/presentation/login/provider/login_provider.dart';
 import 'package:greendrop/src/presentation/map/provider/shop_map_provider.dart';
-import 'package:greendrop/src/presentation/order/pages/order_page.dart';
 import 'package:greendrop/src/presentation/order/provider/order_provider.dart';
 import 'package:greendrop/src/presentation/order_history/pages/order_history_page.dart';
 import 'package:greendrop/src/presentation/products/provider/cart_provider.dart';
@@ -26,7 +25,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future main() async {
   Logger.root.level = Level.ALL; // defaults to Level.INFO
   Logger.root.onRecord.listen((record) {
-    print('${record.level.name}: ${record.time}: ${record.message}');
   });
 
   await dotenv.load();
@@ -74,14 +72,13 @@ class GreenDropApp extends StatelessWidget {
         darkTheme: ThemeData.from(colorScheme: AppTheme.darkTheme),
         themeMode: context.watch<AppTheme>().themeMode,
         debugShowCheckedModeBanner: false,
-        home: isLoggedIn ? HomePage() : LoginPage(),
+        home: isLoggedIn ? const HomePage() : LoginPage(),
         routes: {
           '/home': (context) => const HomePage(),
           '/register': (context) => const Registration(),
-          '/account': (context) => AccountPage(),
+          '/account': (context) => const AccountPage(),
           '/order_history': (context) => const OrderHistoryPage(),
           '/impressum': (context) => const ImpressumPage(),
-          '/order': (context) => const OrderPage()
         },
       ),
     );

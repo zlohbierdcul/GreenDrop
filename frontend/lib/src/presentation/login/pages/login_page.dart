@@ -138,6 +138,7 @@ class LoginPage extends StatelessWidget {
                               if (success) {
                                 loginProvider.setIsLoggedIn();
                                 Navigator.pushReplacementNamed(
+                                    // ignore: use_build_context_synchronously
                                     context, '/home');
                               }
                             }

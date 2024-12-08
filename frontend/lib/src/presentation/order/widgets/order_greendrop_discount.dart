@@ -19,7 +19,7 @@ class OrderGreendropDiscount extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
-                        "Greendrop Rabatte:",
+                        "Rabatte:",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),

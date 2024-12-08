@@ -29,6 +29,10 @@ class StrapiAPI {
     return "$baseUrl/api/users/${user.id}";
   }
 
+  String createOrder() {
+    return "$baseUrl/api/order";
+  }
+
   String getAuth() {
     return "Bearer ${dotenv.env["API_TOKEN"]}";
   }

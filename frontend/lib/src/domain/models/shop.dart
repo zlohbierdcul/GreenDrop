@@ -56,6 +56,19 @@ class Shop {
     );
   }
 
+  Map<String, dynamic> toJson() {
+  return {
+    'id': id,
+    'name': name,
+    'description': description,
+    'address': address.id,
+    'minimum_order': minOrder,
+    'delivery_costs': deliveryCost,
+    'max_delivery_radius': radius,
+  };
+}
+
+
   // Static method to parse mock data and create a list of Shops
   static List<Future<Shop>> parseShops(String jsonData) {
     final Map<String, dynamic> data = json.decode(jsonData);

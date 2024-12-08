@@ -57,7 +57,7 @@ class ShopPage extends StatelessWidget {
                   child: FilledButton(
                       onPressed: () => {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const OrderPage()))
+                                builder: (context) => OrderPage(shop: shop)))
                           },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,

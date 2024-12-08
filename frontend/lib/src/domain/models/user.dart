@@ -22,6 +22,7 @@ class User {
       eMail: "max.musterman@example.com",
       addresses: [
         Address(
+            id: "007",
             street: "Beispielstraße",
             streetNumber: "42",
             zipCode: "68163",
