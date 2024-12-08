@@ -3,6 +3,7 @@ import 'package:greendrop/src/domain/models/shop.dart';
 import 'package:greendrop/src/presentation/common_widgets/app_drawer.dart';
 import 'package:greendrop/src/presentation/order/pages/order_page.dart';
 import 'package:greendrop/src/presentation/products/provider/cart_provider.dart';
+import 'package:greendrop/src/presentation/products/provider/product_provider.dart';
 import 'package:greendrop/src/presentation/products/widgets/product_list.dart';
 import 'package:greendrop/src/presentation/products/widgets/shop_info.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,11 @@ class ShopPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<ProductProvider>(context, listen: false).clearProducts();
+      Provider.of<ProductProvider>(context, listen: false).loadShopProducts(shop);
+      Provider.of<CartProvider>(context, listen: false).resetCart();
+    });
     return Consumer<CartProvider>(
       builder: (context, cartProvider, child) => Scaffold(
           appBar: AppDrawer.buildGreendropsAppBar(context),
