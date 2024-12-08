@@ -1,10 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:greendrop/src/domain/models/order_item.dart';
 import 'package:greendrop/src/domain/models/product.dart';
 
 class CartProvider extends ChangeNotifier {
   Map<Product, int> _cart = {};
 
   Map<Product, int> get cart => _cart;
+
+  List<OrderItem> get orderItems {
+    List<OrderItem> orderItems = [];
+
+    for (MapEntry<Product, int> entry in _cart.entries) {
+      Product product = entry.key;
+      int count = entry.value;
+      orderItems.add(OrderItem(
+          totalAmount: count,
+          name: product.name,
+          price: product.price,
+          stock: product.stock,
+          category: product.category,
+          imageUrl: product.imageUrl,
+          description: product.description));
+    }
+
+    return orderItems;
+  }
 
   void addProductToCart(Product product) {
     _cart.update(product, (amount) => amount + 1, ifAbsent: () => 1);

@@ -12,7 +12,20 @@ class FilterDialog {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Filtern und Sortieren'),
+          title: Row(
+            children: [
+              const Text('Filtern und Sortieren'),
+              CloseButton(
+                style: ElevatedButton.styleFrom(
+                    shape: const CircleBorder(),
+                    padding: const EdgeInsets.all(8),
+                    elevation: 5),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          ),
           content: const Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,33 +45,24 @@ class FilterDialog {
             ],
           ),
           actions: <Widget>[
-            Consumer2<FilterProvider, SortingProvider>(
-              builder: (context, filterProvider, sortingProvider, child) =>
-                  TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.error,
-                  foregroundColor: Theme.of(context).colorScheme.onError,
-                  textStyle: Theme.of(context).textTheme.labelLarge,
-                ),
-                child: const Text('Zurücksetzen'),
-                onPressed: () {
-                  filterProvider.resetFilter();
-                  sortingProvider.resetSorting();
-                },
-              ),
-            ),
             const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextButton(
-                  style: TextButton.styleFrom(
-                    textStyle: Theme.of(context).textTheme.labelLarge,
+                Consumer2<FilterProvider, SortingProvider>(
+                  builder: (context, filterProvider, sortingProvider, child) =>
+                      TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.error,
+                      foregroundColor: Theme.of(context).colorScheme.onError,
+                      textStyle: Theme.of(context).textTheme.labelLarge,
+                    ),
+                    child: const Text('Zurücksetzen'),
+                    onPressed: () {
+                      filterProvider.resetFilter();
+                      sortingProvider.resetSorting();
+                    },
                   ),
-                  child: const Text('Abbrechen'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
                 ),
                 Consumer3<FilterProvider, SortingProvider, ShopDataProvider>(
                   builder: (context, filterProvider, sortingProvider,
@@ -69,7 +73,10 @@ class FilterDialog {
                       foregroundColor: Theme.of(context).colorScheme.onPrimary,
                       textStyle: Theme.of(context).textTheme.labelLarge,
                     ),
-                    child: const Text('Anwenden'),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text('Anwenden'),
+                    ),
                     onPressed: () {
                       shopDataProvider.filterData(
                           filterProvider.minCost, filterProvider.deliveryCost);

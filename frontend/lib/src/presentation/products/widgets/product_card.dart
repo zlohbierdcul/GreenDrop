@@ -51,14 +51,16 @@ class ProductCard extends StatelessWidget {
                       (product.runtimeType == Drug)
                           ? Row(
                               children: [
-                                Text("THC: ${((product as Drug).thc * 100)
-                                    .toStringAsFixed(0)}%"),
-                                    SizedBox(width: 10,),
-                                Text("CBD: ${((product as Drug).cbd * 100)
-                                    .toStringAsFixed(0)}%"),
+                                Text(
+                                    "THC: ${((product as Drug).thc * 100).toStringAsFixed(0)}%"),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                    "CBD: ${((product as Drug).cbd * 100).toStringAsFixed(0)}%"),
                               ],
                             )
-                          : Row(),
+                          : const Row(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -73,13 +75,16 @@ class ProductCard extends StatelessWidget {
                                 const Text(" / g")
                             ],
                           ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
                           Consumer<CartProvider>(
                             builder: (context, cartProvider, child) => Stack(
                               alignment: Alignment.topRight,
                               children: [
-                                cartProvider.getProductCountByProduct(
-                                            product) ==
-                                        0
+                                cartProvider.getProductCountByProduct(product) == 0
                                     ? Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 8.0),
@@ -94,31 +99,30 @@ class ProductCard extends StatelessWidget {
                                         children: [
                                           ElevatedButton(
                                               style: ElevatedButton.styleFrom(
-                                                  shape: CircleBorder(),
-                                                  padding: EdgeInsets.all(8),
+                                                  shape: const CircleBorder(),
+                                                  padding: const EdgeInsets.all(8),
                                                   elevation: 5),
                                               onPressed: () => cartProvider
-                                                  .removeProductFromCart(
-                                                      product),
-                                              child: Icon(Icons.remove)),
+                                                  .removeProductFromCart(product),
+                                              child: const Icon(Icons.remove)),
                                           Text(cartProvider
                                               .getProductCountByProduct(product)
                                               .toString()),
                                           ElevatedButton(
                                               style: ElevatedButton.styleFrom(
-                                                  shape: CircleBorder(),
-                                                  padding: EdgeInsets.all(8),
+                                                  shape: const CircleBorder(),
+                                                  padding: const EdgeInsets.all(8),
                                                   elevation: 5),
                                               onPressed: () => cartProvider
                                                   .addProductToCart(product),
-                                              child: Icon(Icons.add)),
+                                              child: const Icon(Icons.add)),
                                         ],
                                       )
                               ],
                             ),
-                          )
+                          ),
                         ],
-                      ),
+                      )
                     ],
                   ),
                 ),

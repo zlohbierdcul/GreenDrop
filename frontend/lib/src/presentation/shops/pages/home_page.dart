@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:greendrop/src/presentation/common_widgets/app_drawer.dart';
+import 'package:greendrop/src/presentation/map/widgets/shop_map.dart';
 import 'package:greendrop/src/presentation/shops/provider/shop_data_provider.dart';
 import 'package:greendrop/src/presentation/shops/widgets/filter_dialog.dart';
 import 'package:greendrop/src/presentation/shops/widgets/search_bar.dart';
 import 'package:greendrop/src/presentation/shops/widgets/shop_list.dart';
 import 'package:provider/provider.dart';
-
-import '../../common_widgets/app_drawer.dart';
-import '../../map/widgets/shop_map.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -21,9 +20,8 @@ class HomePage extends StatelessWidget {
             return <Widget>[
               Consumer<ShopDataProvider>(
                 builder: (context, shopDataProvider, child) => SliverAppBar(
-                  expandedHeight: 300.0,
+                  expandedHeight: 300,
                   floating: false,
-                  pinned: true,
                   stretch: true,
                   leading: Container(),
                   flexibleSpace: FlexibleSpaceBar(

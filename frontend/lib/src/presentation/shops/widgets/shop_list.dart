@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greendrop/src/presentation/shops/provider/shop_data_provider.dart';
 import 'package:greendrop/src/presentation/shops/widgets/shop_card.dart';

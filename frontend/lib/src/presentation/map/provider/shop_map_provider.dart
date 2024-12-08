@@ -5,25 +5,71 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:geocode/geocode.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:greendrop/src/domain/models/shop.dart';
-import 'package:greendrop/src/presentation/products/pages/product_page.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:logging/logging.dart';
 
 class ShopMapProvider extends ChangeNotifier {
   Logger log = Logger("ShopMapProvider");
 
-  List<Marker> _markers = [];
+  bool _isZoomedIn = false;
+  Shop? _focusedShop;
+
+  final MapController _mapController = MapController();
+
+  List<Shop> _shops = [];
+
   double _latitudePerson = 49.492654; // Standardposition
   double _longitudePerson = 8.471250;
 
+  double _previousZoomLevel = 14;
+  LatLng _previousCenter = const LatLng(0, 0);
+
+  MapController get mapController => _mapController;
   double get latitudePerson => _latitudePerson;
   double get longitudePerson => _longitudePerson;
-  List<Marker> get markers => _markers;
+  List<Shop> get shops => _shops;
+  bool get isZoomedIn => _isZoomedIn;
+  Shop? get focusedShop => _focusedShop;
+
+  void setIsZoomedIn(bool v) {
+    _isZoomedIn = v;
+  }
 
   void initializeMap(List<Shop> shops, BuildContext context) async {
-    _markers = [];
-    _createUserMarker(context);
+    _shops = [];
+    await _createUserMarker(context);
+    _createMapListeners();
     _createShopMarker(shops, context);
+  }
+
+  void _createMapListeners() {
+    _mapController.mapEventStream.listen(_onMapEvent);
+  }
+
+  void _onMapEvent(MapEvent event) {
+    double currentZoomLevel = _mapController.camera.zoom;
+    LatLng currentCenter = _mapController.camera.center;
+
+    if (currentZoomLevel < _previousZoomLevel ||
+        currentCenter != _previousCenter) {
+      _onZoomOut();
+    }
+    _previousCenter = currentCenter;
+    _previousZoomLevel = currentZoomLevel;
+  }
+
+  void handleShopTap(Shop shop) {
+    setIsZoomedIn(true);
+    _mapController.move(LatLng(shop.latitude, shop.longitude), 16);
+    _previousCenter = _mapController.camera.center;
+    _focusedShop = shop;
+    notifyListeners();
+  }
+
+  void _onZoomOut() {
+    _isZoomedIn = false;
+    _focusedShop = null;
+    notifyListeners();
   }
 
   Future<void> _createUserMarker(BuildContext context) async {
@@ -48,23 +94,6 @@ class ShopMapProvider extends ChangeNotifier {
 
     _latitudePerson = position.latitude;
     _longitudePerson = position.longitude;
-
-    _markers = [
-      ..._markers,
-      Marker(
-        point: LatLng(_latitudePerson, _longitudePerson),
-        width: 30.0,
-        height: 30.0,
-        child: Container(
-            width: 30,
-            height: 30,
-            decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
-                borderRadius: BorderRadius.circular(20)),
-            child: Icon(Icons.location_pin,
-                color: Theme.of(context).colorScheme.onPrimary)),
-      ),
-    ];
 
     notifyListeners();
     log.info("Finished creating user marker");
@@ -98,29 +127,7 @@ class ShopMapProvider extends ChangeNotifier {
           latitudePerson, shop.latitude, longitudePerson, shop.longitude);
       log.fine("Distance: $distance");
       if (distance <= radius) {
-        _markers.add(
-          Marker(
-              point: LatLng(shop.latitude, shop.longitude),
-              width: 40.0,
-              height: 40.0,
-              child: GestureDetector(
-                onTap: () {
-                  log.fine("Marker clicked on shop with id ${shop.id}");
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ShopPage(shop: shop)));
-                },
-                child: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.secondary,
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Icon(Icons.storefront_rounded,
-                        color: Theme.of(context).colorScheme.onSecondary)),
-              )),
-        );
+        _shops.add(shop);
         log.info("Created shop marker.");
         notifyListeners();
       }
@@ -128,6 +135,10 @@ class ShopMapProvider extends ChangeNotifier {
 
     log.fine("Shopmarker length: ${shopMarker.length}");
     log.info("Finished creating shop markers.");
+  }
+
+  resetZoom() {
+    _mapController.move(LatLng(_latitudePerson, _longitudePerson), 14);
   }
 
   Future<Coordinates> _getCoordinatesOfAddress(String address) async {

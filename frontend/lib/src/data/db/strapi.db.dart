@@ -1,5 +1,6 @@
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:greendrop/src/domain/models/user.dart';
 
 class StrapiAPI {
   final String baseUrl = dotenv.env["API_BASE_URL"]!;
@@ -21,11 +22,18 @@ class StrapiAPI {
   }
 
   String getUser(String id) {
-    print(id);
     return "$baseUrl/api/users/$id?populate=*";
   }
 
-  getAuth() {
+  String updateUser(User user) {
+    return "$baseUrl/api/users/${user.id}";
+  }
+
+  String createOrder() {
+    return "$baseUrl/api/order";
+  }
+
+  String getAuth() {
     return "Bearer ${dotenv.env["API_TOKEN"]}";
   }
 }
