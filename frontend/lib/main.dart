@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:greendrop/src/data/repositories/strapi/strapi_authentication_repository.dart';
 import 'package:greendrop/src/presentation/account/pages/account_page.dart';
@@ -23,6 +24,9 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future main() async {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
   Logger.root.level = Level.ALL; // defaults to Level.INFO
   Logger.root.onRecord.listen((record) {
   });
@@ -75,6 +79,7 @@ class GreenDropApp extends StatelessWidget {
         home: isLoggedIn ? const HomePage() : LoginPage(),
         routes: {
           '/home': (context) => const HomePage(),
+          '/login': (context) => LoginPage(),
           '/register': (context) => const Registration(),
           '/account': (context) => const AccountPage(),
           '/order_history': (context) => const OrderHistoryPage(),

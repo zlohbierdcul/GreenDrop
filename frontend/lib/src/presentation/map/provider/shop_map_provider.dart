@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:geocode/geocode.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:greendrop/src/domain/models/shop.dart';
@@ -97,6 +98,7 @@ class ShopMapProvider extends ChangeNotifier {
 
     notifyListeners();
     log.info("Finished creating user marker");
+    FlutterNativeSplash.remove();
   }
 
   double _calculateDistance(
