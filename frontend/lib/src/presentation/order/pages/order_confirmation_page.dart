@@ -7,40 +7,7 @@ class OrderConfirmationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text('GreenDrop'),
-            Padding(
-              padding: const EdgeInsets.only(right: 10.0),
-              child: OutlinedButton(
-                onPressed: () => AppDrawer.showPopup(context),
-                child: Center(
-                    child: Row(
-                  children: [
-                    Image.asset(
-                      'assets/images/logo.png',
-                      width: 22,
-                      height: 22,
-                    ),
-                    const SizedBox(width: 5),
-                    Text(
-                      '2233',
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onSecondaryContainer),
-                    ),
-                  ],
-                )),
-              ),
-            ),
-          ],
-        ),
-        automaticallyImplyLeading: false,
-      ),
+      appBar: AppDrawer.buildGreendropsAppBar(context, automaticallyImplayLeading: false),
       body: const Center(
         child: Padding(
           padding: EdgeInsets.all(8.0),

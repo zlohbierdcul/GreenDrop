@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
 
-  static PreferredSizeWidget buildGreendropsAppBar(BuildContext context) {
+  static PreferredSizeWidget buildGreendropsAppBar(BuildContext context, {bool automaticallyImplayLeading = true}) {
     return AppBar(
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -12,7 +12,7 @@ class AppDrawer extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 10.0),
             child: OutlinedButton(
-              onPressed: () => showPopup(context),
+              onPressed: () => _showPopup(context),
               child: Center(child: Row(
                 children: [
                   Image.asset(
@@ -31,10 +31,11 @@ class AppDrawer extends StatelessWidget {
           ),
         ],
       ),
+      automaticallyImplyLeading: automaticallyImplayLeading,
     );
   }
 
-  static void showPopup(BuildContext context) {
+  static void _showPopup(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
