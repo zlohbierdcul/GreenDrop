@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:greendrop/src/domain/models/order.dart';
 import 'package:greendrop/src/presentation/products/provider/cart_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -43,16 +44,9 @@ class OrderProductList extends StatelessWidget {
                           ),
                         ],
                       ))),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text("GeenDrop Rabatt"),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                          "${(orderProvider.discount.value/100).toString()}€")
-                    ],
+                  drawRecipe(orderProvider),
+
+                ],
                   ),
                   const Divider(),
                   Row(
@@ -63,11 +57,24 @@ class OrderProductList extends StatelessWidget {
                     ],
                   )
                 ],
-              )
-            ],
           ),
         ),
       ),
     );
+  }
+
+  Row drawRecipe(OrderProvider orderProvider) {
+    if(orderProvider.discount.value != 0) {
+      return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+          const Text("GreenDrop Rabatt"),
+          const SizedBox(
+          width: 10,
+          ),
+          Text(
+          "${(orderProvider.discount.value/100).toString()}€")]);
+    }
+    return Row();
   }
 }

@@ -8,13 +8,13 @@ class OrderConfirmationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppDrawer.buildGreendropsAppBar(context),
-      body: const Center(
+      body: Center(
         child: Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
+              const Padding(
                 padding: EdgeInsets.only(bottom: 8.0),
                 child: SizedBox(
                   width: double.infinity,
@@ -31,7 +31,7 @@ class OrderConfirmationPage extends StatelessWidget {
                   ),
                 ),
               ),
-              Padding(
+              const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: SizedBox(
                   width: double.infinity,
@@ -72,6 +72,14 @@ class OrderConfirmationPage extends StatelessWidget {
                   ),
                 ),
               ),
+              Padding(padding: const EdgeInsets.all(8.0),
+                child: Center(child: SizedBox(
+                  child: FilledButton(onPressed: () => Navigator.pushReplacementNamed(context, "/home"), child:
+                  const Text("Zurück zur Startseite")
+                  ),
+                ),
+                ),
+              )
             ],
           ),
         ),
