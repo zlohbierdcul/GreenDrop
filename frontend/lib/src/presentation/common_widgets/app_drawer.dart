@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
 
-  static PreferredSizeWidget buildGreendropsAppBar(BuildContext context) {
+  static PreferredSizeWidget buildGreendropsAppBar(BuildContext context, {bool automaticallyImplayLeading = true}) {
     return AppBar(
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -35,6 +35,7 @@ class AppDrawer extends StatelessWidget {
           ),
         ],
       ),
+      automaticallyImplyLeading: automaticallyImplayLeading,
     );
   }
 

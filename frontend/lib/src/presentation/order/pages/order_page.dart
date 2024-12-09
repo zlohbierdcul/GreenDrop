@@ -22,7 +22,8 @@ class OrderPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppDrawer.buildGreendropsAppBar(context),
-      body: Consumer2<AccountProvider, CartProvider>(
+      body: SingleChildScrollView(child:
+    Consumer2<AccountProvider, CartProvider>(
         builder: (context, accountProvider, cartProvider, child) =>
             Stack(alignment: Alignment.bottomCenter, children: [
           Padding(
@@ -37,7 +38,7 @@ class OrderPage extends StatelessWidget {
                 const SizedBox(height: 12),
                 OrderUserInfo(account: accountProvider.user),
                 const SizedBox(height: 12),
-                OrderPaymentSelection(),
+                const OrderPaymentSelection(),
                 const SizedBox(height: 12),
                 const OrderGreendropDiscount(),
                 const SizedBox(height: 12),
@@ -56,19 +57,21 @@ class OrderPage extends StatelessWidget {
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      const SizedBox(height: 10),
                       Text(
                         "Jetzt bestellen!",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),
                       SizedBox(
-                        width: 10,
+                        width: 15,
                       ),
                       Icon(Icons.receipt)
                     ],
                   )))
         ]),
       ),
+      )
     );
   }
 }

@@ -7,7 +7,7 @@ class OrderConfirmationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppDrawer.buildGreendropsAppBar(context),
+      appBar: AppDrawer.buildGreendropsAppBar(context, automaticallyImplayLeading: false),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

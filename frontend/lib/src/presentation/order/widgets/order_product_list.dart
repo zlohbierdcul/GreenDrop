@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:greendrop/src/domain/models/order.dart';
 import 'package:greendrop/src/presentation/products/provider/cart_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../../domain/models/product.dart';
 import '../provider/order_provider.dart';
 
 class OrderProductList extends StatelessWidget {
@@ -10,70 +12,106 @@ class OrderProductList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer2<CartProvider, OrderProvider>(
-      builder: (context, cartProvider, orderProvider, child) => Card(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                "Produkte:",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-              Column(
-                children: [
-                  ...cartProvider.cart.entries.map((entry) => (Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Text("${entry.value.toString()}x "),
-                              Text(entry.key.name),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Text("${entry.key.price.toString()}€"),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                  "${(entry.key.price * entry.value).toString()}€")
-                            ],
-                          ),
-                        ],
-                      ))),
-                  drawRecipe(orderProvider),
+      builder: (context, cartProvider, orderProvider, child) {
+        final totalCost = cartProvider.getTotalCosts();
+        final discount = orderProvider.discount.value / 100;
+        final finalAmount = totalCost - discount;
 
-                ],
-                  ),
-                  const Divider(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text("Gesamter Betrag"),
-                      Text("${(cartProvider.getTotalCosts()- orderProvider.discount.value/100).toString()}€")
-                    ],
-                  )
-                ],
+        return Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
           ),
-        ),
-      ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 10),
+                Table(
+                  columnWidths: const {
+                    0: FixedColumnWidth(80), // Fixed width of 50 pixels
+                    1: FlexColumnWidth(2),   // Proportional width with weight 2
+                    2: FlexColumnWidth(2),   // Proportional width with weight 1
+                    3: FixedColumnWidth(110),
+                  },
+
+                  defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                  children: [
+                    // Header Row
+                    _buildHeaderRow(),
+                    // Product Rows
+                    ...cartProvider.cart.entries.map((entry) => _buildProductRow(entry)),
+                    // Discount Row (if applicable)
+                    if (discount > 0) _buildDiscountRow(discount),
+                    // Total Row
+                    _buildTotalRow(finalAmount),
+                  ],
+                ),
+                const SizedBox(height: 50),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
-  Row drawRecipe(OrderProvider orderProvider) {
-    if(orderProvider.discount.value != 0) {
-      return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-          const Text("GreenDrop Rabatt"),
-          const SizedBox(
-          width: 10,
-          ),
-          Text(
-          "${(orderProvider.discount.value/100).toString()}€")]);
-    }
-    return Row();
+  TableRow _buildHeaderRow() {
+    return TableRow(
+      decoration: const BoxDecoration(color: Colors.grey),
+      children: [
+        _buildTableCell("Menge", isHeader: true),
+        _buildTableCell("Produkt", isHeader: true),
+        _buildTableCell("Einzelpreis", isHeader: true),
+        _buildTableCell("Gesamtpreis", isHeader: true),
+      ],
+    );
+  }
+
+  TableRow _buildProductRow(MapEntry<Product, int> entry) {
+    return TableRow(
+      children: [
+        _buildTableCell("${entry.value}", isHeader: false),
+        _buildTableCell(entry.key.name, isHeader: false),
+        _buildTableCell("${entry.key.price.toStringAsFixed(2)}€", isHeader: false, alignment: TextAlign.right),
+        _buildTableCell("${(entry.key.price * entry.value).toStringAsFixed(2)}€", isHeader: false, alignment: TextAlign.right),
+      ],
+    );
+  }
+
+  TableRow _buildDiscountRow(double discount) {
+    return TableRow(
+      children: [
+        _buildTableCell("Rabatt", isHeader: true),
+        _buildTableCell("", isHeader: false),
+        _buildTableCell("", isHeader: false),
+        _buildTableCell("-${discount.toStringAsFixed(2)}€", isHeader: false, alignment: TextAlign.right),
+      ],
+    );
+  }
+
+  TableRow _buildTotalRow(double finalAmount) {
+    return TableRow(
+      decoration: const BoxDecoration(border: Border(top: BorderSide(color: Colors.black, width: 1.0))),
+      children: [
+        _buildTableCell("Gesamt", isHeader: true),
+        const SizedBox.shrink(),
+        const SizedBox.shrink(),
+        _buildTableCell("${finalAmount.toStringAsFixed(2)}€", isHeader: true, alignment: TextAlign.right),
+      ],
+    );
+  }
+
+  static Widget _buildTableCell(String content, {bool isHeader = false, TextAlign alignment = TextAlign.left}) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        content,
+        style: TextStyle(
+          fontWeight: isHeader ? FontWeight.bold : FontWeight.normal,
+        ),
+        textAlign: alignment,
+      ),
+    );
   }
 }
