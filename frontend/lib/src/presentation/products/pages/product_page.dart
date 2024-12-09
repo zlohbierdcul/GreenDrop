@@ -15,6 +15,11 @@ class ShopPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<ProductProvider>(context, listen: false).clearProducts();
+      Provider.of<ProductProvider>(context, listen: false).loadShopProducts(shop);
+      Provider.of<CartProvider>(context, listen: false).resetCart();
+    });
     return Consumer<CartProvider>(
       builder: (context, cartProvider, child) => Scaffold(
           appBar: AppDrawer.buildGreendropsAppBar(context),
@@ -37,11 +42,7 @@ class ShopPage extends StatelessWidget {
                                   fontWeight: FontWeight.bold, fontSize: 18),
                             ),
                           ),
-                          Consumer<ProductProvider>(
-                            builder: (context, productProvider, child) =>
-                                ProductList(
-                                    productMap: productProvider.productMap),
-                          ),
+                          const ProductList(),
                           const SizedBox(
                             height: 80,
                           )

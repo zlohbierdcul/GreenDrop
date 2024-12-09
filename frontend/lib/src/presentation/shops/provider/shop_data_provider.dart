@@ -1,32 +1,39 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
+import 'package:greendrop/src/data/repositories/interfaces/shop_repository.dart';
+import 'package:greendrop/src/data/repositories/strapi/strapi_shop_repository.dart';
 import 'package:greendrop/src/domain/enums/sorting_model.dart';
 import 'package:greendrop/src/domain/models/shop.dart';
 
 class ShopDataProvider extends ChangeNotifier {
+  IShopRepository repository = StrapiShopRepository();
+
   ShopDataProvider() {
     _getInitialData();
   }
+
+  bool _isLoading = false;
 
   Map<String, Shop> _shopList = {};
   Map<String, Shop> _filteredShopList = {};
   Map<String, Shop> _originalShopList = {};
 
   Map<String, Shop> get shopList => _shopList;
+  bool get isLoading => _isLoading;
 
   Future<void> _getInitialData() async {
-    // Temporary implementation
-    String response =
-        await rootBundle.loadString("assets/data/mock-shops.json");
-    List<Future<Shop>> shops = Shop.parseShops(response);
+    _isLoading = true;
+    notifyListeners();
 
-    for (Future<Shop> shop in shops) {
-      Shop shopData = await shop;
+    List<Shop> shops = await repository.getAllShops();
+    for (Shop shop in shops) {
+      Shop shopData = shop;
       _shopList.putIfAbsent(shopData.id, () => shopData);
     }
 
     _originalShopList = _shopList;
     sortShopsBySingleCriterion(criterion: SortingModel.defaultState);
+
+    _isLoading = false;
     notifyListeners();
   }
 

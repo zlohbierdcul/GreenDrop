@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:greendrop/src/domain/models/order.dart';
 import 'package:greendrop/src/presentation/products/provider/cart_provider.dart';
 import 'package:provider/provider.dart';
 

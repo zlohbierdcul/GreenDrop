@@ -1,127 +1,99 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:greendrop/src/domain/models/shop.dart';
+import 'package:greendrop/src/presentation/map/provider/shop_map_provider.dart';
+import 'package:greendrop/src/presentation/map/widgets/shop_map_details.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:provider/provider.dart';
 
-class ShopMap extends StatefulWidget {
-  final Map<String, Shop> shopMap;
-
-  const ShopMap({super.key, required this.shopMap});
-
-  @override
-  State<ShopMap> createState() => _ShopMapState();
-}
-
-class _ShopMapState extends State<ShopMap> {
-  List<Marker> _markers = [];
-  double latitudePerson = 49.492654; // Standardposition
-  double longitudePerson = 8.471250;
-
-  @override
-  void initState() {
-    super.initState();
-    _getUserLocation();
-  }
-
-  @override
-  void didUpdateWidget(covariant ShopMap oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    // Check if shopMap has changed
-    if (oldWidget.shopMap != widget.shopMap) {
-      _initializeMap(); // Reinitialize the markers
-    }
-  }
-
-  Future<void> _getUserLocation() async {
-    // Prüfe Standortberechtigungen
-    LocationPermission permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        print('Standortberechtigungen abgelehnt.');
-        return;
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      print('Standortberechtigungen permanent abgelehnt.');
-      return;
-    }
-
-    // Hole die aktuelle Position
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-
-    setState(() {
-      latitudePerson = position.latitude;
-      longitudePerson = position.longitude;
-    });
-
-    // Initialisiere die Shops und Marker
-    await _initializeMap();
-  }
-
-  Future<void> _initializeMap() async {
-    List<Shop> shops = widget.shopMap.values.toList();
-    double radius = 10.0;
-    print(shops);
-
-    List<Marker> markers = [
-      // Nutzerposition hinzufügen
-      Marker(
-        point: LatLng(latitudePerson, longitudePerson),
-        width: 40.0,
-        height: 40.0,
-        child: const Icon(
-          Icons.person_pin,
-          size: 40.0,
-          color: Colors.red,
-        ),
-      ),
-    ];
-
-    for (var shop in shops) {
-      double distance = shop.calculateDistance(latitudePerson, longitudePerson);
-      if (distance <= radius) {
-        markers.add(
-          Marker(
-            point: LatLng(shop.latitude, shop.longitude),
-            width: 40.0,
-            height: 40.0,
-            child: const Icon(
-              Icons.location_on,
-              size: 40.0,
-              color: Colors.blue,
-            ),
-          ),
-        );
-      }
-    }
-    setState(() {
-      _markers = markers;
-    });
-  }
+class ShopMap extends StatelessWidget {
+  final List<Shop> shops;
+  const ShopMap({super.key, required this.shops});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: latitudePerson == 49.492654 && longitudePerson == 8.471250
-          ? const Center(child: CircularProgressIndicator())
-          : FlutterMap(
-              options: MapOptions(
-                initialCenter: LatLng(latitudePerson, longitudePerson),
-                initialZoom: 14,
-              ),
-              children: [
-                TileLayer(
-                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  userAgentPackageName: 'com.example.app',
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<ShopMapProvider>(context, listen: false)
+          .initializeMap(shops, context);
+    });
+    return Consumer<ShopMapProvider>(
+      builder: (context, shopMapProvider, child) => Scaffold(
+        body: shopMapProvider.shops.isEmpty
+            ? const Center(child: CircularProgressIndicator())
+            : FlutterMap(
+                mapController: shopMapProvider.mapController,
+                options: MapOptions(
+                  initialCenter: LatLng(shopMapProvider.latitudePerson,
+                      shopMapProvider.longitudePerson),
+                  initialZoom: 14,
+                  interactionOptions: const InteractionOptions(
+                      flags: InteractiveFlag.pinchZoom | InteractiveFlag.drag | InteractiveFlag.doubleTapZoom),
                 ),
-                MarkerLayer(markers: _markers),
-              ],
-            ),
+                children: [
+                  TileLayer(
+                    urlTemplate:
+                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    userAgentPackageName: 'com.example.app',
+                  ),
+                  MarkerLayer(
+                      markers: _createMarkerList(shopMapProvider, context)),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      alignment: Alignment.bottomRight,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              shape: const CircleBorder(),
+                              padding: const EdgeInsets.all(10),
+                              elevation: 5),
+                          onPressed: () => shopMapProvider.resetZoom(),
+                          child: const Icon(Icons.near_me)),
+                    ),
+                  ),
+                ],
+              ),
+      ),
     );
+  }
+
+  List<Marker> _createMarkerList(shopMapProvider, BuildContext context) {
+    return [
+      Marker(
+        point: LatLng(
+            shopMapProvider.latitudePerson, shopMapProvider.longitudePerson),
+        width: 30.0,
+        height: 30.0,
+        child: Container(
+            width: 30,
+            height: 30,
+            decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
+                borderRadius: BorderRadius.circular(20)),
+            child: Icon(Icons.location_pin,
+                color: Theme.of(context).colorScheme.onPrimary)),
+      ),
+      ...shops.map((Shop shop) {
+        final focused = shop == shopMapProvider.focusedShop;
+        return Marker(
+            point: LatLng(shop.latitude, shop.longitude),
+            width: focused ? 400 : 40,
+            height: focused ? 300 : 40,
+            child: GestureDetector(
+                onTap: () {
+                  shopMapProvider.handleShopTap(shop);
+                },
+                child: shopMapProvider.isZoomedIn
+                    ? ShopMapDetails(shop: shop)
+                    : Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.secondary,
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Icon(Icons.storefront_rounded,
+                            color:
+                                Theme.of(context).colorScheme.onSecondary))));
+      })
+    ];
   }
 }

@@ -1,24 +1,27 @@
 import 'dart:convert';
 
 import 'package:greendrop/src/domain/models/address.dart';
+import 'package:greendrop/src/domain/models/order_item.dart';
 import 'package:greendrop/src/domain/models/shop.dart';
 import 'package:greendrop/src/domain/models/user.dart';
 
 class Order {
-  final String id;
+  final String? id;
   final String status;
   final User user;
   final Shop shop;
   final Address address;
   final String paymentMethod;
+  final List<OrderItem>? orderItems;
 
   Order({
-    required this.id,
+    this.id,
     required this.status,
     required this.user,
     required this.shop,
     required this.address,
     required this.paymentMethod,
+    this.orderItems
   });
 
   // Factory constructor to create an Order object from a JSON entry
@@ -26,14 +29,27 @@ class Order {
     return Order(
       id: id,
       status: json['status'],
-      user: User.fromJson(json['user']['id'], json['user']),
-      // Adjusted for nested user parsing
-      shop: await Shop.fromJson(json['shop']['id'], json['shop']),
-      // Adjusted for nested shop parsing
-      address: Address.fromJson(json),
+      user: json['user']['id'],
+      shop: json['shop']['id'],
+      address: json['address']['id'],
       paymentMethod: json['paymentMethod'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final totalPrice = orderItems?.map((o) => o.totalAmount).toList().reduce((a, b) => a + b);
+
+  return {
+    'id': id,
+    'state': status,
+    'user': user.id,
+    'shop': shop.id,
+    'user_address': address.id,
+    'payment_method': paymentMethod,
+    'total_price': totalPrice,
+    'items': orderItems?.map((item) => item.toJson()).toList(),
+  };
+}
 
   // Static method to parse mock data and create a list of Orders
   static List<Future<Order>> parseOrders(String jsonData) {

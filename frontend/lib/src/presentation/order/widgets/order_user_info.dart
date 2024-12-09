@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:greendrop/src/domain/models/account.dart';
+import 'package:greendrop/src/presentation/order/provider/order_provider.dart';
+import 'package:provider/provider.dart';
 
 class OrderUserInfo extends StatelessWidget {
-  final Account? account;
-
-  const OrderUserInfo({super.key, required this.account});
+  const OrderUserInfo({super.key, required account});
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +19,17 @@ class OrderUserInfo extends StatelessWidget {
                   "Bestellddetails:",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("${account?.firstName} ${account?.lastName}"),
-                    Text("${account?.plz} ${account?.city}"),
-                    Text("${account?.street} ${account?.houseNumber}")
-                  ],
+                Consumer<OrderProvider>(
+                  builder: (context, orderProvider, child) => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("${orderProvider.user.firstName} ${orderProvider.user.lastName}"),
+                      if (orderProvider.user.addresses.isNotEmpty) ...[
+                        Text("${orderProvider.user.addresses[0].zipCode} ${orderProvider.user.addresses[0].city}"),
+                        Text("${orderProvider.user.addresses[0].street} ${orderProvider.user.addresses[0].streetNumber}")
+                      ]
+                    ],
+                  ),
                 )
               ],
             ),

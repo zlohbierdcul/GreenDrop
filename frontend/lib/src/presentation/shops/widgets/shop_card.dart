@@ -22,8 +22,6 @@ class ShopCard extends StatelessWidget {
         cursor: SystemMouseCursors.click,
         child: GestureDetector(
           onTap: () {
-            productProvider.setShopProducts(shop.products);
-            cartProvider.resetCart();
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => ShopPage(shop: shop)));
           },

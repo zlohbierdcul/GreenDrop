@@ -43,7 +43,7 @@ class ShopInfo extends StatelessWidget {
                     shop.rating.toStringAsFixed(1),
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(width: 16),
+                  const SizedBox(width: 16),
                   const Icon(
                     Icons.local_shipping,
                     color: Colors.grey,

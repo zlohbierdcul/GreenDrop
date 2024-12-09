@@ -19,6 +19,14 @@ dependencies:
   geocoding: ^2.0.5
   geolocator: ^13.0.2
   cupertino_icons: ^1.0.8
+  dio: ^5.7.0
+  flutter_dotenv: ^5.2.1
+  flutter_secure_storage: ^9.2.2
+  latlong2: ^0.9.1
+  logging: ^1.3.0
+  flutter_map_animations: ^0.8.0
+  collection: ^1.18.0
+  flutter_native_splash: ^2.4.3
 
 dev_dependencies:
   flutter_test:
@@ -27,10 +35,19 @@ dev_dependencies:
 
 flutter:
   assets:
+    - .env
     - assets/images/shop1.jpg
     - assets/images/logo.png
     - assets/images/logo_old.png
     - assets/data/mock-shops.json
     - assets/data/mock_account.json
+    - assets/images/paypal_logo.png
+    - assets/images/splash_bg.png
+    - assets/images/splash_bg_dark.png
+    - assets/images/splash_logo.png
+    - assets/images/splash_branding.png
+    - assets/images/splash_branding_dark.png
+    - assets/images/splash_branding_android.png
+    - assets/images/splash_branding_android_dark.png
 
   uses-material-design: true

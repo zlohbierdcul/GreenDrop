@@ -4,6 +4,8 @@ import 'package:greendrop/src/presentation/order/provider/order_provider.dart';
 import 'package:provider/provider.dart';
 
 class OrderPaymentSelection extends StatelessWidget {
+  const OrderPaymentSelection({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -19,7 +21,16 @@ class OrderPaymentSelection extends StatelessWidget {
                 return RadioListTile<PaymentMethods>(
                   value: paymentMethod,
                   groupValue: orderProvider.paymentMethod,
-                  title: Text(paymentMethod.label),
+                  title: Row(
+                    children: [
+                      paymentMethod.icon ?? const SizedBox(),
+                      paymentMethod.label != null ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text(paymentMethod.label!),
+                      ) : const SizedBox(),
+                      paymentMethod.image != null ? SizedBox(height: 20, child: Image.asset(paymentMethod.image!)) : const SizedBox(), 
+                    ],
+                  ),
                   onChanged: (_) =>
                       orderProvider.setPaymentMethod(paymentMethod),
                   selected: orderProvider.paymentMethod == paymentMethod,
