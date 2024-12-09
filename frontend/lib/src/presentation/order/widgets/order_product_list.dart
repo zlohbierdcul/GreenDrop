@@ -22,7 +22,7 @@ class OrderProductList extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -62,8 +62,8 @@ class OrderProductList extends StatelessWidget {
       children: [
         _buildTableCell("Menge", isHeader: true),
         _buildTableCell("Produkt", isHeader: true),
-        _buildTableCell("Einzelpreis", isHeader: true),
-        _buildTableCell("Gesamtpreis", isHeader: true),
+        _buildTableCell("Einzel-Preis", isHeader: true),
+        _buildTableCell("Gesamt-Preis", isHeader: true),
       ],
     );
   }
@@ -92,7 +92,7 @@ class OrderProductList extends StatelessWidget {
 
   TableRow _buildTotalRow(double finalAmount) {
     return TableRow(
-      decoration: const BoxDecoration(border: Border(top: BorderSide(color: Colors.black, width: 1.0))),
+      decoration: const BoxDecoration(border: Border(top: BorderSide(width: 1.0))),
       children: [
         _buildTableCell("Gesamt", isHeader: true),
         const SizedBox.shrink(),
