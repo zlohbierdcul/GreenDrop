@@ -23,14 +23,18 @@ import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 Future main() async {
+  // Preserve SplashScreen till map is partially loaded
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
+  // Setup logger
   Logger.root.level = Level.ALL; // defaults to Level.INFO
-  Logger.root.onRecord.listen((record) {
-  });
+  Logger.root.onRecord.listen((record) {});
 
+  // Load .env
   await dotenv.load();
 
   // check if user is already logged in
@@ -45,7 +49,7 @@ Future main() async {
     authRepo.fetchUser(userId);
   }
 
-
+  // Run App
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => LoginProvider()),
@@ -71,6 +75,7 @@ class GreenDropApp extends StatelessWidget {
     return ChangeNotifierProvider<AppTheme>(
       create: (_) => AppTheme(),
       builder: (context, _) => MaterialApp(
+        navigatorKey: navigatorKey,
         title: 'GreenDrop',
         theme: ThemeData.from(colorScheme: AppTheme.lightTheme),
         darkTheme: ThemeData.from(colorScheme: AppTheme.darkTheme),

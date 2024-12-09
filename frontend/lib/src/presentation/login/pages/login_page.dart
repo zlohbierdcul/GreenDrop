@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:greendrop/src/data/repositories/interfaces/authentication_repository.dart';
-import 'package:greendrop/src/data/repositories/strapi/strapi_authentication_repository.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:greendrop/src/presentation/login/provider/login_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +13,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FlutterNativeSplash.remove();
     return Consumer<LoginProvider>(
       builder: (context, loginProvider, child) => Scaffold(
         body: Form(
@@ -50,6 +50,7 @@ class LoginPage extends StatelessWidget {
                       ),
                       _gap(),
                       TextFormField(
+                        keyboardType: TextInputType.emailAddress,
                         controller: emailController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -111,38 +112,33 @@ class LoginPage extends StatelessWidget {
                         contentPadding: const EdgeInsets.all(0),
                       ),
                       _gap(),
-                      SizedBox(
-                        width: double.infinity,
-                        child: FilledButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12)),
-                          ),
-                          child: const Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: Text(
-                              'Anmelden',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
+                      Consumer<LoginProvider>(
+                        builder: (context, loginProvider, child) => SizedBox(
+                          width: double.infinity,
+                          child: FilledButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12)),
                             ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: loginProvider.isLoading
+                                  ? const Center(
+                                      child: CircularProgressIndicator(color: Colors.white,))
+                                  : const Text(
+                                      'Anmelden',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                            ),
+                            onPressed: () async {
+                              loginProvider.loginHandler(
+                                  _formKey,
+                                  emailController.text,
+                                  passwordController.text);
+                            },
                           ),
-                          onPressed: () async {
-                            if (_formKey.currentState?.validate() ?? false) {
-                              IAuthenticationRepository
-                                  authenticationRepository =
-                                  StrapiAuthenticationRepository();
-                              bool success =
-                                  await authenticationRepository.signIn(
-                                      emailController.text,
-                                      passwordController.text);
-                              if (success) {
-                                loginProvider.setIsLoggedIn();
-                                Navigator.pushReplacementNamed(
-                                    // ignore: use_build_context_synchronously
-                                    context, '/home');
-                              }
-                            }
-                          },
                         ),
                       ),
                       _gap(),
