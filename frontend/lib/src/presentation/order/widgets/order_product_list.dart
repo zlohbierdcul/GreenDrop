@@ -22,25 +22,24 @@ class OrderProductList extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 10),
                 Table(
                   columnWidths: const {
-                    0: FixedColumnWidth(80), // Fixed width of 50 pixels
-                    1: FlexColumnWidth(2),   // Proportional width with weight 2
-                    2: FlexColumnWidth(2),   // Proportional width with weight 1
-                    3: FixedColumnWidth(110),
+                    0: FixedColumnWidth(40), // Fixed width of 50 pixels
+                    1: FlexColumnWidth(3), // Proportional width with weight 2
+                    2: FlexColumnWidth(2), // Proportional width with weight 1
+                    3: FlexColumnWidth(2),
                   },
-
                   defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                   children: [
                     // Header Row
-                    _buildHeaderRow(),
+                    _buildHeaderRow(context),
                     // Product Rows
-                    ...cartProvider.cart.entries.map((entry) => _buildProductRow(entry)),
+                    ...cartProvider.cart.entries
+                        .map((entry) => _buildProductRow(entry)),
                     // Discount Row (if applicable)
                     if (discount > 0) _buildDiscountRow(discount),
                     // Total Row
@@ -56,11 +55,11 @@ class OrderProductList extends StatelessWidget {
     );
   }
 
-  TableRow _buildHeaderRow() {
+  TableRow _buildHeaderRow(BuildContext context) {
     return TableRow(
-      decoration: const BoxDecoration(color: Colors.grey),
+      decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.black))),
       children: [
-        _buildTableCell("Menge", isHeader: true),
+        const SizedBox.shrink(),
         _buildTableCell("Produkt", isHeader: true),
         _buildTableCell("Einzel-Preis", isHeader: true),
         _buildTableCell("Gesamt-Preis", isHeader: true),
@@ -73,8 +72,12 @@ class OrderProductList extends StatelessWidget {
       children: [
         _buildTableCell("${entry.value}", isHeader: false),
         _buildTableCell(entry.key.name, isHeader: false),
-        _buildTableCell("${entry.key.price.toStringAsFixed(2)}€", isHeader: false, alignment: TextAlign.right),
-        _buildTableCell("${(entry.key.price * entry.value).toStringAsFixed(2)}€", isHeader: false, alignment: TextAlign.right),
+        _buildTableCell("${entry.key.price.toStringAsFixed(2)}€",
+            isHeader: false, alignment: TextAlign.right),
+        _buildTableCell(
+            "${(entry.key.price * entry.value).toStringAsFixed(2)}€",
+            isHeader: false,
+            alignment: TextAlign.right),
       ],
     );
   }
@@ -85,24 +88,28 @@ class OrderProductList extends StatelessWidget {
         _buildTableCell("Rabatt", isHeader: true),
         _buildTableCell("", isHeader: false),
         _buildTableCell("", isHeader: false),
-        _buildTableCell("-${discount.toStringAsFixed(2)}€", isHeader: false, alignment: TextAlign.right),
+        _buildTableCell("-${discount.toStringAsFixed(2)}€",
+            isHeader: false, alignment: TextAlign.right),
       ],
     );
   }
 
   TableRow _buildTotalRow(double finalAmount) {
     return TableRow(
-      decoration: const BoxDecoration(border: Border(top: BorderSide(width: 1.0))),
+      decoration:
+          const BoxDecoration(border: Border(top: BorderSide(width: 1.0))),
       children: [
+        const SizedBox.shrink(),
         _buildTableCell("Gesamt", isHeader: true),
         const SizedBox.shrink(),
-        const SizedBox.shrink(),
-        _buildTableCell("${finalAmount.toStringAsFixed(2)}€", isHeader: true, alignment: TextAlign.right),
+        _buildTableCell("${finalAmount.toStringAsFixed(2)}€",
+            isHeader: true, alignment: TextAlign.right),
       ],
     );
   }
 
-  static Widget _buildTableCell(String content, {bool isHeader = false, TextAlign alignment = TextAlign.left}) {
+  static Widget _buildTableCell(String content,
+      {bool isHeader = false, TextAlign alignment = TextAlign.left}) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Text(
