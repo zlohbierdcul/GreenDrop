@@ -4,7 +4,7 @@ class Address {
   final String streetNumber;
   final String zipCode;
   final String city;
-  final bool isPrimary;
+  final bool? isPrimary;
 
   Address(
       {required this.id,
@@ -12,7 +12,7 @@ class Address {
       required this.streetNumber,
       required this.zipCode,
       required this.city,
-      required this.isPrimary});
+      this.isPrimary});
 
   // Factory constructor to create an Address object from a JSON entry
   factory Address.fromJson(Map<String, dynamic> json) {
@@ -21,8 +21,8 @@ class Address {
       street: json['street'],
       streetNumber: json['street_no'],
       zipCode: json['zip_code'],
-      city: "Mannheim", // TODO: ! Backend needs to change Shop Entity
-      isPrimary: false,
+      city: json['city'] ?? "Mannheim", // TODO: change when all shops have city in database 
+      isPrimary: json['is_primary'],
     );
   }
 

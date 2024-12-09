@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:greendrop/main.dart';
 import 'package:greendrop/src/data/repositories/interfaces/authentication_repository.dart';
 import 'package:greendrop/src/data/repositories/strapi/strapi_authentication_repository.dart';
 import 'package:greendrop/src/domain/models/user.dart';
@@ -46,5 +48,24 @@ class AccountProvider with ChangeNotifier {
     _isEditing = false;
     loadAccountData(); // Lädt die ursprünglichen Daten erneut
     notifyListeners();
+  }
+
+  void handleDetailEdit(GlobalKey<FormState> formKey, String userName,
+      String firstName, String lastName, String email) {
+    if (formKey.currentState?.validate() ?? false) {
+      User editedUser = User(
+          id: _user.id,
+          userName: userName,
+          firstName: firstName,
+          lastName: lastName,
+          birthdate: _user.birthdate,
+          greenDrops: _user.greenDrops,
+          eMail: email,
+          addresses: _user.addresses);
+      authRepository.updateUser(editedUser);
+      _user = editedUser;
+      notifyListeners();
+      Navigator.of(navigatorKey.currentContext!).pop();
+    }
   }
 }

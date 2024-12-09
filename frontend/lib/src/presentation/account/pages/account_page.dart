@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:greendrop/src/domain/models/address.dart';
 import 'package:greendrop/src/domain/models/user.dart';
 import 'package:greendrop/src/presentation/account/widgets/color_scheme_dropdown.dart';
+import 'package:greendrop/src/presentation/account/widgets/user_address_list.dart';
+import 'package:greendrop/src/presentation/account/widgets/user_details.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../common_widgets/app_drawer.dart';
@@ -101,6 +103,36 @@ class AccountPage extends StatelessWidget {
       provider.loadAccountData();
       _initializeControllers(provider);
     });
+    return Scaffold(
+      appBar: AppDrawer.buildGreendropsAppBar(context),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(bottom: 8.0),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 60,
+                  child: Card(
+                    child: Center(
+                      child: Text(
+                        "Account",
+                        style: TextStyle(fontSize: 24),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const UserDetails(),
+              UserAddressList()
+            ],
+          ),
+        ),
+      ),
+    );
     return Scaffold(
         appBar: AppDrawer.buildGreendropsAppBar(context),
         body: Consumer<AccountProvider>(
