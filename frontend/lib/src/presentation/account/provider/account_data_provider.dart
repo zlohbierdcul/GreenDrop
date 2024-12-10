@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:greendrop/main.dart';
 import 'package:greendrop/src/data/repositories/interfaces/authentication_repository.dart';
 import 'package:greendrop/src/data/repositories/strapi/strapi_authentication_repository.dart';
+import 'package:greendrop/src/domain/models/address.dart';
 import 'package:greendrop/src/domain/models/user.dart';
 
 class AccountProvider with ChangeNotifier {
@@ -10,10 +11,12 @@ class AccountProvider with ChangeNotifier {
   User _user = User.genericUser;
   bool _isEditing = false;
   bool _isLoading = false;
+  bool _isPrimary = false;
 
   User get user => _user;
   bool get isEditing => _isEditing;
   bool get isLoading => _isLoading;
+  bool get isPrimary => _isPrimary;
 
   void loadAccountData() {
     _isLoading = true;
@@ -38,6 +41,16 @@ class AccountProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void togglePrimary() {
+    _isPrimary = !_isPrimary;
+    notifyListeners();
+  }
+
+  void setPrimary(bool v) {
+    _isPrimary = v;
+    notifyListeners();
+  }
+
   void signOut() async {
     // sign out user in repository;
     authRepository.signOut();
@@ -46,8 +59,17 @@ class AccountProvider with ChangeNotifier {
   // Methode zum Abbrechen und Zurücksetzen
   void cancelEditing(BuildContext context) {
     _isEditing = false;
-    loadAccountData(); // Lädt die ursprünglichen Daten erneut
+    loadAccountData();
     notifyListeners();
+  }
+
+  void deleteAddress(Address address) {
+    authRepository.deleteAddress(address);
+
+    loadAccountData();
+    notifyListeners();
+
+    Navigator.of(navigatorKey.currentContext!).pop();
   }
 
   void handleDetailEdit(GlobalKey<FormState> formKey, String userName,
@@ -67,5 +89,48 @@ class AccountProvider with ChangeNotifier {
       notifyListeners();
       Navigator.of(navigatorKey.currentContext!).pop();
     }
+  }
+
+  void handleAddressEdit(
+      GlobalKey<FormState> formkey,
+      String street,
+      String streetNumber,
+      String zipCode,
+      String city,
+      bool isPrimary,
+      Address address) {
+    if (formkey.currentState?.validate() ?? false) {
+      Address editedAddress = Address(
+          id: address.id,
+          street: street,
+          streetNumber: streetNumber,
+          zipCode: zipCode,
+          city: city,
+          isPrimary: isPrimary);
+
+      if (address.isPrimary != isPrimary) {
+        changePrimaryAddress();
+      }
+
+      authRepository.updateUserAddress(editedAddress);
+      _user.changeAddress(editedAddress);
+      notifyListeners();
+      Navigator.of(navigatorKey.currentContext!).pop();
+    }
+  }
+
+  void changePrimaryAddress() {
+    Address address = _user.addresses.firstWhere((a) => a.isPrimary == true);
+    Address editedAddress = Address(
+        id: address.id,
+        street: address.street,
+        streetNumber: address.streetNumber,
+        zipCode: address.zipCode,
+        city: address.city,
+        isPrimary: false);
+
+    authRepository.updateUserAddress(editedAddress);
+    _user.changeAddress(editedAddress);
+    notifyListeners();
   }
 }

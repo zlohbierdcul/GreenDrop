@@ -11,95 +11,142 @@ class UserAddress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        child: Stack(
-          alignment: Alignment.topRight,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const Text(
-                        "Straße: ",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        address.street,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      const Text(
-                        "Hausnummer: ",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        address.streetNumber,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      const Text(
-                        "Postleitzahl: ",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        address.zipCode,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      const Text(
-                        "Stadt: ",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        address.city,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+      child: Stack(
+        alignment: Alignment.topRight,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const Text(
+                      "Straße: ",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      address.street,
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    const Text(
+                      "Hausnummer: ",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      address.streetNumber,
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    const Text(
+                      "Postleitzahl: ",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      address.zipCode,
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    const Text(
+                      "Stadt: ",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      address.city,
+                    ),
+                  ],
+                ),
+              ],
             ),
-            IconButton(
-                onPressed: () => _showPopup(context),
-                icon: const Icon(Icons.edit))
-          ],
-        ),
-      );
+          ),
+          Align(
+            alignment: Alignment.topRight,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                    onPressed: () => _showDeletePopup(context, address),
+                    icon: Icon(
+                      Icons.delete,
+                      color: Theme.of(context).colorScheme.error,
+                    )),
+                IconButton(
+                    onPressed: () => _showEditPopup(context, address),
+                    icon: const Icon(Icons.edit)),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
   }
 
-  static void _showPopup(BuildContext context) {
+  static void _showDeletePopup(BuildContext context, Address address) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Consumer<AccountProvider>(
+              builder: (context, accountProvider, child) => AlertDialog(
+                    title: const Text("Addresse löschen?"),
+                    content: const Text("Sind Sie sich sicher?"),
+                    actions: [
+                      TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text("Abbrechen")),
+                      FilledButton(
+                          onPressed: () =>
+                              accountProvider.deleteAddress(address),
+                          child: const Text("Löschen")),
+                    ],
+                  ));
+        });
+  }
+
+  static void _showEditPopup(BuildContext context, Address address) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return Consumer<AccountProvider>(
             builder: (context, accountProvider, child) {
-          TextEditingController userNameController =
-              TextEditingController(text: accountProvider.user.userName);
-          TextEditingController firstNameController =
-              TextEditingController(text: accountProvider.user.firstName);
-          TextEditingController lastNameController =
-              TextEditingController(text: accountProvider.user.lastName);
-          TextEditingController emailController =
-              TextEditingController(text: accountProvider.user.eMail);
+          TextEditingController streetController =
+              TextEditingController(text: address.street);
+          TextEditingController streetNumberController =
+              TextEditingController(text: address.streetNumber);
+          TextEditingController zipController =
+              TextEditingController(text: address.zipCode);
+          TextEditingController cityController =
+              TextEditingController(text: address.city);
           return AlertDialog(
             title: const Text('Persönliche Daten bearbeiten'),
             content: Form(
               key: formKey,
               child: Column(mainAxisSize: MainAxisSize.min, children: [
+                address.isPrimary ?? false
+                    ? const Row()
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text("Hauptadresse?"),
+                          Switch(
+                              value: accountProvider.isPrimary,
+                              onChanged: (_) => accountProvider.togglePrimary())
+                        ],
+                      ),
+                const SizedBox(height: 16),
                 TextFormField(
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      label: Text("Bentzername"),
+                      label: Text("Straße"),
                     ),
-                    controller: userNameController,
+                    controller: streetController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Textfeld ist leer!';
@@ -110,9 +157,9 @@ class UserAddress extends StatelessWidget {
                 TextFormField(
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      label: Text("Vorname"),
+                      label: Text("Hausnummer"),
                     ),
-                    controller: firstNameController,
+                    controller: streetNumberController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Textfeld ist leer!';
@@ -123,9 +170,9 @@ class UserAddress extends StatelessWidget {
                 TextFormField(
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      label: Text("Nachname"),
+                      label: Text("Postleitzahl"),
                     ),
-                    controller: lastNameController,
+                    controller: zipController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Textfeld ist leer!';
@@ -136,9 +183,9 @@ class UserAddress extends StatelessWidget {
                 TextFormField(
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      label: Text("Email"),
+                      label: Text("Stadt"),
                     ),
-                    controller: emailController,
+                    controller: cityController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Textfeld ist leer!';
@@ -158,12 +205,14 @@ class UserAddress extends StatelessWidget {
                     },
                   ),
                   FilledButton(
-                      onPressed: () => accountProvider.handleDetailEdit(
+                      onPressed: () => accountProvider.handleAddressEdit(
                           formKey,
-                          userNameController.text,
-                          firstNameController.text,
-                          lastNameController.text,
-                          emailController.text),
+                          streetController.text,
+                          streetNumberController.text,
+                          zipController.text,
+                          cityController.text,
+                          accountProvider.isPrimary,
+                          address),
                       child: const Text("Speichern")),
                 ],
               )

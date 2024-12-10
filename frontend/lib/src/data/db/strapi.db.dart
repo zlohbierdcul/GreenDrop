@@ -1,5 +1,6 @@
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:greendrop/src/domain/models/address.dart';
 import 'package:greendrop/src/domain/models/user.dart';
 
 class StrapiAPI {
@@ -27,6 +28,14 @@ class StrapiAPI {
 
   String updateUser(User user) {
     return "$baseUrl/api/users/${user.id}";
+  }
+
+  String updateAddress(Address address) {
+    return "$baseUrl/api/addresses/${address.id}";
+  }
+
+  String deleteAddress(Address address) {
+    return "$baseUrl/api/addresses/${address.id}";
   }
 
   String createOrder() {

@@ -5,6 +5,8 @@ import 'package:greendrop/src/presentation/account/widgets/user_address.dart';
 import 'package:provider/provider.dart';
 
 class UserAddressList extends StatelessWidget {
+  const UserAddressList({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +36,9 @@ class UserAddressList extends StatelessWidget {
   List<Widget> createAddresses(List<Address> addresses) {
     List<Address> nonPrimaryAddresses = addresses.where((a) => !a.isPrimary!).toList();
     if (nonPrimaryAddresses.isEmpty) {
-      return [Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: const Row(
+      return [const Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text("Keine weiteren Addressen hinterlegt.")
