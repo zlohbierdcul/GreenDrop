@@ -56,8 +56,10 @@ class ShopPage extends StatelessWidget {
                   padding: const EdgeInsets.all(16.0),
                   child: FilledButton(
                       onPressed: () => {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => OrderPage(shop: shop)))
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => OrderPage(shop: shop)))
                           },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
