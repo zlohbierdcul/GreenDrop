@@ -31,6 +31,7 @@ class ShopMapProvider extends ChangeNotifier {
   List<Shop> get shops => _shops;
   bool get isZoomedIn => _isZoomedIn;
   Shop? get focusedShop => _focusedShop;
+  bool isLoading = true;
 
   void setIsZoomedIn(bool v) {
     _isZoomedIn = v;
@@ -114,7 +115,9 @@ class ShopMapProvider extends ChangeNotifier {
   Future<void> _createShopMarker(List<Shop> shops, BuildContext context) async {
     log.info("Creating shop markers.");
     List<Marker> shopMarker = [];
-
+    if(shops.isEmpty) {
+      isLoading = false;
+    }
     for (var shop in shops) {
       final radius = shop.radius;
 
