@@ -46,7 +46,6 @@ class OrderProductList extends StatelessWidget {
                     _buildTotalRow(finalAmount),
                   ],
                 ),
-                const SizedBox(height: 50),
               ],
             ),
           ),

@@ -17,7 +17,8 @@ class ShopPage extends StatelessWidget {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<ProductProvider>(context, listen: false).clearProducts();
-      Provider.of<ProductProvider>(context, listen: false).loadShopProducts(shop);
+      Provider.of<ProductProvider>(context, listen: false)
+          .loadShopProducts(shop);
       Provider.of<CartProvider>(context, listen: false).resetCart();
     });
     return Consumer<CartProvider>(
@@ -59,41 +60,46 @@ class ShopPage extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => OrderPage(shop: shop)))
+                                    builder: (context) =>
+                                        OrderPage(shop: shop)))
                           },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.shopping_cart),
-                          const SizedBox(width: 20),
-                          const Text(
-                            "Zum Warenkorb",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 18),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              width: 30,
-                              height: 30,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimary,
-                                  borderRadius: BorderRadius.circular(15)),
-                              child: Text(
-                                cartProvider.getProductCount().toString(),
+                      child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(Icons.shopping_cart),
+                              const SizedBox(width: 20),
+                              const Text(
+                                "Zum Warenkorb",
                                 style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.primary),
+                                    fontWeight: FontWeight.bold, fontSize: 18),
                               ),
-                            ),
-                          )
-                        ],
-                      )))
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  width: 30,
+                                  height: 30,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimary,
+                                      borderRadius: BorderRadius.circular(15)),
+                                  child: Text(
+                                    cartProvider.getProductCount().toString(),
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ))))
             ]
           ])),
     );
