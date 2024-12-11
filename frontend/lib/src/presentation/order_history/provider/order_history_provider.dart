@@ -36,6 +36,7 @@ class OrderProvider with ChangeNotifier {
       log.info("Bestellungen geladen: ${_orders.length}");  
     } catch (error) {
       _errorMessage = 'Fehler: $error';
+      log.severe("Failed loading user orders: $_errorMessage");
     } finally {
       _isLoading = false;
       notifyListeners(); // UI aktualisieren
