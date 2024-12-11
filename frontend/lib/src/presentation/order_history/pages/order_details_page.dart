@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:greendrop/src/presentation/common_widgets/app_drawer.dart';
 import 'package:greendrop/src/presentation/order_history/pages/order_history_page.dart';
 import 'package:provider/provider.dart';
-import 'package:greendrop/src/presentation/order_history/provider/order_provider.dart';
+import 'package:greendrop/src/presentation/order_history/provider/order_history_provider.dart';
 
 class OrderDetailsPage extends StatelessWidget {
   final Order order;
