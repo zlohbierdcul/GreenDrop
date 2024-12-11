@@ -105,7 +105,7 @@ class OrdersList extends StatelessWidget {
                             child: Row(
                               children: [
                                 Image.asset(
-                                  order.shopImage,
+                                  'assets/images/default_shop.jpg',
                                   width: 50,
                                   height: 50,
                                   fit: BoxFit.cover,
@@ -117,24 +117,24 @@ class OrdersList extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        order.shopName,
+                                        order.shop.name,
                                         style: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      Text(order.date,
-                                          style: const TextStyle(
-                                              color: Colors.grey)),
+                                      // Text(order.date,
+                                      //     style: const TextStyle(
+                                      //         color: Colors.grey)),
                                     ],
                                   ),
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    Text("${order.itemCount} items"),
+                                    Text("${order.orderItems?.length ?? 0} items"),
                                     Text(
-                                      "€${order.totalAmount.toStringAsFixed(2)}",
+                                      "€${order.orderItems?.map((item) => item.price).reduce((a, b) => a + b).toStringAsFixed(2)}",
                                       style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
@@ -157,61 +157,6 @@ class OrdersList extends StatelessWidget {
   }
 }
 
-class Order {
-  final String shopImage;
-  final String shopName;
-  final String orderReference;
-  final String date;
-  final int itemCount;
-  final double totalAmount;
-  final List<OrderItem> items; // Liste von Artikelobjekten
 
-  Order({
-    required this.shopImage,
-    required this.shopName,
-    required this.orderReference,
-    required this.date,
-    required this.itemCount,
-    required this.totalAmount,
-    required this.items,
-  });
+  
 
-  factory Order.fromJson(Map<String, dynamic> json) {
-    return Order(
-      shopImage: json['products'][0]['imageUrl'],
-      shopName: json['name'],
-      orderReference: json['id'],
-      date: json['date'],
-      itemCount: json['products'].length,
-      totalAmount: json['products']
-          .map<double>((product) => product['price'])
-          .reduce((a, b) => a + b),
-      items: (json['items'] as List<dynamic>)
-          .map((itemData) => OrderItem.fromJson(itemData))
-          .toList(),
-    );
-  }
-}
-
-class OrderItem {
-  final String name;
-  final double price;
-  final String imageUrl;
-  final String category;
-
-  OrderItem({
-    required this.name,
-    required this.price,
-    required this.imageUrl,
-    required this.category,
-  });
-
-  factory OrderItem.fromJson(Map<String, dynamic> json) {
-    return OrderItem(
-      name: json['name'],
-      price: json['price'].toDouble(),
-      imageUrl: json['imageUrl'],
-      category: json['category'],
-    );
-  }
-}

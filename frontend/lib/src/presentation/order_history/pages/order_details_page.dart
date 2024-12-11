@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:greendrop/src/presentation/common_widgets/app_drawer.dart';
-import 'package:greendrop/src/presentation/order_history/pages/order_history_page.dart';
 import 'package:provider/provider.dart';
 import 'package:greendrop/src/presentation/order_history/provider/order_history_provider.dart';
+import 'package:greendrop/src/domain/models/order.dart';
 
 class OrderDetailsPage extends StatelessWidget {
   final Order order;
@@ -38,7 +38,7 @@ class OrderDetailsPage extends StatelessWidget {
                         child: Card(
                           child: Center(
                             child: Text(
-                              "Bestellung ${order.orderReference}",
+                              "Bestellung ${order.id}",
                               style: const TextStyle(
                                 fontSize: 24,
                               ),
@@ -58,7 +58,7 @@ class OrderDetailsPage extends StatelessWidget {
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(16.0),
                                   child: Image.asset(
-                                    order.shopImage,
+                                    'assets/images/default_shop.jpg',
                                     width: double.infinity,
                                     height: 200,
                                     fit: BoxFit.cover,
@@ -66,7 +66,7 @@ class OrderDetailsPage extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 10),
                                 Text(
-                                  order.shopName,
+                                  order.shop.name,
                                   style: const TextStyle(
                                     fontSize: 24,
                                     fontWeight: FontWeight.bold,
@@ -74,15 +74,15 @@ class OrderDetailsPage extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 10),
                                 Text(
-                                  "Bestellnummer: ${order.orderReference}",
+                                  "Bestellnummer: ${order.id}",
                                   style: const TextStyle(
                                       fontSize: 16, color: Colors.grey),
                                 ),
-                                Text(
-                                  "Bestelldatum: ${order.date}",
-                                  style: const TextStyle(
-                                      fontSize: 16, color: Colors.grey),
-                                ),
+                                // Text(
+                                //   "Bestelldatum: ${order.date}",
+                                //   style: const TextStyle(
+                                //       fontSize: 16, color: Colors.grey),
+                                // ),
                                 const SizedBox(height: 20),
                                 const Text(
                                   "Sie haben folgende Artikel bestellt:",
@@ -95,9 +95,9 @@ class OrderDetailsPage extends StatelessWidget {
                                 ListView.builder(
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: order.items.length,
+                                  itemCount: order.orderItems?.length,
                                   itemBuilder: (context, index) {
-                                    final item = order.items[index];
+                                    final item = order.orderItems![index];
                                     return Padding(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 4.0),
@@ -129,7 +129,7 @@ class OrderDetailsPage extends StatelessWidget {
                                           Container(), // Leerer Container für Platzierung
                                     ),
                                     Text(
-                                      "Bezahlter Gesamtbetrag: €${order.totalAmount.toStringAsFixed(2)}",
+                                      "Bezahlter Gesamtbetrag: €${order.orderItems!.map((item) => item.price).reduce((a, b) => a + b).toStringAsFixed(2)}",
                                       style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,

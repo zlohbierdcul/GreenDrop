@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:greendrop/src/data/db/strapi.db.dart';
-import 'package:greendrop/src/presentation/order_history/pages/order_history_page.dart';
-import 'package:dio/dio.dart';
-
+import 'package:flutter/widgets.dart';
+import 'package:greendrop/src/data/repositories/interfaces/authentication_repository.dart';
+import 'package:greendrop/src/data/repositories/interfaces/order_repository.dart';
+import 'package:greendrop/src/data/repositories/strapi/strapi_authentication_repository.dart';
+import 'package:greendrop/src/data/repositories/strapi/strapi_order_repository.dart';
+import 'package:greendrop/src/domain/models/user.dart';
+import 'package:logging/logging.dart';
+import 'package:greendrop/src/domain/models/order.dart';
 
 class OrderProvider with ChangeNotifier {
-  StrapiAPI api = StrapiAPI();
-  final Dio _dio = Dio();
+  Logger log = Logger("OrderHistoryProvider");
+
+  IAuthenticationRepository authRepository = StrapiAuthenticationRepository();
+  IOrderRepository orderRepository = StrapiOrderRepository();
+
   List<Order> _orders = [];
   bool _isLoading = true;
   String? _errorMessage;
@@ -16,34 +22,18 @@ class OrderProvider with ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
 
-  OrderProvider() {
-    loadOrders();
-  }
+  final User _user =
+      StrapiAuthenticationRepository().getUser() ?? User.genericUser;
+
 
   Future<void> loadOrders() async {
     try {
       _isLoading = true;
       notifyListeners(); // UI aktualisieren
-
-      final String url = "${dotenv.env['API_BASE_URL']}/api/orders";
-      final headers = {
-        'Authorization': 'Bearer ${dotenv.env['API_TOKEN']}',
-        'Content-Type': 'application/json',
-      };
-
-
-       final response = await _dio.get(url, options: Options(headers: headers));
-
-      if (response.statusCode == 200) {
-        final data = response.data['data'] as List<dynamic>;
-      // JSON-Daten in Order-Objekte umwandeln
-      _orders = data.map((orderData) {
-        return Order.fromJson(orderData['attributes']); // Annahme: "attributes" enthält die relevanten Daten
-      }).toList();
+      log.fine("Lade Bestellungen für Benutzer: ${_user.id}");
+      _orders = await orderRepository.getUserOrders(_user);
       _errorMessage = null;
-      } else {
-        throw Exception("Fehler beim Laden der Bestelldaten: ${response.statusCode}");
-      }
+      log.info("Bestellungen geladen: ${_orders.length}");  
     } catch (error) {
       _errorMessage = 'Fehler: $error';
     } finally {
