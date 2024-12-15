@@ -4,6 +4,7 @@ import 'package:greendrop/src/presentation/account/widgets/user_address_list.dar
 import 'package:greendrop/src/presentation/account/widgets/user_details.dart';
 import 'package:greendrop/src/presentation/account/widgets/user_logout.dart';
 import 'package:greendrop/src/presentation/account/widgets/user_settings.dart';
+import 'package:greendrop/src/presentation/common_widgets/center_constrained_body.dart';
 import 'package:provider/provider.dart';
 import '../../common_widgets/app_drawer.dart';
 import '../provider/account_data_provider.dart';
@@ -81,31 +82,39 @@ class AccountPage extends StatelessWidget {
     });
     return Scaffold(
       appBar: AppDrawer.buildGreendropsAppBar(context),
-      body: const SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
+      body: const CenterConstrainedBody(
+        body: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Padding(
-                padding: EdgeInsets.only(bottom: 8.0),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 60,
-                  child: Card(
-                    child: Center(
-                      child: Text(
-                        "Account",
-                        style: TextStyle(fontSize: 24),
+              SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 8.0),
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: 60,
+                          child: Card(
+                            child: Center(
+                              child: Text(
+                                "Account",
+                                style: TextStyle(fontSize: 24),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                      UserSettings(),
+                      UserDetails(),
+                      UserAddressList(),
+                      UserLogout()
+                    ],
                   ),
                 ),
               ),
-              UserSettings(),
-              UserDetails(),
-              UserAddressList(),
-              UserLogout()
             ],
           ),
         ),

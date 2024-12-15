@@ -14,16 +14,19 @@ class UserLogout extends StatelessWidget {
                   onPressed: () => [],
                   style: TextButton.styleFrom(
                       foregroundColor: Theme.of(context).colorScheme.error),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Ausloggen"),
-                      SizedBox(width: 8),
-                      Icon(Icons.logout, size: 18)
-                    ],
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Ausloggen"),
+                        SizedBox(width: 8),
+                        Icon(Icons.logout, size: 18)
+                      ],
+                    ),
                   )),
             ));
   }
 
-  
+
 }

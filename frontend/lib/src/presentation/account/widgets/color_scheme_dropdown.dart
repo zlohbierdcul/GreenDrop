@@ -10,9 +10,9 @@ class ColorSchemeDropdown extends StatelessWidget {
   List<DropdownMenuItem<String>> get dropdownMenuItems {
     return [
       const DropdownMenuItem<String>(
-          key: Key("theme_1"), value: "dark", child: Text("Dark")),
+          key: Key("theme_1"), value: "dark", child: Text("Dunkel")),
       const DropdownMenuItem<String>(
-          key: Key("theme_2"), value: "light", child: Text("Light")),
+          key: Key("theme_2"), value: "light", child: Text("Hell")),
       const DropdownMenuItem<String>(
           key: Key("theme_3"), value: "system", child: Text("System")),
     ];
