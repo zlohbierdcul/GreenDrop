@@ -18,7 +18,7 @@ class ShopMap extends StatelessWidget {
     });
     return Consumer<ShopMapProvider>(
       builder: (context, shopMapProvider, child) => Scaffold(
-        body: shopMapProvider.shops.isEmpty
+        body: shopMapProvider.isLoading
             ? const Center(child: CircularProgressIndicator())
             : FlutterMap(
                 mapController: shopMapProvider.mapController,

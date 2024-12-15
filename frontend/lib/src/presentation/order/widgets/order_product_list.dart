@@ -45,7 +45,6 @@ class OrderProductList extends StatelessWidget {
                     _buildTotalRow(finalAmount),
                   ],
                 ),
-                const SizedBox(height: 50),
               ],
             ),
           ),
@@ -84,8 +83,8 @@ class OrderProductList extends StatelessWidget {
   TableRow _buildDiscountRow(double discount) {
     return TableRow(
       children: [
-        _buildTableCell("Rabatt", isHeader: true),
         _buildTableCell("", isHeader: false),
+        _buildTableCell("Rabatt", isHeader: true),
         _buildTableCell("", isHeader: false),
         _buildTableCell("-${discount.toStringAsFixed(2)}€",
             isHeader: false, alignment: TextAlign.right),
