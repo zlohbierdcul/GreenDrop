@@ -70,7 +70,7 @@ class StrapiAuthenticationRepository extends IAuthenticationRepository {
   @override
   void updateUserAddress(Address address) {
     _user?.changeAddress(address);
-    dio.put(api.updateAddress(address), data: address.toJson());
+    dio.put(api.updateAddress(address), data: {"data": address.toJson()});
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -99,7 +100,7 @@ class ShopMapProvider extends ChangeNotifier {
 
     notifyListeners();
     log.info("Finished creating user marker");
-    FlutterNativeSplash.remove();
+    if (!kIsWeb) FlutterNativeSplash.remove();
   }
 
   double _calculateDistance(

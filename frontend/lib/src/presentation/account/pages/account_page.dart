@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:greendrop/src/domain/models/address.dart';
 import 'package:greendrop/src/domain/models/user.dart';
 import 'package:greendrop/src/presentation/account/widgets/user_address_list.dart';
 import 'package:greendrop/src/presentation/account/widgets/user_details.dart';
+import 'package:greendrop/src/presentation/account/widgets/user_logout.dart';
 import 'package:greendrop/src/presentation/account/widgets/user_settings.dart';
 import 'package:provider/provider.dart';
 import '../../common_widgets/app_drawer.dart';
@@ -24,8 +24,6 @@ class AccountPage extends StatelessWidget {
       TextEditingController();
   static final TextEditingController _plzController = TextEditingController();
   static final TextEditingController _cityController = TextEditingController();
-  static final TextEditingController _numberController =
-      TextEditingController();
 
   void _initializeControllers(AccountProvider accountProvider) {
     User user = accountProvider.user;
@@ -41,27 +39,6 @@ class AccountPage extends StatelessWidget {
         user.addresses.isNotEmpty ? user.addresses[0].zipCode : "-";
     _cityController.text =
         user.addresses.isNotEmpty ? user.addresses[0].city : "-";
-  }
-
-  User _createAccountFromControllers(String id) {
-    return User(
-      id: id,
-      userName: _userNameController.text,
-      firstName: _firstNameController.text,
-      eMail: _emailController.text,
-      lastName: _lastNameController.text,
-      greenDrops: 0,
-      birthdate: "12-12-2024",
-      addresses: [
-        Address(
-            id: "0",
-            street: _streetController.text,
-            streetNumber: _houseNumberController.text,
-            zipCode: _cityController.text,
-            city: _numberController.text,
-            isPrimary: true)
-      ],
-    );
   }
 
   void _showChangePasswordDialog(BuildContext context) {
@@ -127,7 +104,8 @@ class AccountPage extends StatelessWidget {
               ),
               UserSettings(),
               UserDetails(),
-              UserAddressList()
+              UserAddressList(),
+              UserLogout()
             ],
           ),
         ),

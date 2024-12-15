@@ -12,17 +12,22 @@ class AccountProvider with ChangeNotifier {
   bool _isEditing = false;
   bool _isLoading = false;
   bool _isPrimary = false;
+  Address? _selectedAddress;
 
   User get user => _user;
   bool get isEditing => _isEditing;
   bool get isLoading => _isLoading;
   bool get isPrimary => _isPrimary;
+  Address? get selectedAddress => _selectedAddress;
 
   void loadAccountData() {
     _isLoading = true;
     notifyListeners();
 
     _user = authRepository.getUser()!;
+    _selectedAddress = _user.addresses.firstWhere((a) => a.isPrimary == true,
+        orElse: () => _user.addresses[0]);
+    _isPrimary = _selectedAddress?.isPrimary ?? false;
 
     _isLoading = false;
     notifyListeners();
@@ -114,6 +119,7 @@ class AccountProvider with ChangeNotifier {
 
       authRepository.updateUserAddress(editedAddress);
       _user.changeAddress(editedAddress);
+      _selectedAddress = _user.addresses.firstWhere((a) => a.isPrimary == true);
       notifyListeners();
       Navigator.of(navigatorKey.currentContext!).pop();
     }
@@ -131,6 +137,22 @@ class AccountProvider with ChangeNotifier {
 
     authRepository.updateUserAddress(editedAddress);
     _user.changeAddress(editedAddress);
+    _selectedAddress = _user.addresses.firstWhere((a) => a.isPrimary == true,
+        orElse: () => _user.addresses[0]);
     notifyListeners();
+  }
+
+  void handleAddressChange(dynamic a) {
+    _selectedAddress = a;
+    _isPrimary = a.isPrimary ?? false;
+    notifyListeners();
+  }
+
+  int sortAddresses(Address a, Address b) {
+    final aPrimary = a.isPrimary ?? false;
+    final bPrimary = b.isPrimary ?? false;
+    if (bPrimary && !aPrimary) return 1;
+    if (aPrimary && !bPrimary) return -1;
+    return 0;
   }
 }

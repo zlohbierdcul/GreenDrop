@@ -22,6 +22,15 @@ class UserAddress extends StatelessWidget {
                 Row(
                   children: [
                     const Text(
+                      "Hauptadresse: ",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(address.isPrimary == true ? "Ja" : "Nein"),
+                  ],
+                ),
+                Row(
+                  children: [
+                    const Text(
                       "Straße: ",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
@@ -71,12 +80,13 @@ class UserAddress extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                IconButton(
-                    onPressed: () => _showDeletePopup(context, address),
-                    icon: Icon(
-                      Icons.delete,
-                      color: Theme.of(context).colorScheme.error,
-                    )),
+                if (address.isPrimary != true)
+                  (IconButton(
+                      onPressed: () => _showDeletePopup(context, address),
+                      icon: Icon(
+                        Icons.delete,
+                        color: Theme.of(context).colorScheme.error,
+                      ))),
                 IconButton(
                     onPressed: () => _showEditPopup(context, address),
                     icon: const Icon(Icons.edit)),
