@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:greendrop/src/domain/models/user.dart';
+import 'package:greendrop/src/presentation/account/widgets/user_address_add.dart';
 import 'package:greendrop/src/presentation/account/widgets/user_address_list.dart';
 import 'package:greendrop/src/presentation/account/widgets/user_details.dart';
 import 'package:greendrop/src/presentation/account/widgets/user_logout.dart';
@@ -110,6 +111,7 @@ class AccountPage extends StatelessWidget {
                       UserSettings(),
                       UserDetails(),
                       UserAddressList(),
+                      UserAddressAdd(),
                       UserLogout()
                     ],
                   ),
