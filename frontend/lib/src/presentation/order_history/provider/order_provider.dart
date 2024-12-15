@@ -31,7 +31,6 @@ class OrderProvider with ChangeNotifier {
         'Content-Type': 'application/json',
       };
 
-
        final response = await _dio.get(url, options: Options(headers: headers));
 
       if (response.statusCode == 200) {
