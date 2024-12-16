@@ -49,55 +49,98 @@ class _RegistrationState extends State<Registration> {
                       ),
                     ),
                     _gap(),
-                    // Name Input
+                    // Benutzername Input
                     TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Name darf nicht leer sein!';
+                          return 'Benutzername darf nicht leer sein!';
                         }
                         return null;
                       },
                       decoration: const InputDecoration(
-                        labelText: 'Name',
-                        hintText: 'Vollständiger Name',
+                        labelText: 'Benutzername',
+                        hintText: 'Wähle einen Benutzernamen',
                         prefixIcon: Icon(Icons.person_outline),
                         border: OutlineInputBorder(),
                       ),
                     ),
                     _gap(),
-                    // Email Input
+                    // Vorname Input
                     TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Email darf nicht leer sein!';
-                        }
-                        bool emailValid = RegExp(
-                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                            .hasMatch(value);
-                        if (!emailValid) {
-                          return 'Bitte geben Sie eine gültige Email ein';
+                          return 'Vorname darf nicht leer sein!';
                         }
                         return null;
                       },
                       decoration: const InputDecoration(
-                        labelText: 'Email',
-                        hintText: 'Bitte Email angeben',
-                        prefixIcon: Icon(Icons.email_outlined),
+                        labelText: 'Vorname',
+                        hintText: 'Dein Vorname',
+                        prefixIcon: Icon(Icons.person_outline),
                         border: OutlineInputBorder(),
                       ),
                     ),
                     _gap(),
-                    // Adresse Input
+                    // Nachname Input
                     TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Adresse darf nicht leer sein!';
+                          return 'Nachname darf nicht leer sein!';
                         }
                         return null;
                       },
                       decoration: const InputDecoration(
-                        labelText: 'Adresse',
-                        hintText: 'Deine Adresse',
+                        labelText: 'Nachname',
+                        hintText: 'Dein Nachname',
+                        prefixIcon: Icon(Icons.person_outline),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    _gap(),
+                    // Geburtsdatum Input
+                    TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Geburtsdatum darf nicht leer sein!';
+                        }
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'Geburtsdatum',
+                        hintText: 'TT/MM/JJJJ',
+                        prefixIcon: Icon(Icons.calendar_today_outlined),
+                        border: OutlineInputBorder(),
+                      ),
+                      keyboardType: TextInputType.datetime,
+                    ),
+                    _gap(),
+                    // Straßenname Input
+                    TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Straßenname darf nicht leer sein!';
+                        }
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'Straßenname',
+                        hintText: 'Straße',
+                        prefixIcon: Icon(Icons.home_outlined),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    _gap(),
+                    // Hausnummer Input
+                    TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Hausnummer darf nicht leer sein!';
+                        }
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'Hausnummer',
+                        hintText: 'Hausnummer',
                         prefixIcon: Icon(Icons.home_outlined),
                         border: OutlineInputBorder(),
                       ),
@@ -109,7 +152,7 @@ class _RegistrationState extends State<Registration> {
                         if (value == null || value.isEmpty) {
                           return 'Handynummer darf nicht leer sein!';
                         }
-                        if (!RegExp(r'^\+?[0-9]{7,15}$').hasMatch(value)) {
+                        if (!RegExp(r'^\+?[0-9]{7,15}\$').hasMatch(value)) {
                           return 'Bitte eine gültige Handynummer eingeben!';
                         }
                         return null;
@@ -173,7 +216,7 @@ class _RegistrationState extends State<Registration> {
                             onPressed: () {
                               setState(() {
                                 _isConfirmPasswordVisible =
-                                    !_isConfirmPasswordVisible;
+                                !_isConfirmPasswordVisible;
                               });
                             },
                           )),
