@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:greendrop/src/presentation/common_widgets/app_drawer.dart';
+import 'package:greendrop/src/presentation/common_widgets/center_constrained_body.dart';
 import 'package:greendrop/src/presentation/order_history/pages/order_details_page.dart';
 import 'package:greendrop/src/presentation/theme/theme_provider.dart';
 import 'package:greendrop/src/presentation/order_history/provider/order_history_provider.dart';
@@ -15,39 +16,41 @@ class OrderHistoryPage extends StatelessWidget {
           OrderProvider(), // Hier wird der Provider initialisiert
       child: Scaffold(
         appBar: AppDrawer.buildGreendropsAppBar(context),
-        body: const Center(
-          child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 8.0),
-                    child: SizedBox(
-                      width: double.infinity,
-                      height: 60,
-                      child: Card(
-                        child: Center(
-                          child: Text(
-                            "Bestellhistorie",
-                            style: TextStyle(
-                              fontSize: 24,
+        body: const CenterConstrainedBody(
+          body: Center(
+            child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 8.0),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 60,
+                        child: Card(
+                          child: Center(
+                            child: Text(
+                              "Bestellhistorie",
+                              style: TextStyle(
+                                fontSize: 24,
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    // Ändere dies hier, um die Karte zu dehnen
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 8.0),
-                      child: Card(
-                        child: OrdersList(),
+                    Expanded(
+                      // Ändere dies hier, um die Karte zu dehnen
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 8.0),
+                        child: Card(
+                          child: OrdersList(),
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              )),
+                  ],
+                )),
+          ),
         ),
       ),
     );
