@@ -5,6 +5,7 @@ import 'package:greendrop/src/data/repositories/interfaces/authentication_reposi
 import 'package:greendrop/src/data/repositories/strapi/strapi_authentication_repository.dart';
 import 'package:greendrop/src/domain/models/address.dart';
 import 'package:greendrop/src/domain/models/user.dart';
+import 'package:greendrop/src/presentation/login/pages/login_page.dart';
 
 class AccountProvider with ChangeNotifier {
   IAuthenticationRepository authRepository = StrapiAuthenticationRepository();
@@ -25,6 +26,9 @@ class AccountProvider with ChangeNotifier {
     notifyListeners();
 
     _user = authRepository.getUser()!;
+    _selectedAddress = _user.addresses.firstWhere((a) => a.isPrimary == true,
+        orElse: () => _user.addresses[0]);
+    _isPrimary = _selectedAddress?.isPrimary ?? false;
     _selectedAddress = _user.addresses.firstWhere((a) => a.isPrimary == true,
         orElse: () => _user.addresses[0]);
     _isPrimary = _selectedAddress?.isPrimary ?? false;
@@ -59,6 +63,10 @@ class AccountProvider with ChangeNotifier {
   void signOut() async {
     // sign out user in repository;
     authRepository.signOut();
+    Navigator.pushAndRemoveUntil(
+        navigatorKey.currentContext!,
+        MaterialPageRoute(builder: (context) => LoginPage()),
+        (Route<dynamic> route) => false);
   }
 
   // Methode zum Abbrechen und Zurücksetzen
@@ -123,6 +131,24 @@ class AccountProvider with ChangeNotifier {
       notifyListeners();
       Navigator.of(navigatorKey.currentContext!).pop();
     }
+  }
+
+  void handleAddressAdd(
+    GlobalKey<FormState> formkey,
+    String street,
+    String streetNumber,
+    String zipCode,
+    String city,
+  ) {
+    Address address = Address(
+        id: "0",
+        street: street,
+        streetNumber: streetNumber,
+        zipCode: zipCode,
+        city: city);
+
+    _user.addresses.add(address);
+    authRepository.addAddress(address);
   }
 
   void changePrimaryAddress() {

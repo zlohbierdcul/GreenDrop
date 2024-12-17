@@ -80,6 +80,12 @@ class StrapiAuthenticationRepository extends IAuthenticationRepository {
   }
 
   @override
+  void addAddress(Address address) {
+    _user?.addresses.add(address);
+    dio.put(api.addAddress(), data: {"data": address.toJson()});
+  }
+
+  @override
   Future<User> fetchUser(String id) async {
     Response response = await dio.get(api.getUser(id));
     dynamic data = response.data;
