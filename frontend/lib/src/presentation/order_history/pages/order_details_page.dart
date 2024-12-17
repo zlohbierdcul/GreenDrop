@@ -13,7 +13,7 @@ class OrderDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<OrderProvider>(
+    return Consumer<OrderHistoryProvider>(
       builder: (context, orderProvider, child ) {
         if (orderProvider.isLoading) {
           return const Center(child: CircularProgressIndicator());

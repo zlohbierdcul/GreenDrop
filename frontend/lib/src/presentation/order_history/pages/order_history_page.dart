@@ -11,9 +11,9 @@ class OrderHistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<OrderProvider>(
+    return ChangeNotifierProvider<OrderHistoryProvider>(
       create: (context) =>
-          OrderProvider(), // Hier wird der Provider initialisiert
+          OrderHistoryProvider(), // Hier wird der Provider initialisiert
       child: Scaffold(
         appBar: AppDrawer.buildGreendropsAppBar(context),
         body: const CenterConstrainedBody(
@@ -64,7 +64,7 @@ class OrdersList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AppTheme>(builder: (context, appTheme, child) {
       Color cardColor = Theme.of(context).cardColor;
-      return Consumer<OrderProvider>(
+      return Consumer<OrderHistoryProvider>(
         // Daten vom Provider beziehen
         builder: (context, orderProvider, child) {
           if (orderProvider.isLoading) {

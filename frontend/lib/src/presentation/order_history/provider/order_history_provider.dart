@@ -8,7 +8,7 @@ import 'package:greendrop/src/domain/models/user.dart';
 import 'package:logging/logging.dart';
 import 'package:greendrop/src/domain/models/order.dart';
 
-class OrderProvider with ChangeNotifier {
+class OrderHistoryProvider with ChangeNotifier {
   Logger log = Logger("OrderHistoryProvider");
 
   IAuthenticationRepository authRepository = StrapiAuthenticationRepository();
