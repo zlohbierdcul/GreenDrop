@@ -34,6 +34,10 @@ class StrapiAPI {
     return "$baseUrl/api/addresses/${address.id}";
   }
 
+  String addAddress() {
+    return "$baseUrl/api/addresses/";
+  }
+
   String deleteAddress(Address address) {
     return "$baseUrl/api/addresses/${address.id}";
   }

@@ -43,36 +43,6 @@ class AccountPage extends StatelessWidget {
         user.addresses.isNotEmpty ? user.addresses[0].city : "-";
   }
 
-  void _showChangePasswordDialog(BuildContext context) {
-    final TextEditingController newPasswordController = TextEditingController();
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Passwort ändern"),
-          content: TextField(
-            controller: newPasswordController,
-            decoration: const InputDecoration(hintText: "Neues Passwort"),
-            obscureText: true,
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text("Abbrechen"),
-            ),
-            TextButton(
-              onPressed: () async {
-                Navigator.of(context).pop();
-              },
-              child: const Text("Passwort sicher ändern"),
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {

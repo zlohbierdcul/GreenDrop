@@ -9,6 +9,7 @@ abstract class IAuthenticationRepository {
   void register(User user);
   void updateUser(User user);
   void updateUserAddress(Address address);
+  void addAddress(Address address);
   void deleteAddress(Address address);
   Future<User> fetchUser(String id);
 }
