@@ -29,6 +29,9 @@ class AccountProvider with ChangeNotifier {
     _selectedAddress = _user.addresses.firstWhere((a) => a.isPrimary == true,
         orElse: () => _user.addresses[0]);
     _isPrimary = _selectedAddress?.isPrimary ?? false;
+    _selectedAddress = _user.addresses.firstWhere((a) => a.isPrimary == true,
+        orElse: () => _user.addresses[0]);
+    _isPrimary = _selectedAddress?.isPrimary ?? false;
 
     _isLoading = false;
     notifyListeners();
