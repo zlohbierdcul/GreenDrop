@@ -1,4 +1,3 @@
-import '../../../domain/models/cart_item.dart';
 import 'package:flutter/services.dart';
 
 class CartRepository {

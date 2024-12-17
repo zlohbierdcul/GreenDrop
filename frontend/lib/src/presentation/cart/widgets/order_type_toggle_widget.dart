@@ -24,7 +24,7 @@ class OrderTypeToggleWidget extends StatelessWidget {
         height: 30,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: toggleProvider.isToggled ? Colors.green : Colors.grey,
+          color: toggleProvider.isToggled ? Theme.of(context).primaryColor : Colors.grey,
         ),
                 child: Stack(
                   
@@ -47,7 +47,7 @@ class OrderTypeToggleWidget extends StatelessWidget {
                   child: Icon(
                     toggleProvider.isToggled ? Icons.delivery_dining : Icons.restaurant,
                     size: 16,
-                    color: toggleProvider.isToggled ? Colors.green : Colors.grey,
+                    color: toggleProvider.isToggled ? Theme.of(context).primaryColor : Colors.grey,
                   ),
                 ),
               ),
