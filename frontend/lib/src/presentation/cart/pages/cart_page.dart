@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../products/provider/cart_provider.dart';
-import '../widgets/cart_item_widget.dart';
+import 'package:greendrop/src/presentation/products/widgets/product_card.dart';
 import '../widgets/total_summery_widget.dart';
 import '../widgets/order_type_toggle_widget.dart';
 import 'package:greendrop/src/domain/models/shop.dart';
@@ -16,7 +16,7 @@ class  CartScreen extends StatelessWidget {
     final cartProvider = Provider.of<CartProvider>(context);
     cartProvider.shop = shop;
     cartProvider.orderTypeToggle = Provider.of<OrderTypeToggleProvider>(context);
-    
+
     return Consumer<CartProvider>(
       builder: (context, cartProvider, child) => Scaffold(
         appBar:AppDrawer.buildGreendropsAppBar(context),
@@ -47,14 +47,12 @@ class  CartScreen extends StatelessWidget {
                     itemCount: cartProvider.toCartItemList().length,
                     itemBuilder: (context, index) {
                       final item = cartProvider.toCartItemList()[index];
-                      return CartItemWidget(item: item);
+                      return ProductCard(product: item.product);
                     },
                   ),
                 ),
-              Expanded(
-                child: TotalSummaryWidget(),
-              )
-            ],
+                TotalSummaryWidget(),
+                        ],
           ),
         ],
         ),

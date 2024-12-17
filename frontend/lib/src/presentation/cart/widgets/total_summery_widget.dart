@@ -50,13 +50,35 @@ class TotalSummaryWidget extends StatelessWidget {
               Text('${cartProvider.greenDrops}', style: TextStyle(fontSize: 16)),
             ],
           ),
-          SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: () {
-             Navigator.push(context, MaterialPageRoute(builder: (context) => OrderPage(shop: cartProvider.shop)));
-            },
-            child: Text('Waren bestellen'),
-          ),
+if (cartProvider.cart.isNotEmpty) ...[
+              Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: FilledButton(
+                      onPressed: () => {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        OrderPage(shop: cartProvider.shop)))
+                          },
+                      child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(Icons.shopping_cart),
+                              const SizedBox(width: 20),
+                              const Text(
+                                "Waren bestellen",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18),
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                            ],
+                          ))))
+            ],
         ],
       ),
     );
