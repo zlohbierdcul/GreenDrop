@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:greendrop/src/data/db/strapi.db.dart';
 import 'package:greendrop/src/data/repositories/interfaces/authentication_repository.dart';
+import 'package:greendrop/src/domain/models/address.dart';
 import 'package:greendrop/src/domain/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,8 +33,34 @@ class StrapiAuthenticationRepository extends IAuthenticationRepository {
   }
 
   @override
-  void register(User user) {
-    // TODO: implement register
+  Future<bool> register(String username, String email, String password,
+      String forename, String lastname, String birthdate, String street,
+      String housenumber, String town, String plz)
+  async{
+    Response response = await dio.post(api.getRegister(),
+        data: {"username": username ,"email": email, "password": password},
+    );
+    print(username);
+    print(email);
+    print(password);
+    print(response.statusCode);
+
+
+    bool success = response.statusCode == 200;
+
+    User userr = User(
+        id: response.data["user"]["id"].toString(),
+        userName: username,firstName: forename, lastName: lastname,
+        birthdate: birthdate, greenDrops:  0,eMail:  email,
+        addresses: [Address(id: "000", street: street, streetNumber: housenumber,
+            zipCode: plz, city: town, isPrimary: true)]
+    );
+    if(success){
+      updateUser(userr);
+    }
+
+    return success;
+
   }
 
   @override
