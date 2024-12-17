@@ -6,12 +6,14 @@ class CustomDropdownButton extends StatelessWidget {
   final List<DropdownMenuItem<dynamic>> items;
   final void Function(dynamic) onChanged;
   final dynamic value;
+  final bool isExpanded;
 
   const CustomDropdownButton({
     super.key,
     required this.items,
     required this.onChanged,
     required this.value,
+    this.isExpanded = false,
   });
 
   @override
@@ -26,6 +28,7 @@ class CustomDropdownButton extends StatelessWidget {
         ),
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: DropdownButton(
+          isExpanded: isExpanded,
           items: items,
           onChanged: onChanged,
           value: value,
