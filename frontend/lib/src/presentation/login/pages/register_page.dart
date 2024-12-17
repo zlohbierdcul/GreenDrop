@@ -245,12 +245,7 @@ class _RegistrationState extends State<Registration> {
                       ),
                     ),
                     _gap(),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text('Haben Sie schon ein Konto? Login!'),
-                    ),
+
                   ],
                 ),
               ),
