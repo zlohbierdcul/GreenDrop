@@ -44,9 +44,4 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-<<<<<<< HEAD
-
-#Docker Related 
-=======
 *.env
->>>>>>> 1c96bded2dc789d747d8652979f38c67b0d1511a

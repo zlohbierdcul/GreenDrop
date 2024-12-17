@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:greendrop/src/domain/models/shop.dart';
+import 'package:greendrop/src/presentation/cart/pages/cart_page.dart';
 import 'package:greendrop/src/presentation/common_widgets/app_drawer.dart';
 import 'package:greendrop/src/presentation/order/pages/order_page.dart';
 import 'package:greendrop/src/presentation/products/provider/cart_provider.dart';
@@ -61,7 +62,7 @@ class ShopPage extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        OrderPage(shop: shop)))
+                                        CartScreen(shop: shop)))
                           },
                       child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10.0),

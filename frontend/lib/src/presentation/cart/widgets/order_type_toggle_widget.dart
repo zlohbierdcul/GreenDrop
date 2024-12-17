@@ -1,15 +1,18 @@
 
 import 'package:flutter/material.dart';
-import 'package:greendrop/src/features/cart/domain/ordertype_toggle_provide.dart';
+import 'package:greendrop/src/presentation/cart/provider/ordertype_toggle_provider.dart';
 import 'package:provider/provider.dart';
 
 
 class OrderTypeToggleWidget extends StatelessWidget {
-  const OrderTypeToggleWidget({Key? key}) : super(key: key);
+  final OrderTypeToggleProvider toggleProvider;
+
+  const OrderTypeToggleWidget({super.key, required this.toggleProvider});
+
 
   @override
   Widget build(BuildContext context) {
-    final toggleProvider = Provider.of<OrderTypeToggleProvider>(context);
+   
 
     return GestureDetector(
       onTap: () {

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../domain/cart_provider.dart';
+import 'package:greendrop/src/presentation/products/provider/cart_provider.dart';
+import 'package:greendrop/src/presentation/order/pages/order_page.dart';
+
 
 class TotalSummaryWidget extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context);
+
 
     return Container(
       padding: EdgeInsets.all(16),
@@ -20,14 +24,14 @@ class TotalSummaryWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Zwischensumme:', style: TextStyle(fontSize: 16)),
-              Text('€${cartProvider.subtotal.toStringAsFixed(2)}', style: TextStyle(fontSize: 16)),
+              Text('€${cartProvider.getTotalCosts().toStringAsFixed(2)}', style: TextStyle(fontSize: 16)),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Lieferkosten:', style: TextStyle(fontSize: 16)),
-              Text('€${cartProvider.deliveryCost.toStringAsFixed(2)}', style: TextStyle(fontSize: 16)),
+              Text('€${cartProvider.deliveryCosts.toStringAsFixed(2)}', style: TextStyle(fontSize: 16)),
             ],
           ),
           Divider(),
@@ -35,7 +39,7 @@ class TotalSummaryWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Gesamtbetrag:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              Text('€${cartProvider.total.toStringAsFixed(2)}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Text('€${cartProvider.totalCosts.toStringAsFixed(2)}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             ],
           ),
           SizedBox(height: 8),
@@ -49,7 +53,7 @@ class TotalSummaryWidget extends StatelessWidget {
           SizedBox(height: 16),
           ElevatedButton(
             onPressed: () {
-              // Bestellung abschließen Logik
+             Navigator.push(context, MaterialPageRoute(builder: (context) => OrderPage(shop: cartProvider.shop)));
             },
             child: Text('Waren bestellen'),
           ),

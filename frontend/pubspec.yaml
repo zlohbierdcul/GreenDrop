@@ -40,9 +40,6 @@ flutter:
     - assets/images/logo.png
     - assets/images/logo_old.png
     - assets/data/mock-shops.json
-<<<<<<< HEAD
-    - assets/data/mock-cart.json
-=======
     - assets/data/mock_account.json
     - assets/images/paypal_logo.png
     - assets/images/splash_bg.png
@@ -52,6 +49,6 @@ flutter:
     - assets/images/splash_branding_dark.png
     - assets/images/splash_branding_android.png
     - assets/images/splash_branding_android_dark.png
->>>>>>> 1c96bded2dc789d747d8652979f38c67b0d1511a
+    - assets/data/mock-cart.json
 
   uses-material-design: true
