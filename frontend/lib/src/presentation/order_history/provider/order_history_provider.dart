@@ -25,6 +25,9 @@ class OrderHistoryProvider with ChangeNotifier {
   final User _user =
       StrapiAuthenticationRepository().getUser() ?? User.genericUser;
 
+  OrderHistoryProvider() {
+    loadOrders(); // Lade die Bestellungen beim Erstellen
+  }
 
   Future<void> loadOrders() async {
     try {

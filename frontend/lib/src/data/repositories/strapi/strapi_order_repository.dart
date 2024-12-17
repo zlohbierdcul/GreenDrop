@@ -22,12 +22,9 @@ class StrapiOrderRepository extends IOrderRepository {
   Future<List<Order>> getUserOrders(User user) async {
     try {
       Response response = await dio.get(api.getUserOrders());
-      final List<dynamic> ordersData = response.data["data"];
-      List<Order> orders = await Future.wait(ordersData.map((orderJson) async {
-        return await Order.fromJson(user.id, orderJson); // asynchron
-      }).toList());
-
-      return orders;
+      List<dynamic> data = response.data['data'];
+      List<Future<Order>> futureOrders = data.map((json) => Order.fromJson(response.data["user"]["id"], json)).toList(); //oder auch einfach nur user.id
+      return Future.wait(futureOrders);
     } catch (e, stackTrace) {
       log.severe("Fehler beim Abrufen der Benutzerbestellungen", e, stackTrace);
       return [];

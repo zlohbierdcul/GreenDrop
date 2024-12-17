@@ -64,8 +64,7 @@ class OrdersList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AppTheme>(builder: (context, appTheme, child) {
       Color cardColor = Theme.of(context).cardColor;
-      return Consumer<OrderHistoryProvider>(
-        // Daten vom Provider beziehen
+      return Consumer<OrderHistoryProvider>(// Daten vom Provider beziehen
         builder: (context, orderProvider, child) {
           if (orderProvider.isLoading) {
             return const Center(child: CircularProgressIndicator());
