@@ -28,7 +28,7 @@ class AccountPage extends StatelessWidget {
   static final TextEditingController _cityController = TextEditingController();
 
   void _initializeControllers(AccountProvider accountProvider) {
-    User user = accountProvider.user;
+    User user = accountProvider.user ?? User.genericUser;
     _userNameController.text = user.userName;
     _firstNameController.text = user.firstName;
     _lastNameController.text = user.lastName;

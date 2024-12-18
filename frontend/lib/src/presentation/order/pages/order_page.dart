@@ -11,6 +11,8 @@ import 'package:greendrop/src/presentation/order/widgets/order_user_info.dart';
 import 'package:greendrop/src/presentation/products/provider/cart_provider.dart';
 import 'package:provider/provider.dart';
 
+import 'package:greendrop/src/presentation/order/provider/order_provider.dart';
+
 class OrderPage extends StatelessWidget {
   final Shop shop;
 
@@ -19,8 +21,8 @@ class OrderPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppDrawer.buildGreendropsAppBar(context),
-      body: Consumer2<AccountProvider, CartProvider>(
-        builder: (context, accountProvider, cartProvider, child) => CenterConstrainedBody(
+      body: Consumer3<AccountProvider, CartProvider, OrderProvider>(
+        builder: (context, accountProvider, cartProvider, orderProvider, child) => CenterConstrainedBody(
           body: Column(
             children: [
               Expanded(
@@ -41,7 +43,7 @@ class OrderPage extends StatelessWidget {
                         const SizedBox(height: 12),
                         const OrderGreendropDiscount(),
                         const SizedBox(height: 12),
-                        const OrderProductList(),
+                        OrderProductList(shop: shop),
                       ],
                     ),
                   ),
@@ -50,11 +52,14 @@ class OrderPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: FilledButton(
-                  onPressed: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const OrderConfirmationPage(),
-                    ),
-                  ),
+                  onPressed: () {
+                    accountProvider.updateGreendops(cartProvider.getTotalCosts(), orderProvider.discount.value);
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const OrderConfirmationPage(),
+                      ),
+                    );
+                  },
                   child: const Padding(
                     padding: EdgeInsets.symmetric(vertical: 16.0),
                     child: Row(

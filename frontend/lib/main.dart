@@ -44,14 +44,6 @@ Future main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isLoggedIn = prefs.getBool("isLoggedIn") ?? false;
 
-  FlutterSecureStorage secureStorage = const FlutterSecureStorage();
-  String? userId = await secureStorage.read(key: "userId");
-
-  if (userId != null) {
-    StrapiAuthenticationRepository authRepo = StrapiAuthenticationRepository();
-    authRepo.fetchUser(userId);
-  }
-
   // Run App
   runApp(MultiProvider(
     providers: [
