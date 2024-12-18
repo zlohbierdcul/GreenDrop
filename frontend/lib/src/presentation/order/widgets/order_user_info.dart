@@ -3,7 +3,7 @@ import 'package:greendrop/src/presentation/order/provider/order_provider.dart';
 import 'package:provider/provider.dart';
 
 class OrderUserInfo extends StatelessWidget {
-  const OrderUserInfo({super.key});
+  const OrderUserInfo({super.key, required account});
 
   @override
   Widget build(BuildContext context) {

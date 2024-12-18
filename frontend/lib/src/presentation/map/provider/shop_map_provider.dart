@@ -1,7 +1,9 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:geocode/geocode.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:greendrop/src/domain/models/shop.dart';
@@ -30,6 +32,7 @@ class ShopMapProvider extends ChangeNotifier {
   List<Shop> get shops => _shops;
   bool get isZoomedIn => _isZoomedIn;
   Shop? get focusedShop => _focusedShop;
+  bool isLoading = true;
 
   void setIsZoomedIn(bool v) {
     _isZoomedIn = v;
@@ -97,6 +100,7 @@ class ShopMapProvider extends ChangeNotifier {
 
     notifyListeners();
     log.info("Finished creating user marker");
+    if (!kIsWeb) FlutterNativeSplash.remove();
   }
 
   double _calculateDistance(
@@ -112,7 +116,9 @@ class ShopMapProvider extends ChangeNotifier {
   Future<void> _createShopMarker(List<Shop> shops, BuildContext context) async {
     log.info("Creating shop markers.");
     List<Marker> shopMarker = [];
-
+    if(shops.isEmpty) {
+      isLoading = false;
+    }
     for (var shop in shops) {
       final radius = shop.radius;
 

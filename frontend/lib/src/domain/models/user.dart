@@ -8,7 +8,7 @@ class User {
   final String firstName;
   final String lastName;
   final String birthdate;
-  final int greenDrops;
+  int greenDrops;
   final String eMail;
   final List<Address> addresses;
 
@@ -52,6 +52,7 @@ class User {
         eMail: json['email'],
         addresses: (json['addresses'] as List<dynamic>)
             .map((addressJson) => Address.fromJson(addressJson))
+            .toSet()
             .toList());
   }
 
@@ -64,7 +65,7 @@ class User {
       'birthdate': birthdate,
       'green_drops': greenDrops,
       'email': eMail,
-      'addresses': addresses.map((address) => address.toJson()).toList(),
+      'addresses': addresses.map((address) => address.toJsonWithId()).toList(),
     };
   }
 
@@ -72,6 +73,15 @@ class User {
   static List<User> parseUsers(String jsonData) {
     final Map<String, dynamic> data = json.decode(jsonData);
     return data.entries.map((entry) => User.fromJson(entry.value)).toList();
+  }
+
+  void changeAddress(Address address) {
+    int index = addresses.indexOf(addresses.firstWhere((a) => a.id == address.id));
+    addresses[index] = address;
+  }
+
+  void setGreendrops(int newGreendropValue) {
+    greenDrops = newGreendropValue;
   }
 
   @override

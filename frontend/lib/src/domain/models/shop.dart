@@ -29,6 +29,7 @@ class Shop {
     
   // Factory constructor to create a Shop object from a JSON entry
   static Future<Shop> fromJson(Map<String, dynamic> json) async {
+    
     final address = Address.fromJson(json);
     final List<dynamic> reviews = json['reviews'];
 
@@ -51,8 +52,8 @@ class Shop {
       minOrder: (json['minimum_order'] as num).toDouble(),
       deliveryCost: (json['delivery_costs'] as num).toDouble(),
       radius: (json['max_delivery_radius'] as num).toDouble(),
-      latitude: 0,
-      longitude: 0,
+      latitude: json['latitude'],
+      longitude: json['longitude'],
     );
   }
 
@@ -65,6 +66,8 @@ class Shop {
     'minimum_order': minOrder,
     'delivery_costs': deliveryCost,
     'max_delivery_radius': radius,
+    'latitude': latitude,
+    'longitude': longitude,
   };
 }
 

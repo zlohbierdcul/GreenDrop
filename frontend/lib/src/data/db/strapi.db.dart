@@ -1,5 +1,6 @@
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:greendrop/src/domain/models/address.dart';
 import 'package:greendrop/src/domain/models/user.dart';
 
 class StrapiAPI {
@@ -29,11 +30,27 @@ class StrapiAPI {
     return "$baseUrl/api/users/${user.id}";
   }
 
+  String updateAddress(Address address) {
+    return "$baseUrl/api/addresses/${address.id}";
+  }
+
+  String addAddress() {
+    return "$baseUrl/api/addresses/";
+  }
+
+  String deleteAddress(Address address) {
+    return "$baseUrl/api/addresses/${address.id}";
+  }
+
   String createOrder() {
     return "$baseUrl/api/order";
   }
 
   String getAuth() {
     return "Bearer ${dotenv.env["API_TOKEN"]}";
+  }
+
+  String getRegister() {
+    return "$baseUrl/api/auth/local/register";
   }
 }

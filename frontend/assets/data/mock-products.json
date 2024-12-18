@@ -1,0 +1,140 @@
+"products": [
+    {
+      "product_id": 1,
+      "name": "Black Cherry Punch",
+      "price": 20.0,
+      "category": "rauchbar",
+      "shop_id": 1,
+      "origin": "Blackberry Punch & Cherry Pie",
+      "sativa": 10.0,
+      "indica": 90.0,
+      "thc": 21.0,
+      "cbd": 0.1
+    },
+    {
+      "product_id": 2,
+      "name": "Blueberry Muffin",
+      "price": 18.0,
+      "category": "essbar",
+      "shop_id": 1,
+      "origin": "Blueberry Cookies",
+      "sativa": 20.0,
+      "indica": 80.0,
+      "thc": 18.0,
+      "cbd": 0.2
+    },
+    {
+      "product_id": 3,
+      "name": "Grinder",
+      "price": 10.0,
+      "category": "Zubehör",
+      "shop_id": 2
+    },
+    {
+      "product_id": 4,
+      "name": "Longpapes mit Filter",
+      "price": 5.0,
+      "category": "Zubehör",
+      "shop_id": 2
+    },
+    {
+      "product_id": 5,
+      "name": "Sour Diesel",
+      "price": 25.0,
+      "category": "rauchbar",
+      "shop_id": 3,
+      "origin": "Chemdawg & Super Skunk",
+      "sativa": 90.0,
+      "indica": 10.0,
+      "thc": 22.0,
+      "cbd": 0.5
+    },
+    {
+      "product_id": 6,
+      "name": "Chocolate Edible",
+      "price": 15.0,
+      "category": "essbar",
+      "shop_id": 1,
+      "origin": "Triple Chocolate",
+      "sativa": 50.0,
+      "indica": 50.0,
+      "thc": 10.0,
+      "cbd": 5.0
+    },
+    {
+      "product_id": 7,
+      "name": "Crushher",
+      "price": 12.0,
+      "category": "Zubehör",
+      "shop_id": 3
+    },
+    {
+      "product_id": 8,
+      "name": "Bong",
+      "price": 30.0,
+      "category": "Zubehör",
+      "shop_id": 1
+    },
+    {
+      "product_id": 9,
+      "name": "Pineapple Express",
+      "price": 22.0,
+      "category": "rauchbar",
+      "shop_id": 2,
+      "origin": "Trainwreck & Hawaiian",
+      "sativa": 60.0,
+      "indica": 40.0,
+      "thc": 20.0,
+      "cbd": 0.3
+    },
+    {
+      "product_id": 10,
+      "name": "Lemon Kush Edible",
+      "price": 17.0,
+      "category": "essbar",
+      "shop_id": 3,
+      "origin": "Lemon Kush & Haze",
+      "sativa": 30.0,
+      "indica": 70.0,
+      "thc": 15.0,
+      "cbd": 1.0
+    },
+    {
+      "product_id": 11,
+      "name": "Roll Trail",
+      "price": 8.0,
+      "category": "Zubehör",
+      "shop_id": 1
+    },
+    {
+      "product_id": 12,
+      "name": "OG Kush",
+      "price": 23.0,
+      "category": "rauchbar",
+      "shop_id": 2,
+      "origin": "Chemdawg & Lemon Thai",
+      "sativa": 50.0,
+      "indica": 50.0,
+      "thc": 25.0,
+      "cbd": 0.2
+    },
+    {
+      "product_id": 13,
+      "name": "Grinder XXL",
+      "price": 18.0,
+      "category": "Zubehör",
+      "shop_id": 1
+    },
+    {
+      "product_id": 14,
+      "name": "Jamaican Dream",
+      "price": 21.0,
+      "category": "rauchbar",
+      "shop_id": 3,
+      "origin": "Lambs Bread & Jamaican Landrace",
+      "sativa": 80.0,
+      "indica": 20.0,
+      "thc": 21.0,
+      "cbd": 0.2
+    }
+  ]

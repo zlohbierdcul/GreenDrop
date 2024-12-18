@@ -1,5 +1,5 @@
 name: greendrop
-description: "A delivery app for weed products"
+description: "A delivery app for weed  products"
 
 publish_to: 'none'
 
@@ -26,6 +26,7 @@ dependencies:
   logging: ^1.3.0
   flutter_map_animations: ^0.8.0
   collection: ^1.18.0
+  flutter_native_splash: ^2.4.3
 
 dev_dependencies:
   flutter_test:
@@ -41,5 +42,15 @@ flutter:
     - assets/data/mock-shops.json
     - assets/data/mock_account.json
     - assets/images/paypal_logo.png
+    - assets/images/splash_bg.png
+    - assets/images/splash_bg_dark.png
+    - assets/images/splash_logo.png
+    - assets/images/splash_branding.png
+    - assets/images/splash_branding_dark.png
+    - assets/images/splash_branding_android.png
+    - assets/images/splash_branding_android_dark.png
+    - assets/data/mock-cart.json
+    - assets/images/background_pattern_dark.png
+    - assets/images/background_pattern_light.png
 
   uses-material-design: true

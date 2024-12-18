@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:greendrop/src/domain/models/shop.dart';
 
@@ -17,12 +18,11 @@ class ShopInfo extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AspectRatio(
-                aspectRatio: 2 / 1,
+                aspectRatio: kIsWeb ? 4 / 1 : 2 / 1,
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.asset(
                       "assets/images/shop1.jpg",
-                      // TODO: replace with url from shop
                       fit: BoxFit.cover,
                     )),
               ),
