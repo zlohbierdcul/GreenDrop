@@ -5,20 +5,17 @@ import 'package:greendrop/src/domain/models/user.dart';
 
 class AccountProvider with ChangeNotifier {
   IAuthenticationRepository authRepository = StrapiAuthenticationRepository();
-  User _user = User.genericUser;
+  late User _user;
   bool _isEditing = false;
-  bool _isLoading = false;
+  bool _isLoading = true;
+
 
   User get user => _user;
   bool get isEditing => _isEditing;
   bool get isLoading => _isLoading;
 
-  void loadAccountData() {
-    _isLoading = true;
-    notifyListeners();
-
+  void loadAccountData() async {
     _user = authRepository.getUser()!;
-
     _isLoading = false;
     notifyListeners();
   }
@@ -41,10 +38,22 @@ class AccountProvider with ChangeNotifier {
     authRepository.signOut();
   }
 
+  void updateGreendops(double totalCosts, int discount) {
+    _user.greenDrops = (totalCosts ~/ 2) + _user.greenDrops;
+    _user.greenDrops -= discount;
+    _user.setGreendrops(_user.greenDrops);
+    updateAccount(_user);
+    notifyListeners();
+  }
+
   // Methode zum Abbrechen und Zurücksetzen
   void cancelEditing(BuildContext context) {
     _isEditing = false;
-    loadAccountData(); // Lädt die ursprünglichen Daten erneut
+    loadAccountData();
     notifyListeners();
+  }
+
+  Future<User> fetchUser(id) {
+    return authRepository.fetchUser(id);
   }
 }

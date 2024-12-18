@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:greendrop/src/domain/models/order.dart';
+import 'package:greendrop/src/domain/models/shop.dart';
 import 'package:greendrop/src/presentation/products/provider/cart_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -7,7 +7,8 @@ import '../../../domain/models/product.dart';
 import '../provider/order_provider.dart';
 
 class OrderProductList extends StatelessWidget {
-  const OrderProductList({super.key});
+  final Shop shop;
+  const OrderProductList({super.key, required this.shop});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,8 @@ class OrderProductList extends StatelessWidget {
       builder: (context, cartProvider, orderProvider, child) {
         final totalCost = cartProvider.getTotalCosts();
         final discount = orderProvider.discount.value / 100;
-        final finalAmount = totalCost - discount;
+        final deliveryCoast = shop.deliveryCost;
+        final finalAmount = totalCost + deliveryCoast - discount;
 
         return Card(
           shape: RoundedRectangleBorder(
@@ -28,21 +30,18 @@ class OrderProductList extends StatelessWidget {
               children: [
                 Table(
                   columnWidths: const {
-                    0: FixedColumnWidth(40), // Fixed width of 50 pixels
-                    1: FlexColumnWidth(3), // Proportional width with weight 2
-                    2: FlexColumnWidth(2), // Proportional width with weight 1
+                    0: FixedColumnWidth(40),
+                    1: FlexColumnWidth(3),
+                    2: FlexColumnWidth(2),
                     3: FlexColumnWidth(2),
                   },
                   defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                   children: [
-                    // Header Row
                     _buildHeaderRow(context),
-                    // Product Rows
                     ...cartProvider.cart.entries
                         .map((entry) => _buildProductRow(entry)),
-                    // Discount Row (if applicable)
                     if (discount > 0) _buildDiscountRow(discount),
-                    // Total Row
+                    _buildDeliveryCoastRow(deliveryCoast),
                     _buildTotalRow(finalAmount),
                   ],
                 ),
@@ -93,6 +92,19 @@ class OrderProductList extends StatelessWidget {
     );
   }
 
+  TableRow _buildDeliveryCoastRow(double deliveryCoast) {
+      return TableRow(
+        children: [
+          const SizedBox.shrink(),
+          _buildTableCell("Lieferkosten", isHeader: true),
+          const SizedBox.shrink(),
+          _buildTableCell("${deliveryCoast.toStringAsFixed(2)}€",
+              isHeader: true, alignment: TextAlign.right),
+        ],
+      );
+  }
+
+  // OrderItem(totalAmount: 1, name: "Lieferkosten", price: shop.deliveryCost, stock: 1, categorie: none, imageUrl: none,description: "");
   TableRow _buildTotalRow(double finalAmount) {
     return TableRow(
       decoration:

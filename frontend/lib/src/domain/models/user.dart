@@ -8,7 +8,7 @@ class User {
   final String firstName;
   final String lastName;
   final String birthdate;
-  final int greenDrops;
+  int greenDrops;
   final String eMail;
   final List<Address> addresses;
 
@@ -72,6 +72,10 @@ class User {
   static List<User> parseUsers(String jsonData) {
     final Map<String, dynamic> data = json.decode(jsonData);
     return data.entries.map((entry) => User.fromJson(entry.value)).toList();
+  }
+
+  void setGreendrops(int newGreendropValue) {
+    greenDrops = newGreendropValue;
   }
 
   @override

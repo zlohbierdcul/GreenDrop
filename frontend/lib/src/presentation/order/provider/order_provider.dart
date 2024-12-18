@@ -9,6 +9,7 @@ import 'package:greendrop/src/domain/models/order.dart';
 import 'package:greendrop/src/domain/models/order_item.dart';
 import 'package:greendrop/src/domain/models/shop.dart';
 import 'package:greendrop/src/domain/models/user.dart';
+import 'package:greendrop/src/domain/models/address.dart';
 import 'package:logging/logging.dart';
 
 class OrderProvider extends ChangeNotifier {
@@ -40,6 +41,11 @@ class OrderProvider extends ChangeNotifier {
     _selectedDiscount =
         GreendropDiscounts.values.firstWhere((d) => d.value == discountValue);
     notifyListeners();
+  }
+
+  Iterable<GreendropDiscounts> getUserDiscountOptions() {
+    return GreendropDiscounts.values
+        .where((discount) => discount.value <= _user.greenDrops);
   }
 
   void createOrder(Shop shop, List<OrderItem> orderItems) async {

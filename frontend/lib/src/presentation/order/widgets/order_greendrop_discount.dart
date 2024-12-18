@@ -24,7 +24,7 @@ class OrderGreendropDiscount extends StatelessWidget {
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),
                       CustomDropdownButton(
-                          items: GreendropDiscounts.values
+                          items: orderProvider.getUserDiscountOptions()
                               .map((discount) => DropdownMenuItem(
                                   value: discount.value,
                                   child: Text(discount.label)))
