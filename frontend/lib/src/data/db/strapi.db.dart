@@ -46,6 +46,10 @@ class StrapiAPI {
     return "$baseUrl/api/order";
   }
 
+  String getUserOrders(userId) {
+    return baseUrl + r"/api/orders?populate=*&filters[users_permissions_user][id][$eq]=" + userId;
+  }
+
   String getAuth() {
     return "Bearer ${dotenv.env["API_TOKEN"]}";
   }

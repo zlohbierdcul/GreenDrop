@@ -12,6 +12,7 @@ import 'package:greendrop/src/presentation/login/provider/login_provider.dart';
 import 'package:greendrop/src/presentation/map/provider/shop_map_provider.dart';
 import 'package:greendrop/src/presentation/order/provider/order_provider.dart';
 import 'package:greendrop/src/presentation/order_history/pages/order_history_page.dart';
+import 'package:greendrop/src/presentation/order_history/provider/order_history_provider.dart';
 import 'package:greendrop/src/presentation/products/provider/cart_provider.dart';
 import 'package:greendrop/src/presentation/products/provider/product_provider.dart';
 import 'package:greendrop/src/presentation/cart/provider/ordertype_toggle_provider.dart';
@@ -53,6 +54,7 @@ Future main() async {
       ChangeNotifierProvider(create: (_) => AccountProvider()),
       ChangeNotifierProvider(create: (_) => ProductProvider()),
       ChangeNotifierProvider(create: (_) => OrderProvider()),
+      ChangeNotifierProvider(create: (_) => OrderHistoryProvider()),
       ChangeNotifierProvider(create: (_) => OrderTypeToggleProvider()),
       ChangeNotifierProvider(create: (_) => ShopMapProvider()),
       ChangeNotifierProvider(create: (_) => CartProvider()),
