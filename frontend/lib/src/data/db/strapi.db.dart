@@ -42,8 +42,8 @@ class StrapiAPI {
     return "$baseUrl/api/order";
   }
 
-  String getUserOrders() {
-    return "$baseUrl/api/orders/";
+  String getUserOrders(userId) {
+    return baseUrl + r"/api/orders?populate=*&filters[users_permissions_user][id][$eq]=" + userId;
   }
 
   String getAuth() {

@@ -60,7 +60,7 @@ class OrderDetailsPage extends StatelessWidget {
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(16.0),
                                   child: Image.asset(
-                                    'assets/images/default_shop.jpg',
+                                    'assets/images/shop1.jpg',
                                     width: double.infinity,
                                     height: 200,
                                     fit: BoxFit.cover,
