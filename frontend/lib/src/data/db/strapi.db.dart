@@ -49,4 +49,8 @@ class StrapiAPI {
   String getAuth() {
     return "Bearer ${dotenv.env["API_TOKEN"]}";
   }
+
+  String getRegister() {
+    return "$baseUrl/api/auth/local/register";
+  }
 }
