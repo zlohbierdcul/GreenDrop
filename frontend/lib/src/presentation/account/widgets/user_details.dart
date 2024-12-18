@@ -91,7 +91,7 @@ class UserDetails extends StatelessWidget {
                     onPressed: () => _showPopup(context),
                     icon: const Icon(Icons.edit))
               ],
-            ) : CircularProgressIndicator(),
+            ) : const CircularProgressIndicator(),
           ),
         ),
       ],
