@@ -64,7 +64,9 @@ class StrapiAuthenticationRepository extends IAuthenticationRepository {
   @override
   void updateUser(User user) {
     _user = user;
-    dio.put(api.updateUser(user), data: user.toJson());
+    print(user.toJson());
+
+    dio.put(api.updateUser(user), data: {"data": user.toJson()});
   }
 
   @override
@@ -80,9 +82,13 @@ class StrapiAuthenticationRepository extends IAuthenticationRepository {
   }
 
   @override
-  void addAddress(Address address) {
-    _user?.addresses.add(address);
-    dio.put(api.addAddress(), data: {"data": address.toJson()});
+  void addAddress(Address address) async {
+    Response r = await dio.post(api.addAddress(), data: {"data": address.toJson()});
+    String id = r.data["data"]['documentId'].toString();
+
+    address.updateId(id);
+
+    updateUser(_user!);
   }
 
   @override
