@@ -6,13 +6,13 @@ import 'package:greendrop/src/domain/models/shop.dart';
 import 'package:greendrop/src/presentation/cart/provider/ordertype_toggle_provider.dart';
 
 class CartProvider extends ChangeNotifier {
-  Map<Product, int> _cart = {};
-  List<OrderItem> _orderItems = [];
+  final Map<Product, int> _cart = {};
+  final List<OrderItem> _orderItems = [];
   Map<Product, int> get cart => _cart;
   late Shop _shop;
   late OrderTypeToggleProvider _ordertype;
 
-  void set orderTypeToggle (OrderTypeToggleProvider orderTypeToggle){
+  set orderTypeToggle (OrderTypeToggleProvider orderTypeToggle){
     _ordertype = orderTypeToggle;
   }
   OrderTypeToggleProvider get orderTypeToggle => _ordertype;
@@ -21,7 +21,7 @@ class CartProvider extends ChangeNotifier {
 
   double get deliveryCosts => _shop.deliveryCost;
 
-  int get greenDrops => totalCosts.floor();
+  int get greenDrops => totalCosts.floor() ~/ 2;
 
   Shop get shop => _shop;
 

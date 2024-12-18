@@ -23,7 +23,7 @@ class ColorSchemeDropdown extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
+        const Text(
           "Farbschema:",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
         ),

@@ -1,7 +1,5 @@
-
 import 'package:flutter/material.dart';
 import 'package:greendrop/src/presentation/cart/provider/ordertype_toggle_provider.dart';
-import 'package:provider/provider.dart';
 
 
 class OrderTypeToggleWidget extends StatelessWidget {
@@ -30,7 +28,7 @@ class OrderTypeToggleWidget extends StatelessWidget {
                   
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 3.0),
+              padding: const EdgeInsets.symmetric(horizontal: 3.0),
               child: AnimatedAlign(
                 duration: const Duration(milliseconds: 300),
                 curve: Curves.easeInOut,

@@ -13,7 +13,6 @@ class StrapiOrderRepository extends IOrderRepository {
   @override
   Future<bool> createOrder(Order order) async {
     final data = order.toJson();
-    print(data);
     Response response = await dio.put(api.createOrder(), data: {"data": data});
     log.info(response.data);
     return false;

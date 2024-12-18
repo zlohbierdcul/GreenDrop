@@ -6,7 +6,7 @@ import '../../../domain/models/cart_item.dart';
 class CartItemWidget extends StatelessWidget {
   final CartItem item;
 
-  const CartItemWidget({Key? key, required this.item}) : super(key: key);
+  const CartItemWidget({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -57,28 +57,27 @@ class CartItemWidget extends StatelessWidget {
 class CartItemQuantityToggleWidget extends StatelessWidget {
   final CartItem item;
 
-  const CartItemQuantityToggleWidget({Key? key, required this.item}) : super(key: key);
+  const CartItemQuantityToggleWidget({super.key, required this.item});
 
+  @override
   Widget build(BuildContext context){
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
-    return Container(
-      child: Row(
-        children:[
-          IconButton(
-            onPressed: () {
-              cartProvider.removeProductFromCart(item.product);
-            }, 
-            icon: const Icon(Icons.remove)
-          ),
-          Text('${item.quantity}'),
-          IconButton(
-            onPressed: () {
-              cartProvider.addProductToCart(item.product);
-            }, 
-            icon: const Icon(Icons.add)
-          ),
-        ],
-      ),
+    return Row(
+      children:[
+        IconButton(
+          onPressed: () {
+            cartProvider.removeProductFromCart(item.product);
+          }, 
+          icon: const Icon(Icons.remove)
+        ),
+        Text('${item.quantity}'),
+        IconButton(
+          onPressed: () {
+            cartProvider.addProductToCart(item.product);
+          }, 
+          icon: const Icon(Icons.add)
+        ),
+      ],
     );
   }
 }

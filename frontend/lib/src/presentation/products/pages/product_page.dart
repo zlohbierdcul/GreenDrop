@@ -3,7 +3,6 @@ import 'package:greendrop/src/domain/models/shop.dart';
 import 'package:greendrop/src/presentation/cart/pages/cart_page.dart';
 import 'package:greendrop/src/presentation/common_widgets/app_drawer.dart';
 import 'package:greendrop/src/presentation/common_widgets/center_constrained_body.dart';
-import 'package:greendrop/src/presentation/order/pages/order_page.dart';
 import 'package:greendrop/src/presentation/products/provider/cart_provider.dart';
 import 'package:greendrop/src/presentation/products/provider/product_provider.dart';
 import 'package:greendrop/src/presentation/products/widgets/product_list.dart';

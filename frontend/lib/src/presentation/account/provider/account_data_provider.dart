@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:greendrop/main.dart';
 import 'package:greendrop/src/data/repositories/interfaces/authentication_repository.dart';
