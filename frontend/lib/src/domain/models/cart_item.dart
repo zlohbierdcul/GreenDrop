@@ -12,7 +12,7 @@ class CartItem {
   CartItem copyWith({int? quantity}) {
     return CartItem(
       product: product,
-      quantity: quantity ?? this._quantity,
+      quantity: quantity ?? _quantity,
     );
   }
   

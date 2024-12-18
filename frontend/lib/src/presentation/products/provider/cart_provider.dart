@@ -25,7 +25,7 @@ class CartProvider extends ChangeNotifier {
 
   Shop get shop => _shop;
 
-  void set shop(Shop shop){
+  set shop(Shop shop){
     _shop = shop;
   }
 
