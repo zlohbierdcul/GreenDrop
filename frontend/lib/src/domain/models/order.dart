@@ -30,8 +30,7 @@ class Order {
         status: json['state'],
         shop: await Shop.fromJson(json['shop']),
         address: Address.fromJson(json['user_address']),
-        paymentMethod: json['payment_method'],
-        orderItems: json['items']?.map((item) => OrderItem.fromJson(json)));
+        paymentMethod: json['payment_method']);
   }
 
   Map<String, dynamic> toJson() {

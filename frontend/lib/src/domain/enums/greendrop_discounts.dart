@@ -1,8 +1,8 @@
 enum GreendropDiscounts {
   none(0, "Kein Rabatt"),
-  one(100, "1 Euro Rabatt"),
-  ten(1000, "10 Euro Rabatt"),
-  twenty(2000, "20 Euro Rabatt");
+  one(100, "100 GreenDrops"),
+  ten(1000, "1000 GreenDrops"),
+  twenty(2000, "2000 GreenDrops");
 
   final int value;
   final String label;

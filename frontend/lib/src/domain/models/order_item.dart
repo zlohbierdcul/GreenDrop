@@ -1,5 +1,5 @@
 import 'package:greendrop/src/domain/models/product.dart';
-
+import 'package:greendrop/src/domain/models/cart_item.dart';
 class OrderItem extends Product {
   final String? orderID;
   final int totalAmount;
@@ -12,18 +12,32 @@ class OrderItem extends Product {
       required super.stock,
       required super.category,
       required super.imageUrl,
-      required super.description});
+      required super.description}
+      );
 
-  factory OrderItem.fromJson(Map<String, dynamic> json) {
+  OrderItem.fromCartItem(CartItem cartItem, orderID)
+  : this.fromProduct(cartItem.product, cartItem.quantity, orderID);
+
+  OrderItem.fromProduct(Product product, this.totalAmount, this.orderID)
+    : super(
+        name: product.name, 
+        price: product.price, 
+        stock: product.stock, 
+        category: product.category, 
+        imageUrl: product.imageUrl, 
+        description: product.description
+        );
+        
+    OrderItem copyWith({int? count}) {
     return OrderItem(
-      orderID: json['orderID'] as String?,
-      totalAmount: json['totalAmount'] as int,
-      name: json['name'] as String,
-      price: (json['price'] as num).toDouble(), // Konvertiere zu double
-      stock: json['stock'] as int,
-      category: json['category'] as String,
-      imageUrl: json['imageUrl'] as String,
-      description: json['description'] as String,
+      totalAmount: count ?? totalAmount,
+      name: name,
+      price: price,
+      stock: stock,
+      category: category,
+      imageUrl: imageUrl,
+      description: description,
     );
   }
 }
+

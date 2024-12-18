@@ -1,9 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:greendrop/src/data/repositories/strapi/strapi_authentication_repository.dart';
 import 'package:greendrop/src/presentation/account/pages/account_page.dart';
 import 'package:greendrop/src/presentation/account/provider/account_data_provider.dart';
 import 'package:greendrop/src/presentation/impressum/pages/impressum_page.dart';
@@ -16,13 +15,13 @@ import 'package:greendrop/src/presentation/order_history/pages/order_history_pag
 import 'package:greendrop/src/presentation/order_history/provider/order_history_provider.dart';
 import 'package:greendrop/src/presentation/products/provider/cart_provider.dart';
 import 'package:greendrop/src/presentation/products/provider/product_provider.dart';
+import 'package:greendrop/src/presentation/cart/provider/ordertype_toggle_provider.dart';
 import 'package:greendrop/src/presentation/shops/pages/home_page.dart';
 import 'package:greendrop/src/presentation/shops/provider/filter_provider.dart';
 import 'package:greendrop/src/presentation/shops/provider/shop_data_provider.dart';
 import 'package:greendrop/src/presentation/shops/provider/sorting_provider.dart';
 import 'package:greendrop/src/presentation/theme/theme_provider.dart';
 import 'package:logging/logging.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -45,14 +44,6 @@ Future main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isLoggedIn = prefs.getBool("isLoggedIn") ?? false;
 
-  FlutterSecureStorage secureStorage = const FlutterSecureStorage();
-  String? userId = await secureStorage.read(key: "userId");
-
-  if (userId != null) {
-    StrapiAuthenticationRepository authRepo = StrapiAuthenticationRepository();
-    authRepo.fetchUser(userId);
-  }
-
   // Run App
   runApp(MultiProvider(
     providers: [
@@ -64,8 +55,9 @@ Future main() async {
       ChangeNotifierProvider(create: (_) => ProductProvider()),
       ChangeNotifierProvider(create: (_) => OrderProvider()),
       ChangeNotifierProvider(create: (_) => OrderHistoryProvider()),
+      ChangeNotifierProvider(create: (_) => OrderTypeToggleProvider()),
+      ChangeNotifierProvider(create: (_) => ShopMapProvider()),
       ChangeNotifierProvider(create: (_) => CartProvider()),
-      ChangeNotifierProvider(create: (_) => ShopMapProvider())
     ],
     child: GreenDropApp(isLoggedIn: isLoggedIn),
   ));

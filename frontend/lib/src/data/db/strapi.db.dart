@@ -34,6 +34,10 @@ class StrapiAPI {
     return "$baseUrl/api/addresses/${address.id}";
   }
 
+  String addAddress() {
+    return "$baseUrl/api/addresses/";
+  }
+
   String deleteAddress(Address address) {
     return "$baseUrl/api/addresses/${address.id}";
   }
@@ -48,5 +52,9 @@ class StrapiAPI {
 
   String getAuth() {
     return "Bearer ${dotenv.env["API_TOKEN"]}";
+  }
+
+  String getRegister() {
+    return "$baseUrl/api/auth/local/register";
   }
 }

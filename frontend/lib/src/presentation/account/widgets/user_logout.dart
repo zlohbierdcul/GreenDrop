@@ -11,7 +11,10 @@ class UserLogout extends StatelessWidget {
         builder: (context, accountProvider, child) => Padding(
               padding: const EdgeInsets.symmetric(vertical: 20.0),
               child: ElevatedButton(
-                  onPressed: () => [],
+                  onPressed: () => {
+                        accountProvider.signOut(),
+
+                      },
                   style: TextButton.styleFrom(
                       foregroundColor: Theme.of(context).colorScheme.error),
                   child: const Padding(
@@ -27,6 +30,4 @@ class UserLogout extends StatelessWidget {
                   )),
             ));
   }
-
-
 }
