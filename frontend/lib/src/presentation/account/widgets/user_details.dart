@@ -17,7 +17,7 @@ class UserDetails extends StatelessWidget {
         ),
         Consumer<AccountProvider>(
           builder: (context, accountProvider, child) => Card(
-            child: Stack(
+            child: accountProvider.user != null ? Stack(
               alignment: Alignment.topRight,
               children: [
                 Row(
@@ -34,7 +34,7 @@ class UserDetails extends StatelessWidget {
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                accountProvider.user.userName,
+                                accountProvider.user!.userName,
                               ),
                             ],
                           ),
@@ -45,7 +45,7 @@ class UserDetails extends StatelessWidget {
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                accountProvider.user.firstName,
+                                accountProvider.user!.firstName,
                               ),
                             ],
                           ),
@@ -56,7 +56,7 @@ class UserDetails extends StatelessWidget {
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                accountProvider.user.lastName,
+                                accountProvider.user!.lastName,
                               ),
                             ],
                           ),
@@ -67,7 +67,7 @@ class UserDetails extends StatelessWidget {
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                accountProvider.user.eMail,
+                                accountProvider.user!.eMail,
                               ),
                             ],
                           ),
@@ -78,7 +78,7 @@ class UserDetails extends StatelessWidget {
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                accountProvider.user.birthdate,
+                                accountProvider.user!.birthdate,
                               ),
                             ],
                           )
@@ -91,7 +91,7 @@ class UserDetails extends StatelessWidget {
                     onPressed: () => _showPopup(context),
                     icon: const Icon(Icons.edit))
               ],
-            ),
+            ) : CircularProgressIndicator(),
           ),
         ),
       ],
@@ -106,13 +106,13 @@ class UserDetails extends StatelessWidget {
         return Consumer<AccountProvider>(
             builder: (context, accountProvider, child) {
           TextEditingController userNameController =
-              TextEditingController(text: accountProvider.user.userName);
+              TextEditingController(text: accountProvider.user!.userName);
           TextEditingController firstNameController =
-              TextEditingController(text: accountProvider.user.firstName);
+              TextEditingController(text: accountProvider.user!.firstName);
           TextEditingController lastNameController =
-              TextEditingController(text: accountProvider.user.lastName);
+              TextEditingController(text: accountProvider.user!.lastName);
           TextEditingController emailController =
-              TextEditingController(text: accountProvider.user.eMail);
+              TextEditingController(text: accountProvider.user!.eMail);
           return AlertDialog(
             title: const Text('Persönliche Daten bearbeiten'),
             content: Form(

@@ -22,6 +22,9 @@ class ShopPage extends StatelessWidget {
           .loadShopProducts(shop);
       Provider.of<CartProvider>(context, listen: false).resetCart();
     });
+
+    final double minOrderValue = shop.minOrder;
+
     return Consumer<CartProvider>(
       builder: (context, cartProvider, child) => Scaffold(
           appBar: AppDrawer.buildGreendropsAppBar(context),
@@ -58,13 +61,22 @@ class ShopPage extends StatelessWidget {
                 Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: FilledButton(
-                        onPressed: () => {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          CartScreen(shop: shop)))
-                            },
+                        onPressed: () {
+                          final totalCost = cartProvider.getTotalCosts();
+                          if (totalCost >= minOrderValue) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        CartScreen(shop: shop)));
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                                  "Der Mindestbestellwert von ${minOrderValue.toStringAsFixed(2)}€ wurde nicht erreicht."),
+                              duration: const Duration(seconds: 3),
+                            ));
+                          }
+                        },
                         child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 10.0),
                             child: Row(
@@ -75,7 +87,8 @@ class ShopPage extends StatelessWidget {
                                 const Text(
                                   "Zum Warenkorb",
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 18),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
                                 ),
                                 const SizedBox(
                                   width: 20,
@@ -90,7 +103,8 @@ class ShopPage extends StatelessWidget {
                                         color: Theme.of(context)
                                             .colorScheme
                                             .onPrimary,
-                                        borderRadius: BorderRadius.circular(15)),
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
                                     child: Text(
                                       cartProvider.getProductCount().toString(),
                                       style: TextStyle(

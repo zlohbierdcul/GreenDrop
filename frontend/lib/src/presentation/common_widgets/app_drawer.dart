@@ -5,7 +5,8 @@ import 'package:provider/provider.dart';
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
 
-  static PreferredSizeWidget buildGreendropsAppBar(BuildContext context, {bool automaticallyImplayLeading = true}) {
+  static PreferredSizeWidget buildGreendropsAppBar(BuildContext context,
+      {bool automaticallyImplayLeading = true}) {
     return AppBar(
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -15,7 +16,8 @@ class AppDrawer extends StatelessWidget {
             padding: const EdgeInsets.only(right: 10.0),
             child: OutlinedButton(
               onPressed: () => _showPopup(context),
-              child: Center(child: Row(
+              child: Center(
+                  child: Row(
                 children: [
                   Image.asset(
                     'assets/images/logo.png',
@@ -24,11 +26,25 @@ class AppDrawer extends StatelessWidget {
                   ),
                   const SizedBox(width: 5),
                   Consumer<AccountProvider>(
-                    builder: (context, accountProvider, child) => Text(
-                      accountProvider.user.greenDrops.toString(),
-                      style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSecondaryContainer),
-                    ),
-                  ),
+                      builder: (context, accountProvider, child) {
+                    return !accountProvider.isLoading && accountProvider.user != null
+                        ? Text(
+                            accountProvider.user!.greenDrops.toString(),
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSecondaryContainer),
+                          )
+                        : Text(
+                            "...",
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSecondaryContainer),
+                          );
+                  }),
                 ],
               )),
             ),
@@ -45,20 +61,24 @@ class AppDrawer extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('GreenDrops Information'),
-          content: const Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Die Zahl oben zeigt deinen aktuellen GreenDrop-Punktestand!',
-                style: TextStyle(fontSize: 16),
-              ),
-              SizedBox(height: 8,),
-              Text("GreenDrops können für Rabatte auf deinen Einkauf eingelöst werden.", style: TextStyle(fontSize: 16)),
-              SizedBox(height: 8,),
-              Text("Für alle 2 Euro die du ausgibst erhältst du einen GreenDrop von uns!", style: TextStyle(fontSize: 16)),
-
-            ]
-          ),
+          content: const Column(mainAxisSize: MainAxisSize.min, children: [
+            Text(
+              'Die Zahl oben zeigt deinen aktuellen GreenDrop-Punktestand!',
+              style: TextStyle(fontSize: 16),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Text(
+                "GreenDrops können für Rabatte auf deinen Einkauf eingelöst werden.",
+                style: TextStyle(fontSize: 16)),
+            SizedBox(
+              height: 8,
+            ),
+            Text(
+                "Für alle 2 Euro die du ausgibst erhältst du einen GreenDrop von uns!",
+                style: TextStyle(fontSize: 16)),
+          ]),
           actions: [
             TextButton(
               child: const Text('OK'),
