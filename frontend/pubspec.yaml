@@ -49,6 +49,7 @@ flutter:
     - assets/images/splash_branding_dark.png
     - assets/images/splash_branding_android.png
     - assets/images/splash_branding_android_dark.png
+    - assets/data/mock-cart.json
     - assets/images/background_pattern_dark.png
     - assets/images/background_pattern_light.png
 

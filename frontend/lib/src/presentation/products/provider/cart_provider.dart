@@ -1,19 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:greendrop/src/domain/models/cart_item.dart';
 import 'package:greendrop/src/domain/models/order_item.dart';
 import 'package:greendrop/src/domain/models/product.dart';
+import 'package:greendrop/src/domain/models/shop.dart';
+import 'package:greendrop/src/presentation/cart/provider/ordertype_toggle_provider.dart';
 
 class CartProvider extends ChangeNotifier {
-  Map<Product, int> _cart = {};
-
+  final Map<Product, int> _cart = {};
+  final List<OrderItem> _orderItems = [];
   Map<Product, int> get cart => _cart;
+  late Shop _shop;
+  late OrderTypeToggleProvider _ordertype;
+
+  set orderTypeToggle (OrderTypeToggleProvider orderTypeToggle){
+    _ordertype = orderTypeToggle;
+  }
+  OrderTypeToggleProvider get orderTypeToggle => _ordertype;
+
+  double get totalCosts => getTotalCosts()+ deliveryCosts;
+
+  double get deliveryCosts => _shop.deliveryCost;
+
+  int get greenDrops => totalCosts.floor() ~/ 2;
+
+  Shop get shop => _shop;
+
+  void set shop(Shop shop){
+    _shop = shop;
+  }
 
   List<OrderItem> get orderItems {
-    List<OrderItem> orderItems = [];
 
     for (MapEntry<Product, int> entry in _cart.entries) {
       Product product = entry.key;
       int count = entry.value;
-      orderItems.add(OrderItem(
+      _orderItems.add(OrderItem(
           totalAmount: count,
           name: product.name,
           price: product.price,
@@ -23,7 +44,7 @@ class CartProvider extends ChangeNotifier {
           description: product.description));
     }
 
-    return orderItems;
+    return _orderItems;
   }
 
   void addProductToCart(Product product) {
@@ -50,14 +71,21 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  double calculateOrderCosts(Shop shop){
+    return totalCosts+shop.deliveryCost;
+  }
   double getTotalCosts() {
     return _cart.entries
         .map((entry) => entry.value * entry.key.price)
         .reduce((a, b) => a + b);
   }
 
+  List<CartItem> toCartItemList (){
+   return _cart.entries.map((entry) => CartItem(product: entry.key, quantity: entry.value)).toList();
+  }
+
   void resetCart() {
-    _cart = {};
+    _cart.clear();
     notifyListeners();
   }
 }
