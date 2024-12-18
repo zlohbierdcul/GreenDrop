@@ -9,7 +9,6 @@ import 'package:greendrop/src/domain/models/order.dart';
 import 'package:greendrop/src/domain/models/order_item.dart';
 import 'package:greendrop/src/domain/models/shop.dart';
 import 'package:greendrop/src/domain/models/user.dart';
-import 'package:greendrop/src/domain/models/address.dart';
 import 'package:logging/logging.dart';
 
 class OrderProvider extends ChangeNotifier {

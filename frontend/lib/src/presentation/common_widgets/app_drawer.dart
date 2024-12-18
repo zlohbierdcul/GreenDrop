@@ -27,9 +27,9 @@ class AppDrawer extends StatelessWidget {
                   const SizedBox(width: 5),
                   Consumer<AccountProvider>(
                       builder: (context, accountProvider, child) {
-                    return !accountProvider.isLoading
+                    return !accountProvider.isLoading && accountProvider.user != null
                         ? Text(
-                            accountProvider.user.greenDrops.toString(),
+                            accountProvider.user!.greenDrops.toString(),
                             style: TextStyle(
                                 fontSize: 16,
                                 color: Theme.of(context)

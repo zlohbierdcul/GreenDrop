@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:greendrop/src/data/db/strapi.db.dart';
 import 'package:greendrop/src/data/repositories/interfaces/authentication_repository.dart';
+import 'package:greendrop/src/domain/models/address.dart';
 import 'package:greendrop/src/domain/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -64,6 +65,24 @@ class StrapiAuthenticationRepository extends IAuthenticationRepository {
   void updateUser(User user) {
     _user = user;
     dio.put(api.updateUser(user), data: user.toJson());
+  }
+
+  @override
+  void updateUserAddress(Address address) {
+    _user?.changeAddress(address);
+    dio.put(api.updateAddress(address), data: {"data": address.toJson()});
+  }
+
+  @override
+  void deleteAddress(Address address) {
+    _user?.addresses.remove(address);
+    dio.delete(api.deleteAddress(address));
+  }
+
+  @override
+  void addAddress(Address address) {
+    _user?.addresses.add(address);
+    dio.put(api.addAddress(), data: {"data": address.toJson()});
   }
 
   @override

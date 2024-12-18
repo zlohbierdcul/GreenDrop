@@ -1,4 +1,5 @@
 
+import 'package:greendrop/src/domain/models/address.dart';
 import 'package:greendrop/src/domain/models/user.dart';
 
 abstract class IAuthenticationRepository {
@@ -7,5 +8,8 @@ abstract class IAuthenticationRepository {
   void signOut();
   void register(User user);
   void updateUser(User user);
+  void updateUserAddress(Address address);
+  void addAddress(Address address);
+  void deleteAddress(Address address);
   Future<User> fetchUser(String id);
 }

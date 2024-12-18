@@ -3,6 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:greendrop/src/data/repositories/strapi/strapi_authentication_repository.dart';
 import 'package:greendrop/src/presentation/account/provider/account_data_provider.dart';
 import 'package:greendrop/src/presentation/common_widgets/app_drawer.dart';
+import 'package:greendrop/src/presentation/common_widgets/center_constrained_body.dart';
 import 'package:greendrop/src/presentation/map/widgets/shop_map.dart';
 import 'package:greendrop/src/presentation/shops/provider/shop_data_provider.dart';
 import 'package:greendrop/src/presentation/shops/widgets/filter_dialog.dart';
@@ -17,17 +18,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AccountProvider>(
       builder: (context, accountProvider, child) {
-        FlutterSecureStorage secureStorage = const FlutterSecureStorage();
-        secureStorage.read(key: "userId").then((id) {
-          if (id != null) {
-            StrapiAuthenticationRepository authRepo =
-                StrapiAuthenticationRepository();
-            authRepo
-                .fetchUser(id)
-                .then((_) => accountProvider.loadAccountData());
-          }
-        });
-
+        accountProvider.fetchUser();
         return Scaffold(
             appBar: AppDrawer.buildGreendropsAppBar(context),
             drawer: const AppDrawer(),
@@ -52,40 +43,42 @@ class HomePage extends StatelessWidget {
                 ];
               },
               body: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          const Expanded(child: ShopSearchBar()),
-                          const SizedBox(width: 16),
-                          ElevatedButton(
-                            onPressed: () =>
-                                FilterDialog.dialogBuilder(context),
-                            style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20))),
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 12.0),
-                              child: Icon(Icons.tune_rounded),
-                            ),
-                          )
-                        ],
+                child: CenterConstrainedBody(
+                  body: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
+                          children: [
+                            const Expanded(child: ShopSearchBar()),
+                            const SizedBox(width: 16),
+                            ElevatedButton(
+                              onPressed: () =>
+                                  FilterDialog.dialogBuilder(context),
+                              style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20))),
+                              child: const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 12.0),
+                                child: Icon(Icons.tune_rounded),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 16.0),
-                      child: Text(
-                        "Coffeeshops in der Nähe",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 16.0),
+                        child: Text(
+                          "Coffeeshops in der Nähe",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
                       ),
-                    ),
-                    const ShopList(),
-                  ],
+                      const ShopList(),
+                    ],
+                  ),
                 ),
               ),
             ));
