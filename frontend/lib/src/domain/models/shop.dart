@@ -31,7 +31,7 @@ class Shop {
   static Future<Shop> fromJson(Map<String, dynamic> json) async {
     
     final address = Address.fromJson(json);
-    final List<dynamic> reviews = json['reviews'];
+    final List<dynamic> reviews = json['reviews'] ?? [];
 
     final int reviewCount = reviews.length;
     double rating = 0.0;

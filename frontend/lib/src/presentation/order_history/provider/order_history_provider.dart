@@ -8,7 +8,7 @@ import 'package:greendrop/src/domain/models/user.dart';
 import 'package:logging/logging.dart';
 import 'package:greendrop/src/domain/models/order.dart';
 
-class OrderProvider with ChangeNotifier {
+class OrderHistoryProvider with ChangeNotifier {
   Logger log = Logger("OrderHistoryProvider");
 
   IAuthenticationRepository authRepository = StrapiAuthenticationRepository();
@@ -25,6 +25,9 @@ class OrderProvider with ChangeNotifier {
   final User _user =
       StrapiAuthenticationRepository().getUser() ?? User.genericUser;
 
+  OrderHistoryProvider() {
+    loadOrders(); // Lade die Bestellungen beim Erstellen
+  }
 
   Future<void> loadOrders() async {
     try {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:greendrop/src/domain/models/user.dart';
+import 'package:greendrop/src/presentation/account/widgets/user_address_add.dart';
 import 'package:greendrop/src/presentation/account/widgets/user_address_list.dart';
 import 'package:greendrop/src/presentation/account/widgets/user_details.dart';
 import 'package:greendrop/src/presentation/account/widgets/user_logout.dart';
@@ -27,7 +28,7 @@ class AccountPage extends StatelessWidget {
   static final TextEditingController _cityController = TextEditingController();
 
   void _initializeControllers(AccountProvider accountProvider) {
-    User user = accountProvider.user;
+    User user = accountProvider.user ?? User.genericUser;
     _userNameController.text = user.userName;
     _firstNameController.text = user.firstName;
     _lastNameController.text = user.lastName;
@@ -42,36 +43,6 @@ class AccountPage extends StatelessWidget {
         user.addresses.isNotEmpty ? user.addresses[0].city : "-";
   }
 
-  void _showChangePasswordDialog(BuildContext context) {
-    final TextEditingController newPasswordController = TextEditingController();
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Passwort ändern"),
-          content: TextField(
-            controller: newPasswordController,
-            decoration: const InputDecoration(hintText: "Neues Passwort"),
-            obscureText: true,
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text("Abbrechen"),
-            ),
-            TextButton(
-              onPressed: () async {
-                Navigator.of(context).pop();
-              },
-              child: const Text("Passwort sicher ändern"),
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,39 +54,34 @@ class AccountPage extends StatelessWidget {
     return Scaffold(
       appBar: AppDrawer.buildGreendropsAppBar(context),
       body: const CenterConstrainedBody(
-        body: Center(
-          child: Column(
-            children: [
-              SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
-                        child: SizedBox(
-                          width: double.infinity,
-                          height: 60,
-                          child: Card(
-                            child: Center(
-                              child: Text(
-                                "Account",
-                                style: TextStyle(fontSize: 24),
-                              ),
-                            ),
-                          ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(bottom: 8.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 60,
+                    child: Card(
+                      child: Center(
+                        child: Text(
+                          "Account",
+                          style: TextStyle(fontSize: 24),
                         ),
                       ),
-                      UserSettings(),
-                      UserDetails(),
-                      UserAddressList(),
-                      UserLogout()
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+                UserSettings(),
+                UserDetails(),
+                UserAddressList(),
+                UserAddressAdd(),
+                UserLogout()
+              ],
+            ),
           ),
         ),
       ),

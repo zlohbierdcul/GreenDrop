@@ -10,6 +10,22 @@ class StrapiOrderRepository extends IOrderRepository {
   Dio dio = Dio();
   StrapiAPI api = StrapiAPI();
 
+  // Add authorization token to every request
+  StrapiOrderRepository._privateConstructor() {
+    dio.interceptors.add(InterceptorsWrapper(
+      onRequest: (options, handler) {
+        options.headers["Authorization"] = api.getAuth();
+        return handler.next(options);
+      },
+    ));
+  }
+
+  static final StrapiOrderRepository _singleton = StrapiOrderRepository._privateConstructor() ;
+
+  factory StrapiOrderRepository() {
+    return _singleton;
+  }
+
   @override
   Future<bool> createOrder(Order order) async {
     final data = order.toJson();
@@ -20,14 +36,13 @@ class StrapiOrderRepository extends IOrderRepository {
 
   @override
   Future<List<Order>> getUserOrders(User user) async {
+    Response response = await dio.get(api.getUserOrders(user.id));
     try {
-      Response response = await dio.get(api.getUserOrders());
-      final List<dynamic> ordersData = response.data["data"];
-      List<Order> orders = await Future.wait(ordersData.map((orderJson) async {
-        return await Order.fromJson(user.id, orderJson); // asynchron
-      }).toList());
-
-      return orders;
+      List<dynamic> data = response.data['data'];
+      List<Future<Order>> futureOrders = data
+          .map((json) => Order.fromJson(json))
+          .toList(); //oder auch einfach nur user.id
+      return Future.wait(futureOrders);
     } catch (e, stackTrace) {
       log.severe("Fehler beim Abrufen der Benutzerbestellungen", e, stackTrace);
       return [];

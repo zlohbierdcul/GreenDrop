@@ -1,0 +1,102 @@
+    "users": [
+      {
+        "user_id": 1,
+        "name": "Alice Smith",
+        "birthdate": "1990-04-12",
+        "green_drops": 120,
+        "email": "alice.smith@example.com",
+        "password": "hashedpassword1"
+      },
+      {
+        "user_id": 2,
+        "name": "Bob Johnson",
+        "birthdate": "1985-09-30",
+        "green_drops": 80,
+        "email": "bob.johnson@example.com",
+        "password": "hashedpassword2"
+      },
+      {
+        "user_id": 3,
+        "name": "Carol Brown",
+        "birthdate": "1993-06-25",
+        "green_drops": 150,
+        "email": "carol.brown@example.com",
+        "password": "hashedpassword3"
+      },
+      {
+        "user_id": 4,
+        "name": "Dave Miller",
+        "birthdate": "1988-11-20",
+        "green_drops": 60,
+        "email": "dave.miller@example.com",
+        "password": "hashedpassword4"
+      },
+      {
+        "user_id": 5,
+        "name": "Emily White",
+        "birthdate": "1995-03-15",
+        "green_drops": 95,
+        "email": "emily.white@example.com",
+        "password": "hashedpassword5"
+      }
+    ],
+    "addresses": [
+      {
+        "address_id": 1,
+        "user_id": 1,
+        "street": "Hauptstraße",
+        "street_number": "15",
+        "zip_code": "68165",
+        "city": "Mannheim",
+        "is_primary": true
+      },
+      {
+        "address_id": 2,
+        "user_id": 2,
+        "street": "Marktplatz",
+        "street_number": "7",
+        "zip_code": "68161",
+        "city": "Mannheim",
+        "is_primary": true
+      },
+      {
+        "address_id": 3,
+        "user_id": 3,
+        "street": "Seckenheimer Straße",
+        "street_number": "42",
+        "zip_code": "68163",
+        "city": "Mannheim",
+        "is_primary": true
+      },
+      {
+        "address_id": 4,
+        "user_id": 4,
+        "street": "Quadrat Q5",
+        "street_number": "10",
+        "zip_code": "68161",
+        "city": "Mannheim",
+        "is_primary": true
+      },
+      {
+        "address_id": 5,
+        "user_id": 5,
+        "street": "Luisenring",
+        "street_number": "5",
+        "zip_code": "68159",
+        "city": "Mannheim",
+        "is_primary": true
+      }
+    ],
+    "vendors": [
+      {
+        "vendor_id": 1,
+        "user_id": 1,
+        "iban": "DE12345678901234567890"
+      },
+      {
+        "vendor_id": 2,
+        "user_id": 3,
+        "iban": "DE09876543210987654321"
+      }
+    ]
+  

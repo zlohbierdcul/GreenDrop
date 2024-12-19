@@ -42,6 +42,11 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Iterable<GreendropDiscounts> getUserDiscountOptions() {
+    return GreendropDiscounts.values
+        .where((discount) => discount.value <= _user.greenDrops);
+  }
+
   void createOrder(Shop shop, List<OrderItem> orderItems) async {
     _isLoading = true;
     notifyListeners();

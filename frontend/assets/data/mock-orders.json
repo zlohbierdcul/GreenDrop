@@ -1,0 +1,60 @@
+"orders": [
+    {
+      "order_id": 1,
+      "user_id": 1,
+      "order_date": "2024-11-15",
+      "delivery_address": "Hauptstraße 15, 68165 Mannheim",
+      "total_price": 45.0,
+      "status": "delivered",
+      "products": [
+        {
+          "product_id": 1,
+          "quantity": 1
+        },
+        {
+          "product_id": 3,
+          "quantity": 2
+        }
+      ]
+    },
+    {
+      "order_id": 2,
+      "user_id": 3,
+      "order_date": "2024-11-16",
+      "delivery_address": "Seckenheimer Straße 42, 68163 Mannheim",
+      "total_price": 60.0,
+      "status": "delivered",
+      "products": [
+        {
+          "product_id": 5,
+          "quantity": 1
+        },
+        {
+          "product_id": 8,
+          "quantity": 1
+        },
+        {
+          "product_id": 6,
+          "quantity": 2
+        }
+      ]
+    },
+    {
+      "order_id": 3,
+      "user_id": 4,
+      "order_date": "2024-11-17",
+      "delivery_address": "Quadrat Q5 10, 68161 Mannheim",
+      "total_price": 45.0,
+      "status": "pending",
+      "products": [
+        {
+          "product_id": 9,
+          "quantity": 2
+        },
+        {
+          "product_id": 11,
+          "quantity": 1
+        }
+      ]
+    }
+  ]

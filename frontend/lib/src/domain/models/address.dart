@@ -1,5 +1,5 @@
 class Address {
-  final String id;
+  String id;
   final String street;
   final String streetNumber;
   final String zipCode;
@@ -35,6 +35,21 @@ class Address {
       'city': city,
       'is_primary': isPrimary,
     };
+  }
+
+  Map<String, dynamic> toJsonWithId() {
+    return {
+      'id': id,
+      'street': street,
+      'street_no': streetNumber,
+      'zip_code': zipCode,
+      'city': city,
+      'is_primary': isPrimary,
+    };
+  }
+
+  void updateId(String addressId) {
+    id = addressId;
   }
 
   @override

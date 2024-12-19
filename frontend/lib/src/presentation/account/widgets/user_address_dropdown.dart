@@ -9,8 +9,9 @@ class UserAddressDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<AccountProvider>(
-        builder: (context, provider, child) { 
-final sortedAddresses = [...provider.user.addresses] // Create a copy to avoid modifying the original list
+        builder: (context, provider, child) {
+
+final sortedAddresses = [...provider.user!.addresses] // Create a copy to avoid modifying the original list
   ..sort(provider.sortAddresses);
         return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

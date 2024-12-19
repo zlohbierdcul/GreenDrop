@@ -1,32 +1,35 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:greendrop/main.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:greendrop/src/data/repositories/interfaces/authentication_repository.dart';
 import 'package:greendrop/src/data/repositories/strapi/strapi_authentication_repository.dart';
 import 'package:greendrop/src/domain/models/address.dart';
 import 'package:greendrop/src/domain/models/user.dart';
+import 'package:greendrop/src/presentation/login/pages/login_page.dart';
+
+import '../../../../main.dart';
 
 class AccountProvider with ChangeNotifier {
   IAuthenticationRepository authRepository = StrapiAuthenticationRepository();
-  User _user = User.genericUser;
+  User? _user;
   bool _isEditing = false;
-  bool _isLoading = false;
+  bool _isLoading = true;
   bool _isPrimary = false;
   Address? _selectedAddress;
 
-  User get user => _user;
+  User? get user => _user;
   bool get isEditing => _isEditing;
   bool get isLoading => _isLoading;
   bool get isPrimary => _isPrimary;
   Address? get selectedAddress => _selectedAddress;
 
-  void loadAccountData() {
-    _isLoading = true;
-    notifyListeners();
-
-    _user = authRepository.getUser()!;
-    _selectedAddress = _user.addresses.firstWhere((a) => a.isPrimary == true,
-        orElse: () => _user.addresses[0]);
+  void loadAccountData() async {
+    _user = authRepository.getUser();
+    if (_user == null) return;
+    _selectedAddress = _user!.addresses.firstWhere((a) => a.isPrimary == true,
+        orElse: () => _user!.addresses[0]);
+    _isPrimary = _selectedAddress?.isPrimary ?? false;
+    _selectedAddress = _user!.addresses.firstWhere((a) => a.isPrimary == true,
+        orElse: () => _user!.addresses[0]);
     _isPrimary = _selectedAddress?.isPrimary ?? false;
 
     _isLoading = false;
@@ -59,6 +62,19 @@ class AccountProvider with ChangeNotifier {
   void signOut() async {
     // sign out user in repository;
     authRepository.signOut();
+    Navigator.pushAndRemoveUntil(
+        navigatorKey.currentContext!,
+        MaterialPageRoute(builder: (context) => LoginPage()),
+        (Route<dynamic> route) => false);
+  }
+
+  void updateGreendops(double totalCosts, int discount) {
+    if (_user == null) return;
+    _user!.greenDrops = (totalCosts ~/ 2) + _user!.greenDrops;
+    _user!.greenDrops -= discount;
+    _user!.setGreendrops(_user!.greenDrops);
+    updateAccount(_user!);
+    notifyListeners();
   }
 
   // Methode zum Abbrechen und Zurücksetzen
@@ -72,6 +88,7 @@ class AccountProvider with ChangeNotifier {
     authRepository.deleteAddress(address);
 
     loadAccountData();
+    loadAccountData();
     notifyListeners();
 
     Navigator.of(navigatorKey.currentContext!).pop();
@@ -81,14 +98,14 @@ class AccountProvider with ChangeNotifier {
       String firstName, String lastName, String email) {
     if (formKey.currentState?.validate() ?? false) {
       User editedUser = User(
-          id: _user.id,
+          id: _user!.id,
           userName: userName,
           firstName: firstName,
           lastName: lastName,
-          birthdate: _user.birthdate,
-          greenDrops: _user.greenDrops,
+          birthdate: _user!.birthdate,
+          greenDrops: _user!.greenDrops,
           eMail: email,
-          addresses: _user.addresses);
+          addresses: _user!.addresses);
       authRepository.updateUser(editedUser);
       _user = editedUser;
       notifyListeners();
@@ -118,15 +135,36 @@ class AccountProvider with ChangeNotifier {
       }
 
       authRepository.updateUserAddress(editedAddress);
-      _user.changeAddress(editedAddress);
-      _selectedAddress = _user.addresses.firstWhere((a) => a.isPrimary == true);
+      _user!.changeAddress(editedAddress);
+      _selectedAddress = _user!.addresses.firstWhere((a) => a.isPrimary == true);
       notifyListeners();
       Navigator.of(navigatorKey.currentContext!).pop();
     }
   }
 
+  void handleAddressAdd(
+    GlobalKey<FormState> formkey,
+    String street,
+    String streetNumber,
+    String zipCode,
+    String city,
+  ) {
+    Address address = Address(
+        id: "0",
+        street: street,
+        streetNumber: streetNumber,
+        zipCode: zipCode,
+        city: city,
+        isPrimary: false);
+
+    _user!.addresses.add(address);
+    authRepository.addAddress(address);
+    notifyListeners();
+    Navigator.of(navigatorKey.currentContext!).pop();
+  }
+
   void changePrimaryAddress() {
-    Address address = _user.addresses.firstWhere((a) => a.isPrimary == true);
+    Address address = _user!.addresses.firstWhere((a) => a.isPrimary == true);
     Address editedAddress = Address(
         id: address.id,
         street: address.street,
@@ -136,9 +174,9 @@ class AccountProvider with ChangeNotifier {
         isPrimary: false);
 
     authRepository.updateUserAddress(editedAddress);
-    _user.changeAddress(editedAddress);
-    _selectedAddress = _user.addresses.firstWhere((a) => a.isPrimary == true,
-        orElse: () => _user.addresses[0]);
+    _user!.changeAddress(editedAddress);
+    _selectedAddress = _user!.addresses.firstWhere((a) => a.isPrimary == true,
+        orElse: () => _user!.addresses[0]);
     notifyListeners();
   }
 
@@ -154,5 +192,20 @@ class AccountProvider with ChangeNotifier {
     if (bPrimary && !aPrimary) return 1;
     if (aPrimary && !bPrimary) return -1;
     return 0;
+  }
+
+  void fetchUser() {
+    if (_user != null) return;
+    _isLoading = true;
+    FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+    secureStorage.read(key: "userId").then((id) {
+      if (id != null) {
+        StrapiAuthenticationRepository authRepo =
+        StrapiAuthenticationRepository();
+        authRepo
+            .fetchUser(id)
+            .then((_) => loadAccountData());
+      }
+    });
   }
 }
