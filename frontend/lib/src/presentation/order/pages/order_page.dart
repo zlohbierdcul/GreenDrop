@@ -55,7 +55,7 @@ class OrderPage extends StatelessWidget {
                   onPressed: () {
                     accountProvider.updateGreendops(cartProvider.getTotalCosts(), orderProvider.discount.value);
                     Navigator.of(context).push(
-                      MaterialPageRoute(
+                      NoSwipePageRoute(
                         builder: (context) => const OrderConfirmationPage(),
                       ),
                     );
@@ -83,5 +83,11 @@ class OrderPage extends StatelessWidget {
       ),
     );
   }
+}
 
+class NoSwipePageRoute<T> extends MaterialPageRoute<T> {
+  NoSwipePageRoute({required super.builder});
+
+  @override
+  bool get popGestureEnabled => false; // Swipe deaktivieren
 }

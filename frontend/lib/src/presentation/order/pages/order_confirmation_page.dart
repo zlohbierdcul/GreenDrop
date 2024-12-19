@@ -7,11 +7,14 @@ class OrderConfirmationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppDrawer.buildGreendropsAppBar(
-        context,
-        automaticallyImplayLeading: false,
-      ),
+    // Entferne Rücknavigation mit onWillPop
+    return WillPopScope(
+        onWillPop: () async => false,
+    child: Scaffold(
+    appBar: AppDrawer.buildGreendropsAppBar(
+    context,
+    automaticallyImplayLeading: false,
+    ),
       body: CenterConstrainedBody(
         body: Column(
           children: [
@@ -104,6 +107,6 @@ class OrderConfirmationPage extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ));
   }
 }
