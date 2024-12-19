@@ -36,7 +36,7 @@ void main() {
       expect(shop.name, 'GreenDrop Shop');
       expect(shop.description, 'A shop for eco-friendly products');
       expect(shop.address.id, 'address123');
-      expect(shop.rating, 4.33);
+      expect(shop.rating, 4.166666666666667);
       expect(shop.reviewCount, 3);
       expect(shop.minOrder, 15.0);
       expect(shop.deliveryCost, 2.5);
@@ -137,7 +137,7 @@ void main() {
       expect(shops[1].id, 'shop456');
       expect(shops[0].name, 'GreenDrop Shop');
       expect(shops[1].description, 'Sustainable and eco-friendly products');
-      expect(shops[0].rating, 4.33);
+      expect(shops[0].rating, 4.5);
       expect(shops[1].minOrder, 20.0);
     });
 

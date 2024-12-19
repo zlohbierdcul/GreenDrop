@@ -30,7 +30,7 @@ class Shop {
   // Factory constructor to create a Shop object from a JSON entry
   static Future<Shop> fromJson(Map<String, dynamic> json) async {
     
-    final address = Address.fromJson(json);
+    final address = Address.fromJson(json['address']);
     final List<dynamic> reviews = json['reviews'] ?? [];
 
     final int reviewCount = reviews.length;
