@@ -10,14 +10,11 @@ void main() {
         'documentId': 'shop123',
         'name': 'GreenDrop Shop',
         'description': 'A shop for eco-friendly products',
-        'address': {
-          'documentId': 'address123',
-          'street': 'Market Street',
-          'street_no': '10',
-          'zip_code': '67890',
-          'city': 'Berlin',
-          'isPrimary': true,
-        },
+        'street': 'Market Street',
+        'street_no': '10',
+        'zip_code': '67890',
+        'city': 'Berlin',
+        'isPrimary': true,
         'reviews': [
           {'rating': 4.0, 'review': 'Great service'},
           {'rating': 5.0, 'review': 'Excellent products'},
@@ -35,7 +32,7 @@ void main() {
       expect(shop.id, 'shop123');
       expect(shop.name, 'GreenDrop Shop');
       expect(shop.description, 'A shop for eco-friendly products');
-      expect(shop.address.id, 'address123');
+      expect(shop.address.zipCode, '67890');
       expect(shop.rating, 4.166666666666667);
       expect(shop.reviewCount, 3);
       expect(shop.minOrder, 15.0);
@@ -47,7 +44,7 @@ void main() {
 
     test('Should convert Shop object to JSON correctly', () {
       final address = Address(
-        id: 'address123',
+        id: 'shop123',
         street: 'Market Street',
         streetNumber: '10',
         zipCode: '67890',
@@ -73,7 +70,7 @@ void main() {
       expect(json['id'], 'shop123');
       expect(json['name'], 'GreenDrop Shop');
       expect(json['description'], 'A shop for eco-friendly products');
-      expect(json['address'], 'address123');
+      expect(json['address'], 'shop123');
       expect(json['minimum_order'], 15.0);
       expect(json['delivery_costs'], 2.5);
       expect(json['max_delivery_radius'], 5.0);
@@ -88,14 +85,11 @@ void main() {
           "documentId": "shop123",
           "name": "GreenDrop Shop",
           "description": "A shop for eco-friendly products",
-          "address": {
-            "documentId": "address123",
-            "street": "Market Street",
-            "street_no": "10",
-            "zip_code": "67890",
-            "city": "Berlin",
-            "isPrimary": true
-          },
+          "street": "Market Street",
+          "street_no": "10",
+          "zip_code": "67890",
+          "city": "Berlin",
+          "isPrimary": true,
           "reviews": [
             {"rating": 4.0, "review": "Great service"},
             {"rating": 5.0, "review": "Excellent products"}
@@ -110,13 +104,10 @@ void main() {
           "documentId": "shop456",
           "name": "Eco Mart",
           "description": "Sustainable and eco-friendly products",
-          "address": {
-            "documentId": "address456",
-            "street": "Eco Street",
-            "street_no": "22",
-            "zip_code": "54321",
-            "city": "Berlin"
-          },
+          "street": "Eco Street",
+          "street_no": "22",
+          "zip_code": "54321",
+          "city": "Berlin",
           "reviews": [
             {"rating": 3.5, "review": "Decent shop"},
             {"rating": 4.0, "review": "Nice eco-friendly options"}
@@ -136,9 +127,23 @@ void main() {
       expect(shops[0].id, 'shop123');
       expect(shops[1].id, 'shop456');
       expect(shops[0].name, 'GreenDrop Shop');
+      expect(shops[1].name, 'Eco Mart');
+      expect(shops[0].description, 'A shop for eco-friendly products');
       expect(shops[1].description, 'Sustainable and eco-friendly products');
+      expect(shops[0].address.zipCode, '67890');
+      expect(shops[1].address.zipCode, '54321');
       expect(shops[0].rating, 4.5);
+      expect(shops[1].rating, 3.75);
+      expect(shops[0].minOrder, 15.0);
       expect(shops[1].minOrder, 20.0);
+      expect(shops[0].deliveryCost, 2.5);
+      expect(shops[1].deliveryCost, 3.0);
+      expect(shops[0].radius, 5.0);
+      expect(shops[1].radius, 7.0);
+      expect(shops[0].latitude, 52.5200);
+      expect(shops[1].latitude, 52.5300);
+      expect(shops[0].longitude, 13.4050);
+      expect(shops[1].longitude, 13.4050);
     });
 
     test('Should return correct string representation', () {

@@ -56,6 +56,40 @@ void main() {
       expect(json['is_primary'], false);
     });
 
+    test('Should convert to JSON with ID correctly', () {
+      final address = Address(
+        id: '789',
+        street: 'Broadway',
+        streetNumber: '100',
+        zipCode: '54321',
+        city: 'New York',
+        isPrimary: false,
+      );
+
+      final jsonWithId = address.toJsonWithId();
+
+      expect(jsonWithId['id'], '789');
+      expect(jsonWithId['street'], 'Broadway');
+      expect(jsonWithId['street_no'], '100');
+      expect(jsonWithId['zip_code'], '54321');
+      expect(jsonWithId['city'], 'New York');
+      expect(jsonWithId['is_primary'], false);
+    });
+
+    test('Should update ID correctly', () {
+      final address = Address(
+        id: '123',
+        street: 'Main Street',
+        streetNumber: '42',
+        zipCode: '12345',
+        city: 'Berlin',
+      );
+
+      address.updateId('999');
+
+      expect(address.id, '999');
+    });
+
     test('Should compare two Address objects correctly', () {
       final address1 = Address(
         id: '123',
