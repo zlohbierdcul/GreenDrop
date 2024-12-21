@@ -334,6 +334,17 @@ class _RegistrationState extends State<Registration> {
                     ),
                     _gap(),
 
+                      // Weiterleitung zur Registrierungsseite
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(context, '/login');
+                        },
+                        child: const Text(
+                          'Schon ein Konto? Hier anmelden!',
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
+                      ),
                   ],
                 ),
               ),

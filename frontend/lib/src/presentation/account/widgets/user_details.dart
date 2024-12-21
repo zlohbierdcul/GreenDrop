@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:greendrop/src/presentation/account/provider/account_data_provider.dart';
+import 'package:greendrop/src/presentation/common_widgets/text_form_field.dart';
 import 'package:provider/provider.dart';
 
 class UserDetails extends StatelessWidget {
@@ -137,11 +138,9 @@ class UserDetails extends StatelessWidget {
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16)),
                     const SizedBox(height: 16),
-                    TextFormField(
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          label: Text("Bentzername"),
-                        ),
+                    CustomTextFormField(
+                        icon: const Icon(Icons.person_outline),
+                        hintText: "Benutzername",
                         controller: userNameController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -150,37 +149,40 @@ class UserDetails extends StatelessWidget {
                           return null;
                         }),
                     const SizedBox(height: 16),
-                    TextFormField(
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          label: Text("Vorname"),
+                    Row(
+                      children: [
+                        Flexible(
+                          flex: 4,
+                          child: CustomTextFormField(
+                              icon: const Icon(Icons.badge_outlined),
+                              hintText: "Vorname",
+                              controller: firstNameController,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Textfeld ist leer!';
+                                }
+                                return null;
+                              }),
                         ),
-                        controller: firstNameController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Textfeld ist leer!';
-                          }
-                          return null;
-                        }),
+                        const SizedBox(width: 16),
+                        Flexible(
+                          flex: 5,
+                          child: CustomTextFormField(
+                              hintText: "Nachname",
+                              controller: lastNameController,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Textfeld ist leer!';
+                                }
+                                return null;
+                              }),
+                        ),
+                      ],
+                    ),
                     const SizedBox(height: 16),
-                    TextFormField(
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          label: Text("Nachname"),
-                        ),
-                        controller: lastNameController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Textfeld ist leer!';
-                          }
-                          return null;
-                        }),
-                    const SizedBox(height: 16),
-                    TextFormField(
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          label: Text("Email"),
-                        ),
+                    CustomTextFormField(
+                        icon: const Icon(Icons.email_outlined),
+                        hintText: "E-Mail",
                         controller: emailController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {

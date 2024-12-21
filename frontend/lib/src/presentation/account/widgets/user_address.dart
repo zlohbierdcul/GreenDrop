@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:greendrop/src/domain/models/address.dart';
 import 'package:greendrop/src/presentation/account/provider/account_data_provider.dart';
+import 'package:greendrop/src/presentation/common_widgets/text_form_field.dart';
 import 'package:provider/provider.dart';
 
 class UserAddress extends StatelessWidget {
@@ -163,57 +164,67 @@ class UserAddress extends StatelessWidget {
                             ],
                           ),
                     const SizedBox(height: 16),
-                    TextFormField(
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          label: Text("Straße"),
+                    Row(
+                      children: [
+                        Flexible(
+                          flex: 4,
+                          child: CustomTextFormField(
+                              icon: const Icon(Icons.signpost_outlined),
+                              hintText: "Straße",
+                              controller: streetController,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Textfeld ist leer!';
+                                }
+                                return null;
+                              }),
                         ),
-                        controller: streetController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Textfeld ist leer!';
-                          }
-                          return null;
-                        }),
+                        const SizedBox(width: 16),
+                        Flexible(
+                          flex: 1,
+                          child: CustomTextFormField(
+                              hintText: "Nr",
+                              controller: streetNumberController,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Textfeld ist leer!';
+                                }
+                                return null;
+                              }),
+                        ),
+                      ],
+                    ),
                     const SizedBox(height: 16),
-                    TextFormField(
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          label: Text("Hausnummer"),
+                    Row(
+                      children: [
+                        Flexible(
+                          flex: 5,
+                          child: CustomTextFormField(
+                              icon: const Icon(Icons.location_city_outlined),
+                              hintText: "Stadt",
+                              controller: cityController,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Textfeld ist leer!';
+                                }
+                                return null;
+                              }),
                         ),
-                        controller: streetNumberController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Textfeld ist leer!';
-                          }
-                          return null;
-                        }),
-                    const SizedBox(height: 16),
-                    TextFormField(
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          label: Text("Postleitzahl"),
-                        ),
-                        controller: zipController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Textfeld ist leer!';
-                          }
-                          return null;
-                        }),
-                    const SizedBox(height: 16),
-                    TextFormField(
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          label: Text("Stadt"),
-                        ),
-                        controller: cityController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Textfeld ist leer!';
-                          }
-                          return null;
-                        }),
+                        const SizedBox(width: 16),
+                        Flexible(
+                          flex: 2,
+                          child: CustomTextFormField(
+                              hintText: "PLZ",
+                              controller: zipController,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Textfeld ist leer!';
+                                }
+                                return null;
+                              }),
+                        )
+                      ],
+                    ),
                     const SizedBox(
                       height: 16,
                     ),
