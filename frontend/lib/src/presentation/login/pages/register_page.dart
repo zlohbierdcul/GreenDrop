@@ -3,23 +3,8 @@ import 'package:greendrop/src/presentation/common_widgets/text_form_field.dart';
 import 'package:greendrop/src/presentation/login/provider/registration_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../main.dart';
-import '../../../data/repositories/interfaces/authentication_repository.dart';
-import '../../../data/repositories/strapi/strapi_authentication_repository.dart';
-
 class RegisterPage extends StatelessWidget {
   RegisterPage({super.key});
-
-  String _username = " ";
-  String _email = " ";
-  String _password = " ";
-  String _forename = " ";
-  String _lastname = " ";
-  String _birthdate = " ";
-  String _street = " ";
-  String _housenumber = " ";
-  String _town = " ";
-  String _plz = " ";
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -61,14 +46,14 @@ class RegisterPage extends StatelessWidget {
                       ),
                       _gap(),
                       if (provider.registrationPage == 1) ...[
-                        ...showUserInfoFields()
+                        ...showUserInfoFields(context)
                       ] else if (provider.registrationPage == 2) ...[
-                        ...showAddressFields()
+                        ...showAddressFields(context)
                       ] else if (provider.registrationPage == 3) ...[
-                        ...showPasswordFields()
+                        ...showPasswordFields(context)
                       ],
                       _gap(),
-                      showButtons(),
+                      showButtons(_formKey),
                     ],
                   ),
                 ),
@@ -82,14 +67,15 @@ class RegisterPage extends StatelessWidget {
 
   Widget _gap() => const SizedBox(height: 16);
 
-  List<Widget> showUserInfoFields() {
+  List<Widget> showUserInfoFields(BuildContext context) {
+    RegistrationProvider provider = Provider.of<RegistrationProvider>(context);
     return [
       CustomTextFormField(
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Benutzername darf nicht leer sein!';
           }
-          _username = value;
+          provider.setUsername(value);
           return null;
         },
         icon: const Icon(Icons.person_outline),
@@ -106,7 +92,7 @@ class RegisterPage extends StatelessWidget {
                 if (value == null || value.isEmpty) {
                   return 'Vorname darf nicht leer sein!';
                 }
-                _forename = value;
+                provider.setFirstname(value);
                 return null;
               },
               icon: const Icon(Icons.badge_outlined),
@@ -123,7 +109,7 @@ class RegisterPage extends StatelessWidget {
                 if (value == null || value.isEmpty) {
                   return 'Nachname darf nicht leer sein!';
                 }
-                _lastname = value;
+                provider.setLastname(value);
                 return null;
               },
               label: "Nachname",
@@ -138,7 +124,7 @@ class RegisterPage extends StatelessWidget {
           if (value == null || value.isEmpty) {
             return 'Email darf nicht leer sein!';
           }
-          _email = value;
+          provider.setEmail(value);
           return null;
         },
         icon: const Icon(Icons.email_outlined),
@@ -153,7 +139,7 @@ class RegisterPage extends StatelessWidget {
           if (value == null || value.isEmpty) {
             return 'Geburtsdatum darf nicht leer sein!';
           }
-          _birthdate = value;
+          provider.setBirthdate(value);
           return null;
         },
         keyboardType: TextInputType.datetime,
@@ -161,20 +147,11 @@ class RegisterPage extends StatelessWidget {
         label: "Geburtsdatum",
         hintText: "TT/MM/JJJJ",
       ),
-      _gap(),
-      CustomTextFormField(
-        validator: (value) {
-          return null;
-        },
-        icon: const Icon(Icons.phone_outlined),
-        label: 'Handynummer',
-        hintText: '+49 123 456 789',
-        keyboardType: TextInputType.phone,
-      ),
     ];
   }
 
-  List<Widget> showAddressFields() {
+  List<Widget> showAddressFields(BuildContext context) {
+    RegistrationProvider provider = Provider.of<RegistrationProvider>(context);
     return [
       Row(
         children: [
@@ -185,7 +162,7 @@ class RegisterPage extends StatelessWidget {
                 if (value == null || value.isEmpty) {
                   return 'Straßenname darf nicht leer sein!';
                 }
-                _street = value;
+                provider.setStreet(value);
                 return null;
               },
               icon: const Icon(Icons.signpost_outlined),
@@ -201,7 +178,7 @@ class RegisterPage extends StatelessWidget {
                 if (value == null || value.isEmpty) {
                   return 'Hausnummer darf nicht leer sein!';
                 }
-                _housenumber = value;
+                provider.setStreetNumber(value);
                 return null;
               },
               label: "Nr",
@@ -220,7 +197,7 @@ class RegisterPage extends StatelessWidget {
                 if (value == null || value.isEmpty) {
                   return 'Stadt darf nicht leer sein!';
                 }
-                _town = value;
+                provider.setCity(value);
                 return null;
               },
               label: "Stadt",
@@ -236,7 +213,7 @@ class RegisterPage extends StatelessWidget {
                 if (value == null || value.isEmpty) {
                   return 'PLZ darf nicht leer sein!';
                 }
-                _plz = value;
+                provider.setZipCode(value);
                 return null;
               },
               label: "PLZ",
@@ -248,56 +225,63 @@ class RegisterPage extends StatelessWidget {
     ];
   }
 
-  List<Widget> showPasswordFields() {
+  List<Widget> showPasswordFields(context) {
+    RegistrationProvider provider = Provider.of<RegistrationProvider>(context);
     return [
-      Consumer<RegistrationProvider>(
-        builder: (context, provider, child) => CustomTextFormField(
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Passwort darf nicht leer sein!';
-              }
-              if (value.length < 6) {
-                return 'Passwort muss mindestens 6 Zeichen lang sein';
-              }
-              return null;
-            },
-            label: 'Passwort',
-            hintText: 'Erstelle ein Passwort',
-            icon: const Icon(Icons.lock_outline_rounded),
-            obscureText: !provider.isPasswordVisible,
-            suffixIcon: IconButton(
-              icon: Icon(provider.isPasswordVisible
-                  ? Icons.visibility_off
-                  : Icons.visibility),
-              onPressed: provider.togglePasswordVisible,
-            )),
-      ),
+      CustomTextFormField(
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Passwort darf nicht leer sein!';
+            }
+            if (value.length < 6) {
+              return 'Passwort muss mindestens 6 Zeichen lang sein';
+            }
+            provider.setPassword(value);
+            if (provider.password != provider.confirmPassword) {
+              return "Passwörter stimmen nicht überein";
+            }
+            return null;
+          },
+          label: 'Passwort',
+          hintText: 'Erstelle ein Passwort',
+          icon: const Icon(Icons.lock_outline_rounded),
+          obscureText: !provider.isPasswordVisible,
+          suffixIcon: IconButton(
+            icon: Icon(provider.isPasswordVisible
+                ? Icons.visibility_off
+                : Icons.visibility),
+            onPressed: provider.togglePasswordVisible,
+          )),
       _gap(),
       // Passwort Bestätigung Input
-      Consumer<RegistrationProvider>(
-        builder: (context, provider, child) => CustomTextFormField(
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Passwort-Bestätigung darf nicht leer sein!';
-              }
-              _password = value;
-              return null;
-            },
-            obscureText: !provider.isConfirmPasswordVisible,
-            label: 'Passwort bestätigen',
-            hintText: 'Wiederhole dein Passwort',
-            icon: const Icon(Icons.lock_outline_rounded),
-            suffixIcon: IconButton(
-              icon: Icon(provider.isConfirmPasswordVisible
-                  ? Icons.visibility_off
-                  : Icons.visibility),
-              onPressed: provider.toggleConfirmPasswordVisible,
-            )),
-      ),
+      CustomTextFormField(
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Passwort-Bestätigung darf nicht leer sein!';
+            }
+            if (value.length < 6) {
+              return 'Passwort muss mindestens 6 Zeichen lang sein';
+            }
+            provider.setConfirmPassword(value);
+            if (provider.password != provider.confirmPassword) {
+              return "Passwörter stimmen nicht überein";
+            }
+            return null;
+          },
+          obscureText: !provider.isConfirmPasswordVisible,
+          label: 'Passwort bestätigen',
+          hintText: 'Wiederhole dein Passwort',
+          icon: const Icon(Icons.lock_outline_rounded),
+          suffixIcon: IconButton(
+            icon: Icon(provider.isConfirmPasswordVisible
+                ? Icons.visibility_off
+                : Icons.visibility),
+            onPressed: provider.toggleConfirmPasswordVisible,
+          )),
     ];
   }
 
-  Widget showButtons() {
+  Widget showButtons(formKey) {
     return Consumer<RegistrationProvider>(
       builder: (context, provider, child) => Column(
         children: [
@@ -309,7 +293,11 @@ class RegisterPage extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
                 ),
-                onPressed: provider.nextPage,
+                onPressed: () {
+                  if (provider.validatePage(formKey)) {
+                    provider.nextPage();
+                  }
+                },
                 child: const Padding(
                   padding: EdgeInsets.all(10.0),
                   child: Text(
@@ -337,7 +325,11 @@ class RegisterPage extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
                 ),
-                onPressed: provider.nextPage,
+                onPressed: () {
+                  if (provider.validatePage(formKey)) {
+                    provider.nextPage();
+                  }
+                },
                 child: const Padding(
                   padding: EdgeInsets.all(10.0),
                   child: Text(
@@ -380,37 +372,10 @@ class RegisterPage extends StatelessWidget {
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
-                onPressed: () async {
-                  if (_formKey.currentState?.validate() ?? false) {
-                    //check password
-                    IAuthenticationRepository authenticationRepository =
-                        StrapiAuthenticationRepository();
-
-                    bool success = false;
-                    try {
-                      success = await authenticationRepository.register(
-                          _username,
-                          _email,
-                          _password,
-                          _forename,
-                          _lastname,
-                          _birthdate,
-                          _street,
-                          _housenumber,
-                          _town,
-                          _plz);
-                    } catch (e) {
-                      print(e);
-                      print("Register failed.");
-                    }
-
-                    if (success) {
-                      Navigator.of(navigatorKey.currentContext!)
-                          .pushReplacementNamed("/login");
-                    } else {}
-                    //register http
-
-                    //Navigator.pushNamed(context, '/login');
+                onPressed: () {
+                  if (provider.validatePage(formKey)) {
+                    provider.nextPage();
+                    provider.registerUser();
                   }
                 },
               ),

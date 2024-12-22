@@ -109,6 +109,35 @@ class LoginPage extends StatelessWidget {
                       ),
                       _gap(),
                       Consumer<LoginProvider>(
+                          builder: (context, provider, child) =>
+                              provider.loginFailed
+                                  ? Card(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .errorContainer,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Icon(Icons.warning,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .error),
+                                            Text(
+                                              "Login fehlgeschlagen.",
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .error),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  : const SizedBox()),
+                      _gap(),
+                      Consumer<LoginProvider>(
                         builder: (context, loginProvider, child) => SizedBox(
                           width: double.infinity,
                           child: FilledButton(
