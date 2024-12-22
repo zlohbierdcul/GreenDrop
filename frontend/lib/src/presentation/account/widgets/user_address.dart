@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:greendrop/src/domain/models/address.dart';
 import 'package:greendrop/src/presentation/account/provider/account_data_provider.dart';
+import 'package:greendrop/src/presentation/common_widgets/text_form_field.dart';
 import 'package:provider/provider.dart';
 
 class UserAddress extends StatelessWidget {
@@ -121,8 +122,9 @@ class UserAddress extends StatelessWidget {
 
   static void _showEditPopup(BuildContext context, Address address) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    showDialog(
+    showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       builder: (BuildContext context) {
         return Consumer<AccountProvider>(
             builder: (context, accountProvider, child) {
@@ -134,99 +136,121 @@ class UserAddress extends StatelessWidget {
               TextEditingController(text: address.zipCode);
           TextEditingController cityController =
               TextEditingController(text: address.city);
-          return AlertDialog(
-            title: const Text('Persönliche Daten bearbeiten'),
-            content: Form(
-              key: formKey,
-              child: Column(mainAxisSize: MainAxisSize.min, children: [
-                address.isPrimary ?? false
-                    ? const Row()
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text("Hauptadresse?"),
-                          Switch(
-                              value: accountProvider.isPrimary,
-                              onChanged: (_) => accountProvider.togglePrimary())
-                        ],
-                      ),
-                const SizedBox(height: 16),
-                TextFormField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      label: Text("Straße"),
+          return Form(
+            key: formKey,
+            child: Padding(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+                  left: 16,
+                  right: 16,
+                  top: 16),
+              child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text("Persönliche Daten bearbeiten",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16)),
+                    address.isPrimary ?? false
+                        ? const Row()
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text("Hauptadresse?"),
+                              Switch(
+                                  value: accountProvider.isPrimary,
+                                  onChanged: (_) =>
+                                      accountProvider.togglePrimary())
+                            ],
+                          ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Flexible(
+                          flex: 4,
+                          child: CustomTextFormField(
+                              icon: const Icon(Icons.signpost_outlined),
+                              hintText: "Straße",
+                              controller: streetController,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Textfeld ist leer!';
+                                }
+                                return null;
+                              }),
+                        ),
+                        const SizedBox(width: 16),
+                        Flexible(
+                          flex: 1,
+                          child: CustomTextFormField(
+                              hintText: "Nr",
+                              controller: streetNumberController,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Textfeld ist leer!';
+                                }
+                                return null;
+                              }),
+                        ),
+                      ],
                     ),
-                    controller: streetController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Textfeld ist leer!';
-                      }
-                      return null;
-                    }),
-                const SizedBox(height: 15),
-                TextFormField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      label: Text("Hausnummer"),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Flexible(
+                          flex: 5,
+                          child: CustomTextFormField(
+                              icon: const Icon(Icons.location_city_outlined),
+                              hintText: "Stadt",
+                              controller: cityController,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Textfeld ist leer!';
+                                }
+                                return null;
+                              }),
+                        ),
+                        const SizedBox(width: 16),
+                        Flexible(
+                          flex: 2,
+                          child: CustomTextFormField(
+                              hintText: "PLZ",
+                              controller: zipController,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Textfeld ist leer!';
+                                }
+                                return null;
+                              }),
+                        )
+                      ],
                     ),
-                    controller: streetNumberController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Textfeld ist leer!';
-                      }
-                      return null;
-                    }),
-                const SizedBox(height: 15),
-                TextFormField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      label: Text("Postleitzahl"),
+                    const SizedBox(
+                      height: 16,
                     ),
-                    controller: zipController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Textfeld ist leer!';
-                      }
-                      return null;
-                    }),
-                const SizedBox(height: 15),
-                TextFormField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      label: Text("Stadt"),
-                    ),
-                    controller: cityController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Textfeld ist leer!';
-                      }
-                      return null;
-                    }),
-              ]),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextButton(
+                          child: const Text('Abbrechen'),
+                          onPressed: () {
+                            Navigator.of(context).pop(); // Schließt das Popup
+                          },
+                        ),
+                        FilledButton(
+                            onPressed: () => accountProvider.handleAddressEdit(
+                                formKey,
+                                streetController.text,
+                                streetNumberController.text,
+                                zipController.text,
+                                cityController.text,
+                                accountProvider.isPrimary,
+                                address),
+                            child: const Text("Speichern")),
+                      ],
+                    )
+                  ]),
             ),
-            actions: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TextButton(
-                    child: const Text('Abbrechen'),
-                    onPressed: () {
-                      Navigator.of(context).pop(); // Schließt das Popup
-                    },
-                  ),
-                  FilledButton(
-                      onPressed: () => accountProvider.handleAddressEdit(
-                          formKey,
-                          streetController.text,
-                          streetNumberController.text,
-                          zipController.text,
-                          cityController.text,
-                          accountProvider.isPrimary,
-                          address),
-                      child: const Text("Speichern")),
-                ],
-              )
-            ],
           );
         });
       },

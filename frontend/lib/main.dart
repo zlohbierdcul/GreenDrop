@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:greendrop/src/presentation/login/provider/registration_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -58,6 +59,7 @@ Future main() async {
       ChangeNotifierProvider(create: (_) => OrderTypeToggleProvider()),
       ChangeNotifierProvider(create: (_) => ShopMapProvider()),
       ChangeNotifierProvider(create: (_) => CartProvider()),
+      ChangeNotifierProvider(create: (_) => RegistrationProvider())
     ],
     child: GreenDropApp(isLoggedIn: isLoggedIn),
   ));
@@ -82,7 +84,7 @@ class GreenDropApp extends StatelessWidget {
         routes: {
           '/home': (context) => const HomePage(),
           '/login': (context) => LoginPage(),
-          '/register': (context) => const Registration(),
+          '/register': (context) => RegisterPage(),
           '/account': (context) => const AccountPage(),
           '/order_history': (context) => const OrderHistoryPage(),
           '/impressum': (context) => const ImpressumPage(),
