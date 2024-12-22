@@ -21,11 +21,14 @@ class RegistrationProvider extends ChangeNotifier {
   String _password = "";
   String _confirmPassword = "";
 
+  bool _registrationSuccessful = false;
+
   int get registrationPage => _registrationPage;
   bool get isPasswordVisible => _isPasswordVisible;
   bool get isConfirmPasswordVisible => _isConfirmPasswordVisible;
   String get password => _password;
   String get confirmPassword => _confirmPassword;
+  bool get registrationSuccessful => _registrationSuccessful;
 
   void nextPage() {
     _registrationPage++;
@@ -51,9 +54,18 @@ class RegistrationProvider extends ChangeNotifier {
     return formKey.currentState!.validate();
   }
 
-  void registerUser() {
-    authenticationRepository.register(_username, _email, _password, _firstname,
-        _lastname, _birthdate, _street, _streetNumber, _city, _zipCode);
+  void registerUser() async {
+    _registrationSuccessful = await authenticationRepository.register(
+        _username,
+        _email,
+        _password,
+        _firstname,
+        _lastname,
+        _birthdate,
+        _street,
+        _streetNumber,
+        _city,
+        _zipCode);
   }
 
   void setUsername(String username) => _username = username;

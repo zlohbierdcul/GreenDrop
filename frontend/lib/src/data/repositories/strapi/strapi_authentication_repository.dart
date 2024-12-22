@@ -38,43 +38,35 @@ class StrapiAuthenticationRepository extends IAuthenticationRepository {
       String username,
       String email,
       String password,
-      String forename,
+      String firstname,
       String lastname,
       String birthdate,
       String street,
-      String housenumber,
-      String town,
-      String plz) async {
+      String streetNo,
+      String city,
+      String zipCode) async {
     Response response = await dio.post(
       api.getRegister(),
-      data: {"username": username, "email": email, "password": password},
+      data: {
+        "username": username,
+        "email": email,
+        "password": password,
+      },
     );
-
     bool success = response.statusCode == 200;
+    String jwt = response.data["jwt"];
 
-    User user = User(
-        id: response.data["user"]["documentId"].toString(),
-        userId: response.data["user"]["id"].toString(),
-        userDetailId:
-            response.data["user"]['user_detail']["documentId"].toString(),
-        userName: username,
-        firstName: forename,
-        lastName: lastname,
-        birthdate: birthdate,
-        greenDrops: 0,
-        eMail: email,
-        addresses: [
-          Address(
-              id: "000",
-              street: street,
-              streetNumber: housenumber,
-              zipCode: plz,
-              city: town,
-              isPrimary: true)
-        ]);
-    if (success) {
-      updateUser(user);
-    }
+    String addressId = await createAddress(street, streetNo, city, zipCode, jwt);
+    String userDetailId =
+        await createUserDetail(username, email, firstname, lastname, addressId, jwt);
+    dio.put(api.connectUserDetail(response.data["user"]["documentId"]),
+        data: {
+          "data": {
+            "user-detail": {"connect": userDetailId}
+          }
+        },
+        options: Options(
+            headers: {"Authorization": "Bearer " + jwt}));
 
     return success;
   }
@@ -128,14 +120,49 @@ class StrapiAuthenticationRepository extends IAuthenticationRepository {
     address.updateId(id);
 
     await dio.put(api.connectAddressToUser(_user!.userDetailId), data: {
-    "data": {
+      "data": {
         "addresses": {
-            "connect": [id]
+          "connect": [id]
         }
-    }
-});
+      }
+    });
 
     updateUser(_user!);
+  }
+
+  @override
+  Future<String> createAddress(
+      String street, String streetNo, String city, String zipCode, String jwt) async {
+    Response response = await dio.post(api.createAddress(), data: {
+      "data": {
+        "street": street,
+        "street_no": streetNo,
+        "city": city,
+        "zip_code": zipCode
+      }
+    },
+        options: Options(headers: {"Authorization": "Bearer " + jwt}));
+
+    return response.data["data"]["documentId"];
+  }
+
+  @override
+  Future<String> createUserDetail(String username, String email,
+      String firstname, String lastname, String addressId, String jwt) async {
+    Response response = await dio.post(api.createUserDetail(), data: {
+      "data": {
+        "username": username,
+        "email": email,
+        "first_name": firstname,
+        "last_name": lastname,
+        "green_drops": 50,
+        "addresses": [addressId]
+      }
+    },
+        options: Options(headers: {"Authorization": "Bearer " + jwt})
+    );
+
+    return response.data["data"]["documentId"];
   }
 
   @override
