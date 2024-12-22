@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:greendrop/src/presentation/account/provider/account_data_provider.dart';
+import 'package:greendrop/src/presentation/account/provider/user_provider.dart';
 import 'package:greendrop/src/presentation/common_widgets/dropdown.dart';
 import 'package:greendrop/src/presentation/order/provider/order_provider.dart';
 import 'package:greendrop/src/presentation/products/provider/cart_provider.dart';
@@ -11,8 +11,8 @@ class OrderGreendropDiscount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        child: Consumer3<AccountProvider, OrderProvider, CartProvider>(
-            builder: (context, accountProvider, orderProvider, cartProvider, child) =>
+        child: Consumer3<UserProvider, OrderProvider, CartProvider>(
+            builder: (context, userProvider, orderProvider, cartProvider, child) =>
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Row(

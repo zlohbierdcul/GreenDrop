@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:greendrop/src/presentation/account/provider/account_data_provider.dart';
+import 'package:greendrop/src/presentation/account/provider/user_provider.dart';
 import 'package:greendrop/src/presentation/common_widgets/text_form_field.dart';
 import 'package:provider/provider.dart';
 
@@ -32,8 +32,8 @@ class UserAddressAdd extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        return Consumer<AccountProvider>(
-            builder: (context, accountProvider, child) {
+        return Consumer<UserProvider>(
+            builder: (context, userProvider, child) {
           TextEditingController streetController = TextEditingController();
           TextEditingController streetNumberController =
               TextEditingController();
@@ -127,7 +127,7 @@ class UserAddressAdd extends StatelessWidget {
                           },
                         ),
                         FilledButton(
-                            onPressed: () => accountProvider.handleAddressAdd(
+                            onPressed: () => userProvider.handleAddressAdd(
                                 formKey,
                                 streetController.text,
                                 streetNumberController.text,

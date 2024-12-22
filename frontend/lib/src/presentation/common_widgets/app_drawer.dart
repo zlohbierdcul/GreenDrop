@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:greendrop/src/presentation/account/provider/account_data_provider.dart';
+import 'package:greendrop/src/presentation/account/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -25,11 +25,11 @@ class AppDrawer extends StatelessWidget {
                     height: 22,
                   ),
                   const SizedBox(width: 5),
-                  Consumer<AccountProvider>(
-                      builder: (context, accountProvider, child) {
-                    return !accountProvider.isLoading && accountProvider.user != null
+                  Consumer<UserProvider>(
+                      builder: (context, userProvider, child) {
+                    return !userProvider.isLoading && userProvider.user != null
                         ? Text(
-                            accountProvider.user!.greenDrops.toString(),
+                            userProvider.user!.greenDrops.toString(),
                             style: TextStyle(
                                 fontSize: 16,
                                 color: Theme.of(context)

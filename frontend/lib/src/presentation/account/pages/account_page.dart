@@ -8,7 +8,7 @@ import 'package:greendrop/src/presentation/account/widgets/user_settings.dart';
 import 'package:greendrop/src/presentation/common_widgets/center_constrained_body.dart';
 import 'package:provider/provider.dart';
 import '../../common_widgets/app_drawer.dart';
-import '../provider/account_data_provider.dart';
+import '../provider/user_provider.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({super.key});
@@ -27,8 +27,8 @@ class AccountPage extends StatelessWidget {
   static final TextEditingController _plzController = TextEditingController();
   static final TextEditingController _cityController = TextEditingController();
 
-  void _initializeControllers(AccountProvider accountProvider) {
-    User user = accountProvider.user ?? User.genericUser;
+  void _initializeControllers(UserProvider userProvider) {
+    User user = userProvider.user ?? User.genericUser;
     _userNameController.text = user.userName;
     _firstNameController.text = user.firstName;
     _lastNameController.text = user.lastName;
@@ -43,46 +43,56 @@ class AccountPage extends StatelessWidget {
         user.addresses.isNotEmpty ? user.addresses[0].city : "-";
   }
 
-
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final provider = Provider.of<AccountProvider>(context, listen: false);
+      final provider = Provider.of<UserProvider>(context, listen: false);
       provider.loadAccountData();
       _initializeControllers(provider);
     });
     return Scaffold(
       appBar: AppDrawer.buildGreendropsAppBar(context),
-      body: const CenterConstrainedBody(
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(bottom: 8.0),
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 60,
-                    child: Card(
-                      child: Center(
-                        child: Text(
-                          "Account",
-                          style: TextStyle(fontSize: 24),
+      body: CenterConstrainedBody(
+        body: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Consumer<UserProvider>(
+                    builder: (context, userProvider, child) => Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(bottom: 8.0),
+                          child: SizedBox(
+                            width: double.infinity,
+                            height: 60,
+                            child: Card(
+                              child: Center(
+                                child: Text(
+                                  "Account",
+                                  style: TextStyle(fontSize: 24),
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+                        if (userProvider.user != null) ...[
+                          const UserSettings(),
+                          const UserDetails(),
+                          const UserAddressList(),
+                          const UserAddressAdd(),
+                          const UserLogout()
+                        ] else
+                          const CircularProgressIndicator()
+                      ],
                     ),
                   ),
                 ),
-                UserSettings(),
-                UserDetails(),
-                UserAddressList(),
-                UserAddressAdd(),
-                UserLogout()
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:greendrop/src/presentation/account/provider/account_data_provider.dart';
+import 'package:greendrop/src/presentation/account/provider/user_provider.dart';
 import 'package:greendrop/src/presentation/common_widgets/dropdown.dart';
 import 'package:provider/provider.dart';
 
@@ -8,7 +8,7 @@ class UserAddressDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AccountProvider>(
+    return Consumer<UserProvider>(
         builder: (context, provider, child) {
 
 final sortedAddresses = [...provider.user!.addresses] // Create a copy to avoid modifying the original list
