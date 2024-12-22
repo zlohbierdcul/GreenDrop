@@ -28,7 +28,7 @@ class Shop {
       required this.radius});
     
   // Factory constructor to create a Shop object from a JSON entry
-  static Future<Shop> fromJson(Map<String, dynamic> json) async {
+  static Shop fromJson(Map<String, dynamic> json) {
     
     final address = Address.fromJson(json);
     final List<dynamic> reviews = json['reviews'] ?? [];
