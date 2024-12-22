@@ -1,4 +1,3 @@
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:greendrop/src/domain/models/address.dart';
 import 'package:greendrop/src/domain/models/user.dart';
@@ -47,7 +46,9 @@ class StrapiAPI {
   }
 
   String getUserOrders(userId) {
-    return baseUrl + r"/api/orders?populate=*&filters[users_permissions_user][id][$eq]=" + userId;
+    return baseUrl +
+        r"/api/orders?populate[0]=user_permissions_user&populate[items][populate][product][populate][1]=product&populate[3]=shop&filters[users_permissions_user][id][$eq]=" +
+        userId;
   }
 
   String getAuth() {
