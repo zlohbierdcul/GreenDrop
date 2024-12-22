@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:greendrop/src/presentation/account/provider/account_data_provider.dart';
+import 'package:greendrop/src/presentation/account/provider/user_provider.dart';
 import 'package:greendrop/src/presentation/common_widgets/text_form_field.dart';
 import 'package:provider/provider.dart';
 
@@ -16,9 +16,9 @@ class UserDetails extends StatelessWidget {
           child: Text("Persönliche Daten:",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         ),
-        Consumer<AccountProvider>(
-          builder: (context, accountProvider, child) => Card(
-            child: accountProvider.user != null
+        Consumer<UserProvider>(
+          builder: (context, userProvider, child) => Card(
+            child: userProvider.user != null
                 ? Stack(
                     alignment: Alignment.topRight,
                     children: [
@@ -37,7 +37,7 @@ class UserDetails extends StatelessWidget {
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Text(
-                                      accountProvider.user!.userName,
+                                      userProvider.user!.userName,
                                     ),
                                   ],
                                 ),
@@ -49,7 +49,7 @@ class UserDetails extends StatelessWidget {
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Text(
-                                      accountProvider.user!.firstName,
+                                      userProvider.user!.firstName,
                                     ),
                                   ],
                                 ),
@@ -61,7 +61,7 @@ class UserDetails extends StatelessWidget {
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Text(
-                                      accountProvider.user!.lastName,
+                                      userProvider.user!.lastName,
                                     ),
                                   ],
                                 ),
@@ -73,7 +73,7 @@ class UserDetails extends StatelessWidget {
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Text(
-                                      accountProvider.user!.eMail,
+                                      userProvider.user!.eMail,
                                     ),
                                   ],
                                 ),
@@ -85,7 +85,7 @@ class UserDetails extends StatelessWidget {
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Text(
-                                      accountProvider.user!.birthdate,
+                                      userProvider.user!.birthdate,
                                     ),
                                   ],
                                 )
@@ -112,16 +112,16 @@ class UserDetails extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        return Consumer<AccountProvider>(
-            builder: (context, accountProvider, child) {
+        return Consumer<UserProvider>(
+            builder: (context, userProvider, child) {
           TextEditingController userNameController =
-              TextEditingController(text: accountProvider.user!.userName);
+              TextEditingController(text: userProvider.user!.userName);
           TextEditingController firstNameController =
-              TextEditingController(text: accountProvider.user!.firstName);
+              TextEditingController(text: userProvider.user!.firstName);
           TextEditingController lastNameController =
-              TextEditingController(text: accountProvider.user!.lastName);
+              TextEditingController(text: userProvider.user!.lastName);
           TextEditingController emailController =
-              TextEditingController(text: accountProvider.user!.eMail);
+              TextEditingController(text: userProvider.user!.eMail);
           return Form(
             key: formKey,
             child: Padding(
@@ -134,7 +134,7 @@ class UserDetails extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Adresse bearbeiten",
+                    const Text("Persönliche Daten bearbeiten",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16)),
                     const SizedBox(height: 16),
@@ -183,6 +183,7 @@ class UserDetails extends StatelessWidget {
                     CustomTextFormField(
                         icon: const Icon(Icons.email_outlined),
                         hintText: "E-Mail",
+                        enabled: false, // user currently can not change email because of the user detail issue
                         controller: emailController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -203,7 +204,7 @@ class UserDetails extends StatelessWidget {
                           },
                         ),
                         FilledButton(
-                            onPressed: () => accountProvider.handleDetailEdit(
+                            onPressed: () => userProvider.handleDetailEdit(
                                 formKey,
                                 userNameController.text,
                                 firstNameController.text,

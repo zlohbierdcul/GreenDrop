@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:greendrop/src/presentation/account/pages/account_page.dart';
-import 'package:greendrop/src/presentation/account/provider/account_data_provider.dart';
+import 'package:greendrop/src/presentation/account/provider/user_provider.dart';
 import 'package:greendrop/src/presentation/impressum/pages/impressum_page.dart';
 import 'package:greendrop/src/presentation/login/pages/login_page.dart';
 import 'package:greendrop/src/presentation/login/pages/register_page.dart';
@@ -52,7 +52,7 @@ Future main() async {
       ChangeNotifierProvider(create: (_) => ShopDataProvider()),
       ChangeNotifierProvider(create: (_) => SortingProvider()),
       ChangeNotifierProvider(create: (_) => FilterProvider()),
-      ChangeNotifierProvider(create: (_) => AccountProvider()),
+      ChangeNotifierProvider(create: (_) => UserProvider()),
       ChangeNotifierProvider(create: (_) => ProductProvider()),
       ChangeNotifierProvider(create: (_) => OrderProvider()),
       ChangeNotifierProvider(create: (_) => OrderHistoryProvider()),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:greendrop/src/domain/models/address.dart';
-import 'package:greendrop/src/presentation/account/provider/account_data_provider.dart';
+import 'package:greendrop/src/presentation/account/provider/user_provider.dart';
 import 'package:greendrop/src/presentation/common_widgets/text_form_field.dart';
 import 'package:provider/provider.dart';
 
@@ -103,8 +103,8 @@ class UserAddress extends StatelessWidget {
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          return Consumer<AccountProvider>(
-              builder: (context, accountProvider, child) => AlertDialog(
+          return Consumer<UserProvider>(
+              builder: (context, userProvider, child) => AlertDialog(
                     title: const Text("Addresse löschen?"),
                     content: const Text("Sind Sie sich sicher?"),
                     actions: [
@@ -113,7 +113,7 @@ class UserAddress extends StatelessWidget {
                           child: const Text("Abbrechen")),
                       FilledButton(
                           onPressed: () =>
-                              accountProvider.deleteAddress(address),
+                              userProvider.deleteAddress(address),
                           child: const Text("Löschen")),
                     ],
                   ));
@@ -126,8 +126,8 @@ class UserAddress extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        return Consumer<AccountProvider>(
-            builder: (context, accountProvider, child) {
+        return Consumer<UserProvider>(
+            builder: (context, userProvider, child) {
           TextEditingController streetController =
               TextEditingController(text: address.street);
           TextEditingController streetNumberController =
@@ -148,7 +148,7 @@ class UserAddress extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Persönliche Daten bearbeiten",
+                    const Text("Adresse bearbeiten",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16)),
                     address.isPrimary ?? false
@@ -158,9 +158,9 @@ class UserAddress extends StatelessWidget {
                             children: [
                               const Text("Hauptadresse?"),
                               Switch(
-                                  value: accountProvider.isPrimary,
+                                  value: userProvider.isPrimary,
                                   onChanged: (_) =>
-                                      accountProvider.togglePrimary())
+                                      userProvider.togglePrimary())
                             ],
                           ),
                     const SizedBox(height: 16),
@@ -185,6 +185,7 @@ class UserAddress extends StatelessWidget {
                           child: CustomTextFormField(
                               hintText: "Nr",
                               controller: streetNumberController,
+                              keyboardType: const TextInputType.numberWithOptions(),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Textfeld ist leer!';
@@ -216,6 +217,7 @@ class UserAddress extends StatelessWidget {
                           child: CustomTextFormField(
                               hintText: "PLZ",
                               controller: zipController,
+                              keyboardType: const TextInputType.numberWithOptions(),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Textfeld ist leer!';
@@ -238,13 +240,13 @@ class UserAddress extends StatelessWidget {
                           },
                         ),
                         FilledButton(
-                            onPressed: () => accountProvider.handleAddressEdit(
+                            onPressed: () => userProvider.handleAddressEdit(
                                 formKey,
                                 streetController.text,
                                 streetNumberController.text,
                                 zipController.text,
                                 cityController.text,
-                                accountProvider.isPrimary,
+                                userProvider.isPrimary,
                                 address),
                             child: const Text("Speichern")),
                       ],
