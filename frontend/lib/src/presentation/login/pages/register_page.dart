@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:geocode/geocode.dart';
+
+import '../../../../main.dart';
+import '../../../data/repositories/interfaces/authentication_repository.dart';
+import '../../../data/repositories/strapi/strapi_authentication_repository.dart';
 
 class Registration extends StatefulWidget {
   const Registration({super.key});
@@ -10,6 +15,19 @@ class Registration extends StatefulWidget {
 class _RegistrationState extends State<Registration> {
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
+
+  String _username =  " ";
+  String _email = " ";
+  String _password = " ";
+  String _forename =  " ";
+  String _lastname =  " ";
+  String _birthdate =  " ";
+  String _street =  " ";
+  String _housenumber = " ";
+  String _town =  " ";
+  String _plz =  " ";
+  String _number = " ";
+  final List<Address> _addresses = [];
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -49,55 +67,152 @@ class _RegistrationState extends State<Registration> {
                       ),
                     ),
                     _gap(),
-                    // Name Input
+                    // Benutzername Input
                     TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Name darf nicht leer sein!';
+                          return 'Benutzername darf nicht leer sein!';
                         }
+                        _username = value;
                         return null;
                       },
                       decoration: const InputDecoration(
-                        labelText: 'Name',
-                        hintText: 'Vollständiger Name',
+                        labelText: 'Benutzername',
+                        hintText: 'Wähle einen Benutzernamen',
                         prefixIcon: Icon(Icons.person_outline),
                         border: OutlineInputBorder(),
                       ),
                     ),
                     _gap(),
-                    // Email Input
                     TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Email darf nicht leer sein!';
                         }
-                        bool emailValid = RegExp(
-                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                            .hasMatch(value);
-                        if (!emailValid) {
-                          return 'Bitte geben Sie eine gültige Email ein';
-                        }
+                        _email = value;
                         return null;
                       },
                       decoration: const InputDecoration(
                         labelText: 'Email',
-                        hintText: 'Bitte Email angeben',
-                        prefixIcon: Icon(Icons.email_outlined),
+                        hintText: 'Email',
+                        prefixIcon: Icon(Icons.person_outline),
                         border: OutlineInputBorder(),
                       ),
                     ),
                     _gap(),
-                    // Adresse Input
+                    // Vorname Input
                     TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Adresse darf nicht leer sein!';
+                          return 'Vorname darf nicht leer sein!';
                         }
+                        _forename = value;
                         return null;
                       },
                       decoration: const InputDecoration(
-                        labelText: 'Adresse',
-                        hintText: 'Deine Adresse',
+                        labelText: 'Vorname',
+                        hintText: 'Dein Vorname',
+                        prefixIcon: Icon(Icons.person_outline),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    _gap(),
+                    // Nachname Input
+                    TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Nachname darf nicht leer sein!';
+                        }
+                        _lastname = value;
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'Nachname',
+                        hintText: 'Dein Nachname',
+                        prefixIcon: Icon(Icons.person_outline),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    _gap(),
+                    // Geburtsdatum Input
+                    TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Geburtsdatum darf nicht leer sein!';
+                        }
+                        _birthdate = value;
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'Geburtsdatum',
+                        hintText: 'TT/MM/JJJJ',
+                        prefixIcon: Icon(Icons.calendar_today_outlined),
+                        border: OutlineInputBorder(),
+                      ),
+                      keyboardType: TextInputType.datetime,
+                    ),
+                    _gap(),
+                    // Straßenname Input
+                    TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Straßenname darf nicht leer sein!';
+                        }
+                        _street = value;
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'Straßenname',
+                        hintText: 'Straße',
+                        prefixIcon: Icon(Icons.home_outlined),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    _gap(),
+                    // Hausnummer Input
+                    TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Hausnummer darf nicht leer sein!';
+                        }
+                        _housenumber = value;
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'Hausnummer',
+                        hintText: 'Hausnummer',
+                        prefixIcon: Icon(Icons.home_outlined),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    _gap(),
+                    TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Stadt darf nicht leer sein!';
+                        }
+                        _town = value;
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'Stadt',
+                        hintText: 'Stadt',
+                        prefixIcon: Icon(Icons.home_outlined),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    _gap(),
+                    TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'PLZ darf nicht leer sein!';
+                        }
+                        _plz = value;
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'PLZ',
+                        hintText: 'PLZ',
                         prefixIcon: Icon(Icons.home_outlined),
                         border: OutlineInputBorder(),
                       ),
@@ -106,12 +221,6 @@ class _RegistrationState extends State<Registration> {
                     // Handynummer Input
                     TextFormField(
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Handynummer darf nicht leer sein!';
-                        }
-                        if (!RegExp(r'^\+?[0-9]{7,15}$').hasMatch(value)) {
-                          return 'Bitte eine gültige Handynummer eingeben!';
-                        }
                         return null;
                       },
                       decoration: const InputDecoration(
@@ -173,7 +282,7 @@ class _RegistrationState extends State<Registration> {
                             onPressed: () {
                               setState(() {
                                 _isConfirmPasswordVisible =
-                                    !_isConfirmPasswordVisible;
+                                !_isConfirmPasswordVisible;
                               });
                             },
                           )),
@@ -194,20 +303,37 @@ class _RegistrationState extends State<Registration> {
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                         ),
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState?.validate() ?? false) {
-                            Navigator.pushNamed(context, '/home');
+
+                            //check password
+                            IAuthenticationRepository authenticationRepository =
+                            StrapiAuthenticationRepository();
+
+                            bool success = false;
+                            try {
+
+                              success = await authenticationRepository.register(
+                                  _username, _email, _password, _forename, _lastname, _birthdate,_street,
+                                  _housenumber, _town, _plz);
+                            } catch (e) {
+                              print(e);
+                              print("Register failed.");
+                            }
+
+                            if (success) {
+                              Navigator.of(navigatorKey.currentContext!).pushReplacementNamed("/login");
+                            } else {
+                            }
+                            //register http
+
+                            //Navigator.pushNamed(context, '/login');
                           }
                         },
                       ),
                     ),
                     _gap(),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text('Haben Sie schon ein Konto? Login!'),
-                    ),
+
                   ],
                 ),
               ),

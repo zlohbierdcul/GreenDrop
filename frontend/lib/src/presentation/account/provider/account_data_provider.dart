@@ -154,10 +154,13 @@ class AccountProvider with ChangeNotifier {
         street: street,
         streetNumber: streetNumber,
         zipCode: zipCode,
-        city: city);
+        city: city,
+        isPrimary: false);
 
     _user!.addresses.add(address);
     authRepository.addAddress(address);
+    notifyListeners();
+    Navigator.of(navigatorKey.currentContext!).pop();
   }
 
   void changePrimaryAddress() {

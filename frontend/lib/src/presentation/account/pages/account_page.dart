@@ -54,40 +54,34 @@ class AccountPage extends StatelessWidget {
     return Scaffold(
       appBar: AppDrawer.buildGreendropsAppBar(context),
       body: const CenterConstrainedBody(
-        body: Center(
-          child: Column(
-            children: [
-              SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
-                        child: SizedBox(
-                          width: double.infinity,
-                          height: 60,
-                          child: Card(
-                            child: Center(
-                              child: Text(
-                                "Account",
-                                style: TextStyle(fontSize: 24),
-                              ),
-                            ),
-                          ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(bottom: 8.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 60,
+                    child: Card(
+                      child: Center(
+                        child: Text(
+                          "Account",
+                          style: TextStyle(fontSize: 24),
                         ),
                       ),
-                      UserSettings(),
-                      UserDetails(),
-                      UserAddressList(),
-                      UserAddressAdd(),
-                      UserLogout()
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+                UserSettings(),
+                UserDetails(),
+                UserAddressList(),
+                UserAddressAdd(),
+                UserLogout()
+              ],
+            ),
           ),
         ),
       ),

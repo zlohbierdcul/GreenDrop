@@ -65,7 +65,7 @@ class User {
       'birthdate': birthdate,
       'green_drops': greenDrops,
       'email': eMail,
-      'addresses': addresses.map((address) => address.toJson()).toList(),
+      'addresses': addresses.map((address) => address.toJsonWithId()).toList(),
     };
   }
 
