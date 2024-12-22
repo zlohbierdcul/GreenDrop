@@ -21,7 +21,8 @@ class StrapiAuthenticationRepository extends IAuthenticationRepository {
     ));
   }
 
-  static final StrapiAuthenticationRepository _singleton = StrapiAuthenticationRepository._privateConstructor() ;
+  static final StrapiAuthenticationRepository _singleton =
+      StrapiAuthenticationRepository._privateConstructor();
 
   factory StrapiAuthenticationRepository() {
     return _singleton;
@@ -33,48 +34,61 @@ class StrapiAuthenticationRepository extends IAuthenticationRepository {
   }
 
   @override
-  Future<bool> register(String username, String email, String password,
-      String forename, String lastname, String birthdate, String street,
-      String housenumber, String town, String plz)
-  async{
-    Response response = await dio.post(api.getRegister(),
-        data: {"username": username ,"email": email, "password": password},
+  Future<bool> register(
+      String username,
+      String email,
+      String password,
+      String forename,
+      String lastname,
+      String birthdate,
+      String street,
+      String housenumber,
+      String town,
+      String plz) async {
+    Response response = await dio.post(
+      api.getRegister(),
+      data: {"username": username, "email": email, "password": password},
     );
-    print(username);
-    print(email);
-    print(password);
-    print(response.statusCode);
-
 
     bool success = response.statusCode == 200;
 
-    User userr = User(
-        id: response.data["user"]["id"].toString(),
-        userName: username,firstName: forename, lastName: lastname,
-        birthdate: birthdate, greenDrops:  0,eMail:  email,
-        addresses: [Address(id: "000", street: street, streetNumber: housenumber,
-            zipCode: plz, city: town, isPrimary: true)]
-    );
-    if(success){
-      updateUser(userr);
+    User user = User(
+        id: response.data["user"]["documentId"].toString(),
+        userId: response.data["user"]["id"].toString(),
+        userDetailId:
+            response.data["user"]['user_detail']["documentId"].toString(),
+        userName: username,
+        firstName: forename,
+        lastName: lastname,
+        birthdate: birthdate,
+        greenDrops: 0,
+        eMail: email,
+        addresses: [
+          Address(
+              id: "000",
+              street: street,
+              streetNumber: housenumber,
+              zipCode: plz,
+              city: town,
+              isPrimary: true)
+        ]);
+    if (success) {
+      updateUser(user);
     }
 
     return success;
-
   }
 
   @override
   Future<bool> signIn(String email, String password) async {
     Response response = await dio.post(api.getSignIn(),
-        data: {"identifier": email, "password": password},
-        options:
-            Options(headers: {"Authorization": "Bearer ${api.getAuth()}"}));
+        data: {"identifier": email, "password": password});
     bool success = response.statusCode == 200;
 
     if (success) {
       await fetchUser(response.data["user"]["id"].toString());
       const secureStorage = FlutterSecureStorage();
-      secureStorage.write(key: "userId", value: _user!.id);
+      secureStorage.write(key: "userId", value: _user!.userId);
     }
     return success;
   }
@@ -90,8 +104,6 @@ class StrapiAuthenticationRepository extends IAuthenticationRepository {
   @override
   void updateUser(User user) {
     _user = user;
-    print(user.toJson());
-
     dio.put(api.updateUser(user), data: {"data": user.toJson()});
   }
 
@@ -109,10 +121,19 @@ class StrapiAuthenticationRepository extends IAuthenticationRepository {
 
   @override
   void addAddress(Address address) async {
-    Response r = await dio.post(api.addAddress(), data: {"data": address.toJson()});
+    Response r =
+        await dio.post(api.addAddress(), data: {"data": address.toJson()});
     String id = r.data["data"]['documentId'].toString();
 
     address.updateId(id);
+
+    await dio.put(api.connectAddressToUser(_user!.userDetailId), data: {
+    "data": {
+        "addresses": {
+            "connect": [id]
+        }
+    }
+});
 
     updateUser(_user!);
   }

@@ -23,11 +23,11 @@ class StrapiAPI {
   }
 
   String getUser(String id) {
-    return "$baseUrl/api/users/$id?populate=*";
+    return "$baseUrl/api/users/$id?populate[user_detail][populate][addresses]=*";
   }
 
   String updateUser(User user) {
-    return "$baseUrl/api/users/${user.id}";
+    return "$baseUrl/api/user-details/${user.userDetailId}";
   }
 
   String updateAddress(Address address) {
@@ -40,6 +40,10 @@ class StrapiAPI {
 
   String deleteAddress(Address address) {
     return "$baseUrl/api/addresses/${address.id}";
+  }
+
+  String connectAddressToUser(String userId) {
+    return "$baseUrl/api/user-details/$userId";
   }
 
   String createOrder() {

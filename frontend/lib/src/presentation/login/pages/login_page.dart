@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:greendrop/src/presentation/common_widgets/text_form_field.dart';
 import 'package:greendrop/src/presentation/login/provider/login_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -50,9 +51,12 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                       _gap(),
-                      TextFormField(
+                      CustomTextFormField(
                         keyboardType: TextInputType.emailAddress,
                         controller: emailController,
+                        hintText: "E-Mail",
+                        label: "E-Mail",
+                        icon: const Icon(Icons.email_outlined),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Textfeld ist leer!';
@@ -65,15 +69,9 @@ class LoginPage extends StatelessWidget {
                           }
                           return null;
                         },
-                        decoration: const InputDecoration(
-                          labelText: 'Email',
-                          hintText: 'Bitte Email angeben',
-                          prefixIcon: Icon(Icons.email_outlined),
-                          border: OutlineInputBorder(),
-                        ),
                       ),
                       _gap(),
-                      TextFormField(
+                      CustomTextFormField(
                         controller: passwordController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -86,19 +84,16 @@ class LoginPage extends StatelessWidget {
                           return null;
                         },
                         obscureText: !loginProvider.isPasswordVisible,
-                        decoration: InputDecoration(
-                            labelText: 'Passwort',
-                            hintText: 'Geben Sie Passwort ein',
-                            prefixIcon: const Icon(Icons.lock_outline_rounded),
-                            border: const OutlineInputBorder(),
-                            suffixIcon: IconButton(
-                              icon: Icon(loginProvider.isPasswordVisible
-                                  ? Icons.visibility_off
-                                  : Icons.visibility),
-                              onPressed: () =>
-                                  loginProvider.setIsPasswordVisible(
-                                      !loginProvider.isPasswordVisible),
-                            )),
+                        label: "Passwort",
+                        hintText: "Passwort",
+                        suffixIcon: IconButton(
+                          icon: Icon(loginProvider.isPasswordVisible
+                              ? Icons.visibility_off
+                              : Icons.visibility),
+                          onPressed: () => loginProvider.setIsPasswordVisible(
+                              !loginProvider.isPasswordVisible),
+                        ),
+                        icon: const Icon(Icons.lock_outline_rounded),
                       ),
                       _gap(),
                       CheckboxListTile(
@@ -114,6 +109,35 @@ class LoginPage extends StatelessWidget {
                       ),
                       _gap(),
                       Consumer<LoginProvider>(
+                          builder: (context, provider, child) =>
+                              provider.loginFailed
+                                  ? Card(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .errorContainer,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Icon(Icons.warning,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .error),
+                                            Text(
+                                              "Login fehlgeschlagen.",
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .error),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  : const SizedBox()),
+                      _gap(),
+                      Consumer<LoginProvider>(
                         builder: (context, loginProvider, child) => SizedBox(
                           width: double.infinity,
                           child: FilledButton(
@@ -125,7 +149,9 @@ class LoginPage extends StatelessWidget {
                               padding: const EdgeInsets.all(10.0),
                               child: loginProvider.isLoading
                                   ? const Center(
-                                      child: CircularProgressIndicator(color: Colors.white,))
+                                      child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ))
                                   : const Text(
                                       'Anmelden',
                                       style: TextStyle(

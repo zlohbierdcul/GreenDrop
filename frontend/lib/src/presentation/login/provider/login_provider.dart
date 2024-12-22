@@ -16,6 +16,9 @@ class LoginProvider extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
+  bool _loginFailed = false;
+  bool get loginFailed => _loginFailed;
+
   
 
   void setIsPasswordVisible(bool b) {
@@ -34,6 +37,7 @@ class LoginProvider extends ChangeNotifier {
   }
 
   void loginHandler(formKey, email, password) async {
+    _loginFailed = false;
     _isLoading = true;
     notifyListeners();
 
@@ -43,9 +47,9 @@ class LoginProvider extends ChangeNotifier {
       
       bool success = false;
       try {
-
         success = await authenticationRepository.signIn(email, password);
       } catch (e) {
+        _loginFailed = true;
         log.info("Login failed.");
       }
 

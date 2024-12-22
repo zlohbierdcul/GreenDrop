@@ -22,7 +22,7 @@ class OrderTypeToggleWidget extends StatelessWidget {
         height: 30,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: toggleProvider.isToggled ? Theme.of(context).primaryColor : Colors.grey,
+          color: toggleProvider.isToggled ? Theme.of(context).colorScheme.primary : Colors.grey,
         ),
                 child: Stack(
                   

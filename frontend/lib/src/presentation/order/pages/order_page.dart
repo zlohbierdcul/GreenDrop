@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:greendrop/src/domain/models/shop.dart';
-import 'package:greendrop/src/presentation/account/provider/account_data_provider.dart';
+import 'package:greendrop/src/presentation/account/provider/user_provider.dart';
 import 'package:greendrop/src/presentation/common_widgets/app_drawer.dart';
 import 'package:greendrop/src/presentation/common_widgets/center_constrained_body.dart';
 import 'package:greendrop/src/presentation/order/pages/order_confirmation_page.dart';
@@ -21,8 +21,8 @@ class OrderPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppDrawer.buildGreendropsAppBar(context),
-      body: Consumer3<AccountProvider, CartProvider, OrderProvider>(
-        builder: (context, accountProvider, cartProvider, orderProvider, child) => CenterConstrainedBody(
+      body: Consumer3<UserProvider, CartProvider, OrderProvider>(
+        builder: (context, userProvider, cartProvider, orderProvider, child) => CenterConstrainedBody(
           body: Column(
             children: [
               Expanded(
@@ -37,7 +37,7 @@ class OrderPage extends StatelessWidget {
                           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                         ),
                         const SizedBox(height: 12),
-                        OrderUserInfo(account: accountProvider.user),
+                        OrderUserInfo(account: userProvider.user),
                         const SizedBox(height: 12),
                         const OrderPaymentSelection(),
                         const SizedBox(height: 12),
@@ -53,9 +53,9 @@ class OrderPage extends StatelessWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: FilledButton(
                   onPressed: () {
-                    accountProvider.updateGreendops(cartProvider.getTotalCosts(), orderProvider.discount.value);
+                    userProvider.updateGreendops(cartProvider.getTotalCosts(), orderProvider.discount.value);
                     Navigator.of(context).push(
-                      MaterialPageRoute(
+                      NoSwipePageRoute(
                         builder: (context) => const OrderConfirmationPage(),
                       ),
                     );
@@ -83,5 +83,11 @@ class OrderPage extends StatelessWidget {
       ),
     );
   }
+}
 
+class NoSwipePageRoute<T> extends MaterialPageRoute<T> {
+  NoSwipePageRoute({required super.builder});
+
+  @override
+  bool get popGestureEnabled => false; // Swipe deaktivieren
 }
