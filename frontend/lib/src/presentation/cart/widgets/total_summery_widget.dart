@@ -10,11 +10,11 @@ class TotalSummaryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context);
-    final double maxPadding = 16;
+    const double maxPadding = 16;
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceContainer,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(16), bottom: Radius.circular(16.0)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -27,7 +27,7 @@ class TotalSummaryWidget extends StatelessWidget {
               child: !cartProvider.isMinOrderMet ? 
                 Container(
                   width: double.infinity,
-                  padding: EdgeInsets.symmetric(vertical: maxPadding/2, horizontal: maxPadding),
+                  padding: EdgeInsets.symmetric(horizontal: maxPadding),
                   color: Theme.of(context).colorScheme.errorContainer,
                     child: Text(
                       "Der Mindestbestellwert von ${cartProvider.minOrder.toStringAsFixed(2)}€ wurde nicht erreicht.",
@@ -36,7 +36,7 @@ class TotalSummaryWidget extends StatelessWidget {
                 )
                     : const SizedBox.shrink(),
               ),
-          Padding(padding: EdgeInsets.symmetric(horizontal: maxPadding, vertical: maxPadding/2),
+          Padding(padding: EdgeInsets.all(maxPadding),
           child: Column(
             children: [
                         Row(
@@ -76,7 +76,6 @@ class TotalSummaryWidget extends StatelessWidget {
                   style: const TextStyle(fontSize: 16)),
             ],
           ),
-          if (cartProvider.cart.isNotEmpty) ...[
             Padding(
               padding: const EdgeInsets.only(top: 16.0),
               child: FilledButton(
@@ -89,7 +88,7 @@ class TotalSummaryWidget extends StatelessWidget {
                                 OrderPage(shop: cartProvider.shop))): null;
                 },
                 child: const Padding(
-                  padding: EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(maxPadding),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -106,7 +105,6 @@ class TotalSummaryWidget extends StatelessWidget {
               )
             )
           ],
-            ]
           ))
         ],
       ),
