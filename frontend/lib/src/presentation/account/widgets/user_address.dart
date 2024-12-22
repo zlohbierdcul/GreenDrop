@@ -185,6 +185,7 @@ class UserAddress extends StatelessWidget {
                           child: CustomTextFormField(
                               hintText: "Nr",
                               controller: streetNumberController,
+                              keyboardType: const TextInputType.numberWithOptions(),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Textfeld ist leer!';
@@ -216,6 +217,7 @@ class UserAddress extends StatelessWidget {
                           child: CustomTextFormField(
                               hintText: "PLZ",
                               controller: zipController,
+                              keyboardType: const TextInputType.numberWithOptions(),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Textfeld ist leer!';
