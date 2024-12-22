@@ -120,14 +120,14 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.home),
             title: const Text('Startseite'),
             onTap: () {
-              Navigator.pushNamed(context, '/home');
+              Navigator.popAndPushNamed(context, '/home');
             },
           ),
           ListTile(
             leading: const Icon(Icons.shopping_bag),
             title: const Text('Bestellungen'),
             onTap: () {
-              Navigator.pushNamed(context, '/order_history');
+              Navigator.popAndPushNamed(context, '/order_history');
             },
           ),
           const Divider(),
@@ -135,7 +135,7 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.account_box),
             title: const Text('Account'),
             onTap: () {
-              Navigator.pushNamed(context, '/account');
+              Navigator.popAndPushNamed(context, '/account');
             },
           ),
           const Divider(),
@@ -143,7 +143,7 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.question_answer),
             title: const Text('Impressum'),
             onTap: () {
-              Navigator.pushNamed(context, '/impressum');
+              Navigator.popAndPushNamed(context, '/impressum');
             },
           ),
         ],
