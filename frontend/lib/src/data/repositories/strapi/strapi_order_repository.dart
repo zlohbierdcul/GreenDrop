@@ -20,7 +20,8 @@ class StrapiOrderRepository extends IOrderRepository {
     ));
   }
 
-  static final StrapiOrderRepository _singleton = StrapiOrderRepository._privateConstructor() ;
+  static final StrapiOrderRepository _singleton =
+      StrapiOrderRepository._privateConstructor();
 
   factory StrapiOrderRepository() {
     return _singleton;
@@ -36,13 +37,23 @@ class StrapiOrderRepository extends IOrderRepository {
 
   @override
   Future<List<Order>> getUserOrders(User user) async {
-    Response response = await dio.get(api.getUserOrders(user.id));
+    Response baseResponse = await dio.get(api.getUserOrdersBase(user.userId));
+    List<dynamic> orders = baseResponse.data['data'];
+    if (orders.isEmpty) return [];
+    Response itemResponse = await dio.get(api.getUserOrdersItems(user.userId));
     try {
-      List<dynamic> data = response.data['data'];
-      List<Future<Order>> futureOrders = data
-          .map((json) => Order.fromJson(json))
-          .toList(); //oder auch einfach nur user.id
-      return Future.wait(futureOrders);
+    for (dynamic order in orders) {
+      Response shopResponse =
+          await dio.get(api.getShopById(order["shop"]["documentId"]));
+      Response addressResponse = await dio
+          .get(api.getAddressById(order["user_address"]["documentId"]));
+      order["items"] = itemResponse.data["data"]
+          .firstWhere((o) => o["documentId"] == order["documentId"])["items"];
+      order["shop"] = shopResponse.data["data"];
+      order["user_address"] = addressResponse.data["data"];
+    }
+
+    return orders.map((json) => Order.fromJson(json)).toList();
     } catch (e, stackTrace) {
       log.severe("Fehler beim Abrufen der Benutzerbestellungen", e, stackTrace);
       return [];
