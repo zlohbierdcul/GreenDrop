@@ -23,56 +23,54 @@ class CartScreen extends StatelessWidget {
       builder: (context, cartProvider, child) => Scaffold(
         appBar: AppDrawer.buildGreendropsAppBar(context),
         body: CenterConstrainedBody(
-           body:  Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(right: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.only(left: 20.0),
-                        child: Text(
-                          "Warenkorb",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18),
-                        ),
-                      ),
-                      OrderTypeToggleWidget(
-                          toggleProvider: cartProvider.orderTypeToggle),
-                      IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: cartProvider.resetCart),
-                    ],
-                  )
-                ),
-                Expanded(
-                  child: cartProvider.toCartItemList().isNotEmpty
-                      ? ListView.builder(
-                          itemCount: cartProvider.toCartItemList().length,
-                          itemBuilder: (context, index) {
-                            final item = cartProvider.toCartItemList()[index];
-                            return ProductCard(product: item.product);
-                          },
-                        )
-                      : const Center(
-                          child: Text("Keine Produkte im Warenkorb.")),
-                ),
-                Padding(padding: EdgeInsets.all(16.0),
-                
-                  child: cartProvider.cart.isNotEmpty?  const TotalSummaryWidget() : null ,
-                )
-                  
-              ],
-            ),
-          ],
+          body: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Padding(
+                      padding: EdgeInsets.only(right: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(left: 20.0),
+                            child: Text(
+                              "Warenkorb",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18),
+                            ),
+                          ),
+                          OrderTypeToggleWidget(
+                              toggleProvider: cartProvider.orderTypeToggle),
+                          IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: cartProvider.resetCart),
+                        ],
+                      )),
+                  Expanded(
+                    child: cartProvider.toCartItemList().isNotEmpty
+                        ? ListView.builder(
+                            itemCount: cartProvider.toCartItemList().length,
+                            itemBuilder: (context, index) {
+                              final item = cartProvider.toCartItemList()[index];
+                              return ProductCard(product: item.product);
+                            },
+                          )
+                        : const Center(
+                            child: Text("Keine Produkte im Warenkorb.")),
+                  ),
+                  if (cartProvider.cart.isNotEmpty)
+                    const TotalSummaryWidget()
+                  else
+                    const SizedBox()
+                ],
+              ),
+            ],
+          ),
         ),
       ),
-    ),
     );
   }
 }

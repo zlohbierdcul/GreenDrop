@@ -26,7 +26,7 @@ class TotalSummaryWidget extends StatelessWidget {
               child: !cartProvider.isMinOrderMet ? 
                 Container(
                   width: double.infinity,
-                  padding: EdgeInsets.symmetric(horizontal: maxPadding),
+                  padding: const EdgeInsets.symmetric(horizontal: maxPadding),
                   color: Theme.of(context).colorScheme.errorContainer,
                     child: Text(
                       "Der Mindestbestellwert von ${cartProvider.minOrder.toStringAsFixed(2)}€ wurde nicht erreicht.",
@@ -35,7 +35,7 @@ class TotalSummaryWidget extends StatelessWidget {
                 )
                     : const SizedBox.shrink(),
               ),
-          Padding(padding: EdgeInsets.all(maxPadding),
+          Padding(padding: const EdgeInsets.all(maxPadding),
           child: Column(
             children: [
                         Row(
@@ -102,7 +102,8 @@ class TotalSummaryWidget extends StatelessWidget {
                   )
                 )
               )
-            )
+            ),
+            const SizedBox(height: 16),
           ],
           ))
         ],
