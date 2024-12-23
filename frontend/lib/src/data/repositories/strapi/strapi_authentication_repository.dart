@@ -21,7 +21,8 @@ class StrapiAuthenticationRepository extends IAuthenticationRepository {
     ));
   }
 
-  static final StrapiAuthenticationRepository _singleton = StrapiAuthenticationRepository._privateConstructor() ;
+  static final StrapiAuthenticationRepository _singleton =
+      StrapiAuthenticationRepository._privateConstructor();
 
   factory StrapiAuthenticationRepository() {
     return _singleton;
@@ -33,48 +34,60 @@ class StrapiAuthenticationRepository extends IAuthenticationRepository {
   }
 
   @override
-  Future<bool> register(String username, String email, String password,
-      String forename, String lastname, String birthdate, String street,
-      String housenumber, String town, String plz)
-  async{
-    Response response = await dio.post(api.getRegister(),
-        data: {"username": username ,"email": email, "password": password},
-    );
-    print(username);
-    print(email);
-    print(password);
-    print(response.statusCode);
-
-
-    bool success = response.statusCode == 200;
-
-    User userr = User(
-        id: response.data["user"]["id"].toString(),
-        userName: username,firstName: forename, lastName: lastname,
-        birthdate: birthdate, greenDrops:  0,eMail:  email,
-        addresses: [Address(id: "000", street: street, streetNumber: housenumber,
-            zipCode: plz, city: town, isPrimary: true)]
-    );
-    if(success){
-      updateUser(userr);
+  Future<bool> register(
+      String username,
+      String email,
+      String password,
+      String firstname,
+      String lastname,
+      String birthdate,
+      String street,
+      String streetNo,
+      String city,
+      String zipCode) async {
+    bool success = false;
+    try {
+      Response response = await dio.post(
+        api.getRegister(),
+        data: {
+          "username": username,
+          "email": email,
+          "password": password,
+        },
+      );
+      success = response.statusCode == 200;
+      String jwt = response.data["jwt"];
+      String userId = response.data["user"]["documentId"];
+      String addressId =
+          await createAddress(street, streetNo, city, zipCode, jwt);
+      String userDetailId = await createUserDetail(
+          username, email, firstname, lastname, birthdate, addressId, jwt);
+      dio.put(api.connectUserDetail(userDetailId),
+          data: {
+            "data": {
+              "users_permissions_user": {
+                "connect": [userId]
+              }
+            }
+          },
+          options: Options(headers: {"Authorization": "Bearer $jwt"}));
+    } catch (_) {
+      success = false;
     }
 
     return success;
-
   }
 
   @override
   Future<bool> signIn(String email, String password) async {
     Response response = await dio.post(api.getSignIn(),
-        data: {"identifier": email, "password": password},
-        options:
-            Options(headers: {"Authorization": "Bearer ${api.getAuth()}"}));
+        data: {"identifier": email, "password": password});
     bool success = response.statusCode == 200;
 
     if (success) {
       await fetchUser(response.data["user"]["id"].toString());
       const secureStorage = FlutterSecureStorage();
-      secureStorage.write(key: "userId", value: _user!.id);
+      secureStorage.write(key: "userId", value: _user!.userId);
     }
     return success;
   }
@@ -90,8 +103,6 @@ class StrapiAuthenticationRepository extends IAuthenticationRepository {
   @override
   void updateUser(User user) {
     _user = user;
-    print(user.toJson());
-
     dio.put(api.updateUser(user), data: {"data": user.toJson()});
   }
 
@@ -109,12 +120,65 @@ class StrapiAuthenticationRepository extends IAuthenticationRepository {
 
   @override
   void addAddress(Address address) async {
-    Response r = await dio.post(api.addAddress(), data: {"data": address.toJson()});
+    Response r =
+        await dio.post(api.addAddress(), data: {"data": address.toJson()});
     String id = r.data["data"]['documentId'].toString();
 
     address.updateId(id);
 
+    await dio.put(api.connectAddressToUser(_user!.userDetailId), data: {
+      "data": {
+        "addresses": {
+          "connect": [id]
+        }
+      }
+    });
+
     updateUser(_user!);
+  }
+
+  @override
+  Future<String> createAddress(String street, String streetNo, String city,
+      String zipCode, String jwt) async {
+    Response response = await dio.post(api.createAddress(),
+        data: {
+          "data": {
+            "street": street,
+            "street_no": streetNo,
+            "city": city,
+            "zip_code": zipCode,
+            "is_primary": true
+          }
+        },
+        options: Options(headers: {"Authorization": "Bearer $jwt"}));
+
+    return response.data["data"]["documentId"];
+  }
+
+  @override
+  Future<String> createUserDetail(
+      String username,
+      String email,
+      String firstname,
+      String lastname,
+      String birthdate,
+      String addressId,
+      String jwt) async {
+    Response response = await dio.post(api.createUserDetail(),
+        data: {
+          "data": {
+            "username": username,
+            "email": email,
+            "first_name": firstname,
+            "last_name": lastname,
+            "green_drops": 50,
+            "addresses": [addressId],
+            "birthdate": birthdate
+          }
+        },
+        options: Options(headers: {"Authorization": "Bearer $jwt"}));
+
+    return response.data["data"]["documentId"];
   }
 
   @override

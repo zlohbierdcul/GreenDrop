@@ -1,4 +1,3 @@
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:greendrop/src/domain/models/address.dart';
 import 'package:greendrop/src/domain/models/user.dart';
@@ -23,11 +22,11 @@ class StrapiAPI {
   }
 
   String getUser(String id) {
-    return "$baseUrl/api/users/$id?populate=*";
+    return "$baseUrl/api/users/$id?populate[user_detail][populate][addresses]=*";
   }
 
   String updateUser(User user) {
-    return "$baseUrl/api/users/${user.id}";
+    return "$baseUrl/api/user-details/${user.userDetailId}";
   }
 
   String updateAddress(Address address) {
@@ -42,12 +41,38 @@ class StrapiAPI {
     return "$baseUrl/api/addresses/${address.id}";
   }
 
+  String connectAddressToUser(String userId) {
+    return "$baseUrl/api/user-details/$userId";
+  }
+
   String createOrder() {
     return "$baseUrl/api/order";
   }
 
+  String getUserOrdersBase(userId) {
+    return baseUrl +
+        r"/api/orders?populate[0]=shop&populate[1]=user_address&filters[users_permissions_user][id][$eq]=" +
+        userId;
+  }
+
+  String getUserOrdersItems(userId) {
+    return baseUrl +
+        r"/api/orders?populate[items][populate][product][populate][1]=product&filters[users_permissions_user][id][$eq]=" +
+        userId;
+  }
+
+  String getShopById(id) {
+    return "$baseUrl/api/shops/$id?populate=reviews";
+  }
+
+  String getAddressById(id) {
+    return "$baseUrl/api/addresses/$id";
+  }
+
   String getUserOrders(userId) {
-    return baseUrl + r"/api/orders?populate=*&filters[users_permissions_user][id][$eq]=" + userId;
+    return baseUrl +
+        r"/api/orders?populate[0]=user_permissions_user&populate[items][populate][product][populate][1]=product&populate[3]=shop&filters[users_permissions_user][id][$eq]=" +
+        userId;
   }
 
   String getAuth() {
@@ -56,5 +81,17 @@ class StrapiAPI {
 
   String getRegister() {
     return "$baseUrl/api/auth/local/register";
+  }
+
+  String createAddress() {
+    return "$baseUrl/api/addresses";
+  }
+
+  String createUserDetail() {
+    return "$baseUrl/api/user-details";
+  }
+
+  String connectUserDetail(userId) {
+    return "$baseUrl/api/user-details/$userId";
   }
 }

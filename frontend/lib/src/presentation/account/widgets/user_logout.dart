@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:greendrop/src/presentation/account/provider/account_data_provider.dart';
+import 'package:greendrop/src/presentation/account/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class UserLogout extends StatelessWidget {
@@ -7,12 +7,12 @@ class UserLogout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AccountProvider>(
-        builder: (context, accountProvider, child) => Padding(
+    return Consumer<UserProvider>(
+        builder: (context, userProvider, child) => Padding(
               padding: const EdgeInsets.symmetric(vertical: 20.0),
               child: ElevatedButton(
                   onPressed: () => {
-                        accountProvider.signOut(),
+                        userProvider.signOut(),
 
                       },
                   style: TextButton.styleFrom(
