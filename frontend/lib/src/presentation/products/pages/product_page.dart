@@ -50,7 +50,7 @@ class ShopPage extends StatelessWidget {
                             ),
                             const ProductList(),
                             const SizedBox(
-                              height: 80,
+                              height: 100,
                             )
                           ]),
                     ),
@@ -59,7 +59,7 @@ class ShopPage extends StatelessWidget {
               ),
               if (cartProvider.cart.isNotEmpty) ...[
                 Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 32),
                     child: FilledButton(
                         onPressed: () {
                           final totalCost = cartProvider.getTotalCosts();
@@ -78,7 +78,7 @@ class ShopPage extends StatelessWidget {
                           }
                         },
                         child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10.0),
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -115,7 +115,8 @@ class ShopPage extends StatelessWidget {
                                   ),
                                 )
                               ],
-                            ))))
+                            )))),
+                            const SizedBox(height: 16)
               ]
             ]),
           )),

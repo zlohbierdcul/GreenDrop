@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:greendrop/src/domain/models/shop.dart';
 import 'package:greendrop/src/presentation/order/provider/order_provider.dart';
+import 'package:greendrop/src/presentation/order/widgets/address_selector.dart';
 import 'package:provider/provider.dart';
 
 class OrderUserInfo extends StatelessWidget {
-  const OrderUserInfo({super.key, required account});
+  final Shop shop;
+  const OrderUserInfo({super.key, required this.shop});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          children: [
-            Column(
+    return Column(
+      children: [
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
@@ -23,19 +26,24 @@ class OrderUserInfo extends StatelessWidget {
                   builder: (context, orderProvider, child) => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("${orderProvider.user.firstName} ${orderProvider.user.lastName}"),
-                      if (orderProvider.user.addresses.isNotEmpty) ...[
-                        Text("${orderProvider.user.addresses[0].zipCode} ${orderProvider.user.addresses[0].city}"),
-                        Text("${orderProvider.user.addresses[0].street} ${orderProvider.user.addresses[0].streetNumber}")
-                      ]
+                      Text(
+                          "${orderProvider.user.firstName} ${orderProvider.user.lastName}"),
+                      Text(orderProvider.user.eMail),
                     ],
                   ),
-                )
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  "Lieferadresse:",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
+                const SizedBox(height: 8),
+                AddressSelector(shop: shop)
               ],
             ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }

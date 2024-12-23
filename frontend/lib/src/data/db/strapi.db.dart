@@ -49,8 +49,30 @@ class StrapiAPI {
     return "$baseUrl/api/order";
   }
 
+  String getUserOrdersBase(userId) {
+    return baseUrl +
+        r"/api/orders?populate[0]=shop&populate[1]=user_address&filters[users_permissions_user][id][$eq]=" +
+        userId;
+  }
+
+  String getUserOrdersItems(userId) {
+    return baseUrl +
+        r"/api/orders?populate[items][populate][product][populate][1]=product&filters[users_permissions_user][id][$eq]=" +
+        userId;
+  }
+
+  String getShopById(id) {
+    return "$baseUrl/api/shops/$id?populate=reviews";
+  }
+
+  String getAddressById(id) {
+    return "$baseUrl/api/addresses/$id";
+  }
+
   String getUserOrders(userId) {
-    return baseUrl + r"/api/orders?populate=*&filters[users_permissions_user][id][$eq]=" + userId;
+    return baseUrl +
+        r"/api/orders?populate[0]=user_permissions_user&populate[items][populate][product][populate][1]=product&populate[3]=shop&filters[users_permissions_user][id][$eq]=" +
+        userId;
   }
 
   String getAuth() {

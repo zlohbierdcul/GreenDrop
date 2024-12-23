@@ -43,6 +43,7 @@ class CartProvider extends ChangeNotifier {
       _orderItems.add(OrderItem(
           totalAmount: count,
           name: product.name,
+          quantity: getProductCountByProduct(product),
           price: product.price,
           stock: product.stock,
           category: product.category,
