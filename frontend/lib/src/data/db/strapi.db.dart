@@ -82,4 +82,16 @@ class StrapiAPI {
   String getRegister() {
     return "$baseUrl/api/auth/local/register";
   }
+
+  String createAddress() {
+    return "$baseUrl/api/addresses";
+  }
+
+  String createUserDetail() {
+    return "$baseUrl/api/user-details";
+  }
+
+  String connectUserDetail(userId) {
+    return "$baseUrl/api/user-details/$userId";
+  }
 }

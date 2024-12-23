@@ -27,6 +27,7 @@ dependencies:
   flutter_map_animations: ^0.8.0
   collection: ^1.18.0
   flutter_native_splash: ^2.4.3
+  confetti: ^0.8.0
 
 dev_dependencies:
   flutter_test:
@@ -36,6 +37,7 @@ dev_dependencies:
 flutter:
   assets:
     - .env
+    - assets/images/celebration.png
     - assets/images/shop1.jpg
     - assets/images/logo.png
     - assets/images/logo_old.png

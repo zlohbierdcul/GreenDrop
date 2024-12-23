@@ -8,7 +8,7 @@ import 'package:greendrop/src/presentation/account/pages/account_page.dart';
 import 'package:greendrop/src/presentation/account/provider/user_provider.dart';
 import 'package:greendrop/src/presentation/impressum/pages/impressum_page.dart';
 import 'package:greendrop/src/presentation/login/pages/login_page.dart';
-import 'package:greendrop/src/presentation/login/pages/register_page.dart';
+import 'package:greendrop/src/presentation/login/pages/registration_page.dart';
 import 'package:greendrop/src/presentation/login/provider/login_provider.dart';
 import 'package:greendrop/src/presentation/map/provider/shop_map_provider.dart';
 import 'package:greendrop/src/presentation/order/provider/order_provider.dart';
@@ -84,7 +84,7 @@ class GreenDropApp extends StatelessWidget {
         routes: {
           '/home': (context) => const HomePage(),
           '/login': (context) => LoginPage(),
-          '/register': (context) => RegisterPage(),
+          '/register': (context) => RegistrationPage(),
           '/account': (context) => const AccountPage(),
           '/order_history': (context) => const OrderHistoryPage(),
           '/impressum': (context) => const ImpressumPage(),

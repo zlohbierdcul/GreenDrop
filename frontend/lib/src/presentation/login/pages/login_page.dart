@@ -118,7 +118,8 @@ class LoginPage extends StatelessWidget {
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             Icon(Icons.warning,
                                                 color: Theme.of(context)
@@ -145,6 +146,14 @@ class LoginPage extends StatelessWidget {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12)),
                             ),
+                            onPressed: loginProvider.isLoading
+                                ? null
+                                : () async {
+                                    loginProvider.loginHandler(
+                                        _formKey,
+                                        emailController.text,
+                                        passwordController.text);
+                                  },
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: loginProvider.isLoading
@@ -159,12 +168,6 @@ class LoginPage extends StatelessWidget {
                                           fontWeight: FontWeight.bold),
                                     ),
                             ),
-                            onPressed: () async {
-                              loginProvider.loginHandler(
-                                  _formKey,
-                                  emailController.text,
-                                  passwordController.text);
-                            },
                           ),
                         ),
                       ),
