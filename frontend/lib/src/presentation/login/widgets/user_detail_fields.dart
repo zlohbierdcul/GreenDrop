@@ -70,6 +70,7 @@ class UserDetailFields extends StatelessWidget {
                     provider.setEmail(value);
                     return null;
                   },
+                  keyboardType: TextInputType.emailAddress,
                   icon: const Icon(Icons.email_outlined),
                   label: "E-Mail",
                   hintText: "E-Mail",

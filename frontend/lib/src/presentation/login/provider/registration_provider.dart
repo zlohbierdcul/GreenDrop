@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 class RegistrationProvider extends ChangeNotifier {
   IAuthenticationRepository authenticationRepository =
       StrapiAuthenticationRepository();
-  int _registrationPage = 4;
+  int _registrationPage = 1;
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
 
