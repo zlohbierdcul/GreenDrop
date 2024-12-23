@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -7,6 +5,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:geocode/geocode.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:greendrop/src/domain/models/shop.dart';
+import 'package:greendrop/src/utils/utils.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:logging/logging.dart';
 
@@ -14,6 +13,7 @@ class ShopMapProvider extends ChangeNotifier {
   Logger log = Logger("ShopMapProvider");
 
   bool _isZoomedIn = false;
+
   Shop? _focusedShop;
 
   final MapController _mapController = MapController();
@@ -103,20 +103,10 @@ class ShopMapProvider extends ChangeNotifier {
     if (!kIsWeb) FlutterNativeSplash.remove();
   }
 
-  double _calculateDistance(
-      double lat1, double lat2, double lon1, double lon2) {
-    var p = 0.017453292519943295;
-    var c = cos;
-    var a = 0.5 -
-        c((lat2 - lat1) * p) / 2 +
-        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
-    return 12742 * asin(sqrt(a));
-  }
-
   Future<void> _createShopMarker(List<Shop> shops, BuildContext context) async {
     log.info("Creating shop markers.");
     List<Marker> shopMarker = [];
-    if(shops.isEmpty) {
+    if (shops.isEmpty) {
       isLoading = false;
     }
     for (var shop in shops) {
@@ -124,12 +114,12 @@ class ShopMapProvider extends ChangeNotifier {
 
       if (shop.latitude == 0 && shop.longitude == 0) {
         Coordinates coordinates =
-            await _getCoordinatesOfAddress(shop.address.toString());
+            await getCoordinatesOfAddress(shop.address.toString());
         shop.latitude = coordinates.latitude ?? 0;
         shop.longitude = coordinates.longitude ?? 0;
       }
 
-      double distance = _calculateDistance(
+      double distance = calculateDistance(
           latitudePerson, shop.latitude, longitudePerson, shop.longitude);
       log.fine("Distance: $distance");
       if (distance <= radius) {
@@ -145,17 +135,5 @@ class ShopMapProvider extends ChangeNotifier {
 
   resetZoom() {
     _mapController.move(LatLng(_latitudePerson, _longitudePerson), 14);
-  }
-
-  Future<Coordinates> _getCoordinatesOfAddress(String address) async {
-    GeoCode geoCode = GeoCode();
-    try {
-      Coordinates coordinates =
-          await geoCode.forwardGeocoding(address: address);
-      return coordinates;
-    } catch (e) {
-      log.warning('Warning: Geocoding-Fehler für $address: $e');
-    }
-    return Coordinates(latitude: 0, longitude: 0);
   }
 }
