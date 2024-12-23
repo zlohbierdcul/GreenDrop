@@ -22,5 +22,5 @@ abstract class IAuthenticationRepository {
   void deleteAddress(Address address);
   Future<User> fetchUser(String id);
   Future<String> createAddress(String street, String streetNo, String city, String zipCode, String jwt);
-  Future<String> createUserDetail(String username, String email, String firstname, String lastname, String addressId, String jwt);
+  Future<String> createUserDetail(String username, String email, String firstname, String lastname, String birthdate, String addressId, String jwt);
 }

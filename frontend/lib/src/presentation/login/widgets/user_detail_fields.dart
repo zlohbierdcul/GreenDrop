@@ -77,18 +77,31 @@ class UserDetailFields extends StatelessWidget {
                 // Vorname Input
                 _gap(),
                 // Geburtsdatum Input
-                CustomTextFormField(
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Geburtsdatum darf nicht leer sein!';
-                    }
-                    provider.setBirthdate(value);
-                    return null;
-                  },
-                  keyboardType: TextInputType.datetime,
-                  icon: const Icon(Icons.date_range_outlined),
-                  label: "Geburtsdatum",
-                  hintText: "TT/MM/JJJJ",
+                GestureDetector(
+                  onTap: () => provider.selectDate(context),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12.0, horizontal: 14.0),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surfaceContainerHigh,
+                      border: null,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.date_range_outlined,
+                            color: Theme.of(context).colorScheme.onSurfaceVariant),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            provider.birthdate.isEmpty
+                                ? "TT/MM/JJJJ"
+                                : provider.birthdate,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ));

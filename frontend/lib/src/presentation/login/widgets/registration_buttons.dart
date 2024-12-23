@@ -34,6 +34,7 @@ class RegistrationButtons extends StatelessWidget {
                 ),
               ),
             ),
+            const SizedBox(height: 16),
             // Weiterleitung zur Registrierungsseite
             TextButton(
               onPressed: () {
@@ -92,19 +93,23 @@ class RegistrationButtons extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Text(
-                    'Registrieren',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
+                onPressed: provider.isLoading
+                    ? null
+                    : () {
+                        if (provider.validatePage(formKey)) {
+                          provider.registerUser();
+                        }
+                      },
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: provider.isLoading
+                      ? const CircularProgressIndicator()
+                      : const Text(
+                          'Registrieren',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
                 ),
-                onPressed: () {
-                  if (provider.validatePage(formKey)) {
-                    provider.nextPage();
-                    provider.registerUser();
-                  }
-                },
               ),
             ),
             const SizedBox(height: 8),

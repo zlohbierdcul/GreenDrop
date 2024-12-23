@@ -1,4 +1,3 @@
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:greendrop/src/domain/models/address.dart';
 import 'package:greendrop/src/domain/models/user.dart';
@@ -71,6 +70,6 @@ class StrapiAPI {
   }
 
   String connectUserDetail(userId) {
-    return "$baseUrl/api/user-permissions-user/$userId";
+    return "$baseUrl/api/user-details/$userId";
   }
 }
