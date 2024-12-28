@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:greendrop/src/presentation/order_history/pages/order_details_page.dart';
 import 'package:greendrop/src/presentation/order_history/provider/order_history_provider.dart';
 import 'package:greendrop/src/presentation/theme/theme_provider.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class OrdersList extends StatelessWidget {
@@ -72,16 +73,16 @@ class OrdersList extends StatelessWidget {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      // Text(order.date,
-                                      //     style: const TextStyle(
-                                      //         color: Colors.grey)),
+                                      Text(DateFormat("dd.mm.yyyy").format(order.date!),
+                                          style: const TextStyle(
+                                              color: Colors.grey)),
                                     ],
                                   ),
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    Text("${order.orderItems?.length ?? 0} items"),
+                                    Text("${order.orderItems?.length ?? 0} Artikel"),
                                     Text(
                                       "€${order.orderItems?.map((item) => item.price).reduce((a, b) => a + b).toStringAsFixed(2)}",
                                       style: const TextStyle(

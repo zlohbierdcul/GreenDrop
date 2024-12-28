@@ -17,13 +17,19 @@ class CartProvider extends ChangeNotifier {
   }
   OrderTypeToggleProvider get orderTypeToggle => _ordertype;
 
-  double get totalCosts => getTotalCosts()+ deliveryCosts;
+  double get subtotal => getTotalCosts();
+
+  double get totalCosts => subtotal + deliveryCosts;
 
   double get deliveryCosts => _shop.deliveryCost;
+
+  bool get isMinOrderMet => getTotalCosts() >= _shop.minOrder;
 
   int get greenDrops => totalCosts.floor() ~/ 2;
 
   Shop get shop => _shop;
+
+  double get minOrder => _shop.minOrder;
 
   set shop(Shop shop){
     _shop = shop;
@@ -37,6 +43,7 @@ class CartProvider extends ChangeNotifier {
       _orderItems.add(OrderItem(
           totalAmount: count,
           name: product.name,
+          quantity: getProductCountByProduct(product),
           price: product.price,
           stock: product.stock,
           category: product.category,
@@ -53,7 +60,7 @@ class CartProvider extends ChangeNotifier {
   }
 
   int getProductCount() {
-    return _cart.values.reduce((a, b) => a + b);
+    return _cart.isEmpty? 0 :  _cart.values.reduce((a, b) => a + b);
   }
 
   int getProductCountByProduct(Product product) {
@@ -75,7 +82,7 @@ class CartProvider extends ChangeNotifier {
     return totalCosts+shop.deliveryCost;
   }
   double getTotalCosts() {
-    return _cart.entries
+    return _cart.isEmpty ? 0 :  _cart.entries
         .map((entry) => entry.value * entry.key.price)
         .reduce((a, b) => a + b);
   }

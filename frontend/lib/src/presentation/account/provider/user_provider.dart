@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:greendrop/main.dart';
 import 'package:greendrop/src/data/repositories/interfaces/authentication_repository.dart';
 import 'package:greendrop/src/data/repositories/strapi/strapi_authentication_repository.dart';
 import 'package:greendrop/src/domain/models/address.dart';
 import 'package:greendrop/src/domain/models/user.dart';
 import 'package:greendrop/src/presentation/login/pages/login_page.dart';
 
-import '../../../../main.dart';
 
-class AccountProvider with ChangeNotifier {
+class UserProvider with ChangeNotifier {
   IAuthenticationRepository authRepository = StrapiAuthenticationRepository();
   User? _user;
   bool _isEditing = false;
@@ -39,9 +39,7 @@ class AccountProvider with ChangeNotifier {
   // Methode zum Bearbeiten der Account-Daten
   Future<void> updateAccount(User newUser) async {
     _user = newUser;
-    if(await authRepository.updateUserGreen(_user!)) {
-      print("WE did it");
-    }
+    authRepository.updateUser(_user!);
     notifyListeners();
   }
 
@@ -101,6 +99,8 @@ class AccountProvider with ChangeNotifier {
     if (formKey.currentState?.validate() ?? false) {
       User editedUser = User(
           id: _user!.id,
+          userId: _user!.userId,
+          userDetailId: _user!.userDetailId,
           userName: userName,
           firstName: firstName,
           lastName: lastName,
@@ -186,14 +186,6 @@ class AccountProvider with ChangeNotifier {
     _selectedAddress = a;
     _isPrimary = a.isPrimary ?? false;
     notifyListeners();
-  }
-
-  int sortAddresses(Address a, Address b) {
-    final aPrimary = a.isPrimary ?? false;
-    final bPrimary = b.isPrimary ?? false;
-    if (bPrimary && !aPrimary) return 1;
-    if (aPrimary && !bPrimary) return -1;
-    return 0;
   }
 
   void fetchUser() {

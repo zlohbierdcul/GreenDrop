@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:greendrop/src/presentation/account/provider/account_data_provider.dart';
+import 'package:greendrop/src/presentation/account/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -25,11 +25,11 @@ class AppDrawer extends StatelessWidget {
                     height: 22,
                   ),
                   const SizedBox(width: 5),
-                  Consumer<AccountProvider>(
-                      builder: (context, accountProvider, child) {
-                    return !accountProvider.isLoading && accountProvider.user != null
+                  Consumer<UserProvider>(
+                      builder: (context, userProvider, child) {
+                    return !userProvider.isLoading && userProvider.user != null
                         ? Text(
-                            accountProvider.user!.greenDrops.toString(),
+                            userProvider.user!.greenDrops.toString(),
                             style: TextStyle(
                                 fontSize: 16,
                                 color: Theme.of(context)
@@ -120,14 +120,14 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.home),
             title: const Text('Startseite'),
             onTap: () {
-              Navigator.pushNamed(context, '/home');
+              Navigator.popAndPushNamed(context, '/home');
             },
           ),
           ListTile(
             leading: const Icon(Icons.shopping_bag),
             title: const Text('Bestellungen'),
             onTap: () {
-              Navigator.pushNamed(context, '/order_history');
+              Navigator.popAndPushNamed(context, '/order_history');
             },
           ),
           const Divider(),
@@ -135,7 +135,7 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.account_box),
             title: const Text('Account'),
             onTap: () {
-              Navigator.pushNamed(context, '/account');
+              Navigator.popAndPushNamed(context, '/account');
             },
           ),
           const Divider(),
@@ -143,7 +143,7 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.question_answer),
             title: const Text('Impressum'),
             onTap: () {
-              Navigator.pushNamed(context, '/impressum');
+              Navigator.popAndPushNamed(context, '/impressum');
             },
           ),
         ],
