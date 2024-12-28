@@ -37,9 +37,11 @@ class AccountProvider with ChangeNotifier {
   }
 
   // Methode zum Bearbeiten der Account-Daten
-  void updateAccount(User newUser) {
+  Future<void> updateAccount(User newUser) async {
     _user = newUser;
-    authRepository.updateUser(newUser);
+    if(await authRepository.updateUserGreen(_user!)) {
+      print("WE did it");
+    }
     notifyListeners();
   }
 

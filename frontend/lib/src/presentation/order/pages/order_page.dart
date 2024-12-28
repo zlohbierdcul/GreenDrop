@@ -13,6 +13,8 @@ import 'package:provider/provider.dart';
 
 import 'package:greendrop/src/presentation/order/provider/order_provider.dart';
 
+import '../../common_widgets/no_swipe_page_route.dart';
+
 class OrderPage extends StatelessWidget {
   final Shop shop;
 
@@ -20,6 +22,7 @@ class OrderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // loading Appbar
       appBar: AppDrawer.buildGreendropsAppBar(context),
       body: Consumer3<AccountProvider, CartProvider, OrderProvider>(
         builder: (context, accountProvider, cartProvider, orderProvider, child) => CenterConstrainedBody(
@@ -36,6 +39,7 @@ class OrderPage extends StatelessWidget {
                           "Bestellung bei ${shop.name}",
                           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                         ),
+                        // load in side content widgets
                         const SizedBox(height: 12),
                         OrderUserInfo(account: accountProvider.user),
                         const SizedBox(height: 12),
@@ -51,12 +55,14 @@ class OrderPage extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(16.0),
+                // Button creates the Order and updates user GreenDrops
                 child: FilledButton(
                   onPressed: () {
+                    orderProvider.createOrder(shop, cartProvider.orderItems);
                     accountProvider.updateGreendops(cartProvider.getTotalCosts(), orderProvider.discount.value);
                     Navigator.of(context).push(
                       NoSwipePageRoute(
-                        builder: (context) => const OrderConfirmationPage(),
+                        builder: (context) => OrderConfirmationPage(earnedGreenDrops: cartProvider.getTotalCosts() ~/ 2, orderID: orderProvider.order?.id,),
                       ),
                     );
                   },
@@ -83,11 +89,4 @@ class OrderPage extends StatelessWidget {
       ),
     );
   }
-}
-
-class NoSwipePageRoute<T> extends MaterialPageRoute<T> {
-  NoSwipePageRoute({required super.builder});
-
-  @override
-  bool get popGestureEnabled => false; // Swipe deaktivieren
 }

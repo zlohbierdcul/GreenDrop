@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:greendrop/src/presentation/map/pages/order_tracking_page.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -86,6 +87,7 @@ class GreenDropApp extends StatelessWidget {
           '/account': (context) => const AccountPage(),
           '/order_history': (context) => const OrderHistoryPage(),
           '/impressum': (context) => const ImpressumPage(),
+          '/tracker': (context) => const TrackingMap(),
         },
       ),
     );

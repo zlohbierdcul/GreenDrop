@@ -88,11 +88,25 @@ class StrapiAuthenticationRepository extends IAuthenticationRepository {
   }
 
   @override
-  void updateUser(User user) {
+  Future<bool> updateUserGreen(User user) async {
     _user = user;
-    print(user.toJson());
+    bool tried;
+    try {
+      final response = await dio.put(
+        api.updateUser(_user!),
+        data: user.toJson(),
+      );
+      tried = true;
+      print("Benutzer erfolgreich aktualisiert: ${response.data}");
+    } catch(e) {
+      tried = false;
+      print(e);
+    }
+  return tried;
+  }
+  @override
+  Future<void> updateUser(User user) async {
 
-    dio.put(api.updateUser(user), data: {"data": user.toJson()});
   }
 
   @override

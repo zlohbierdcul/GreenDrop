@@ -9,6 +9,7 @@ abstract class IAuthenticationRepository {
   Future<bool> register(String username, String email, String password,
       String forename, String lastname, String birthdate, String street, String housenumber,
       String town, String plz);
+  Future<bool> updateUserGreen(User user);
   void updateUser(User user);
   void updateUserAddress(Address address);
   void addAddress(Address address);

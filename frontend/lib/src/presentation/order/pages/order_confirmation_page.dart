@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:greendrop/src/presentation/common_widgets/app_drawer.dart';
 import 'package:greendrop/src/presentation/common_widgets/center_constrained_body.dart';
 
+import '../../common_widgets/no_swipe_page_route.dart';
+import '../../map/pages/order_tracking_page.dart';
+
 class OrderConfirmationPage extends StatelessWidget {
-  const OrderConfirmationPage({super.key});
+
+  final int earnedGreenDrops;
+  final String? orderID;
+  // required parameters so we don't have to use Providers only for these 2
+  const OrderConfirmationPage({super.key, required this.earnedGreenDrops, required this.orderID});
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +25,14 @@ class OrderConfirmationPage extends StatelessWidget {
       body: CenterConstrainedBody(
         body: Column(
           children: [
-            const Expanded(
+            Expanded(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(bottom: 8.0),
                         child: SizedBox(
                           width: double.infinity,
@@ -43,40 +50,40 @@ class OrderConfirmationPage extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: SizedBox(
                           width: double.infinity,
                           child: Card(
                             child: Padding(
-                              padding: EdgeInsets.all(16.0),
+                              padding: const EdgeInsets.all(16.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    "Vielen Dank für Ihre Bestellung.",
+                                  const Text(
+                                    "Vielen Dank für Ihre Bestellung. Sie wird in kürze eintreffen",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  SizedBox(height: 24),
-                                  Text(
-                                    "Ihre Bestellnummer:",
+                                  const SizedBox(height: 24),
+                                  const Text(
+                                    "Sie können ihre Bestellung einsehen unter der Bestellnummer:",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  SizedBox(height: 4),
-                                  Text("GDObestellnummer123"),
-                                  SizedBox(height: 24),
-                                  Text(
+                                  const SizedBox(height: 4),
+                                  Text("Greendrop#$orderID"),
+                                  const SizedBox(height: 24),
+                                  const Text(
                                     "Verdiente GreenDrops:",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  SizedBox(height: 4),
-                                  Text("100"),
-                                  SizedBox(height: 24),
+                                  const SizedBox(height: 4),
+                                  Text("$earnedGreenDrops"),
+                                  const SizedBox(height: 24),
                                 ],
                               ),
                             ),
@@ -84,6 +91,25 @@ class OrderConfirmationPage extends StatelessWidget {
                         ),
                       ),
                     ],
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SizedBox(
+                width: double.infinity,
+                child: FilledButton(
+                  onPressed: () => Navigator.of(context).pushReplacement(
+                      NoSwipePageRoute(builder: (context) => const TrackingMap()
+                      )
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16.0),
+                    child: Text(
+                      "Track your Order",
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
                   ),
                 ),
               ),
