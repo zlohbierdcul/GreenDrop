@@ -53,6 +53,7 @@ class OrderPage extends StatelessWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: FilledButton(
                   onPressed: () {
+                    orderProvider.createOrder(shop, cartProvider.orderItems);
                     accountProvider.updateGreendops(cartProvider.getTotalCosts(), orderProvider.discount.value);
                     Navigator.of(context).push(
                       NoSwipePageRoute(

@@ -7,6 +7,7 @@ class OrderItem extends Product {
   OrderItem(
       {this.orderID,
       required this.totalAmount,
+      required super.id, 
       required super.name,
       required super.price,
       required super.stock,
@@ -20,6 +21,7 @@ class OrderItem extends Product {
 
   OrderItem.fromProduct(Product product, this.totalAmount, this.orderID)
     : super(
+        id: product.id,
         name: product.name, 
         price: product.price, 
         stock: product.stock, 
@@ -30,6 +32,7 @@ class OrderItem extends Product {
         
     OrderItem copyWith({int? count}) {
     return OrderItem(
+      id: id,
       totalAmount: count ?? totalAmount,
       name: name,
       price: price,
@@ -38,6 +41,14 @@ class OrderItem extends Product {
       imageUrl: imageUrl,
       description: description,
     );
+  }
+
+  Map<String,dynamic> toStrapiJson(){
+    return {
+      "product": {"connect": [id]},
+      "quantity": totalAmount,
+      "price": price * totalAmount
+    };
   }
 }
 
