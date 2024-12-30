@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:greendrop/src/presentation/account/provider/account_data_provider.dart';
+import 'package:greendrop/src/presentation/account/provider/user_provider.dart';
 import 'package:greendrop/src/presentation/common_widgets/app_drawer.dart';
 import 'package:greendrop/src/presentation/common_widgets/center_constrained_body.dart';
 import 'package:greendrop/src/presentation/map/widgets/shop_map.dart';
@@ -14,9 +14,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AccountProvider>(
-      builder: (context, accountProvider, child) {
-        accountProvider.fetchUser();
+    return Consumer<UserProvider>(
+      builder: (context, userProvider, child) {
+        userProvider.fetchUser();
         return Scaffold(
             appBar: AppDrawer.buildGreendropsAppBar(context),
             drawer: const AppDrawer(),

@@ -40,8 +40,14 @@ class CartProvider extends ChangeNotifier {
     for (MapEntry<Product, int> entry in _cart.entries) {
       Product product = entry.key;
       int count = entry.value;
-      _orderItems.add(OrderItem.fromProduct(
-         product, count, null));
+      _orderItems.add(OrderItem(
+          totalAmount: count,
+          name: product.name,
+          price: product.price,
+          stock: product.stock,
+          category: product.category,
+          imageUrl: product.imageUrl,
+          description: product.description));
     }
 
     return _orderItems;

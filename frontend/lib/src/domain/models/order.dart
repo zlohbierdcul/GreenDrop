@@ -10,6 +10,7 @@ class Order {
   final String status;
   final User? user;
   final Shop shop;
+  final DateTime? date;
   final Address address;
   final String paymentMethod;
   final List<OrderItem>? orderItems;
@@ -19,6 +20,7 @@ class Order {
       required this.status,
       this.user,
       required this.shop,
+      this.date,
       required this.address,
       required this.paymentMethod,
       this.orderItems});
@@ -36,13 +38,17 @@ class Order {
     );
   }
   // Factory constructor to create an Order object from a JSON entry
-  static Future<Order> fromJson(Map<String, dynamic> json) async {
+  static Order fromJson(Map<String, dynamic> json) {
     return Order(
         id: json['id'].toString(),
         status: json['state'],
-        shop: await Shop.fromJson(json['shop']),
+        date: DateTime.parse(json["created_on"]),
+        shop: Shop.fromJson(json['shop']),
         address: Address.fromJson(json['user_address']),
-        paymentMethod: json['payment_method']);
+        paymentMethod: json['payment_method'],
+        orderItems: (json['items'] as List<dynamic>)
+            .map((item) => OrderItem.fromJson(item))
+            .toList());
   }
 
   Map<String, dynamic> toJson() {
