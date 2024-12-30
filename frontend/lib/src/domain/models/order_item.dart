@@ -2,7 +2,7 @@ import 'package:greendrop/src/domain/models/product.dart';
 
 class OrderItem extends Product {
   final String? orderID;
-  final int totalAmount;
+  final double totalAmount;
   final int quantity;
 
   OrderItem(
@@ -21,7 +21,8 @@ class OrderItem extends Product {
     final productJson = json['product'];
     return OrderItem(
       orderID: orderID,
-      totalAmount: (productJson['price'] as num).toInt() * (json['quantity'] as int),
+      id : productJson["documentId"],
+      totalAmount: (productJson['price'] as num).toDouble() * (json['quantity'] as int),
       name: productJson["product"]['name'] as String,
       price: (productJson['price'] as num).toDouble(),
       stock: (productJson['stock'] as num).toInt(),
@@ -33,14 +34,8 @@ class OrderItem extends Product {
     );
   }
 
-  OrderItem copyWith({int? count}) {
-      required super.description}
-      );
 
-  OrderItem.fromCartItem(CartItem cartItem, orderID)
-  : this.fromProduct(cartItem.product, cartItem.quantity, orderID);
-
-  OrderItem.fromProduct(Product product, this.totalAmount, this.orderID)
+  OrderItem.fromProduct(Product product, this.totalAmount,this.quantity,  this.orderID)
     : super(
         id: product.id,
         name: product.name, 
@@ -50,26 +45,12 @@ class OrderItem extends Product {
         imageUrl: product.imageUrl, 
         description: product.description
         );
-        
-    OrderItem copyWith({int? count}) {
-    return OrderItem(
-      id: id,
-      totalAmount: count ?? totalAmount,
-      name: name,
-      price: price,
-      stock: stock,
-      quantity: quantity,
-      category: category,
-      imageUrl: imageUrl,
-      description: description,
-    );
-  }
 
   Map<String,dynamic> toStrapiJson(){
     return {
       "product": {"connect": [id]},
-      "quantity": totalAmount,
-      "price": price * totalAmount
+      "quantity": quantity,
+      "price": totalAmount
     };
   }
 }
