@@ -3,7 +3,7 @@ import 'package:greendrop/src/domain/models/user.dart';
 
 abstract class IAuthenticationRepository {
   User? getUser();
-  Future<bool> signIn(String email, String password);
+  Future<bool> signIn(String email, String password, bool rememberMeTicked);
   void signOut();
   Future<bool> register(
       String username,
