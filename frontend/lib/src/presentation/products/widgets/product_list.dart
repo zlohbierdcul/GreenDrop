@@ -5,13 +5,14 @@ import 'package:provider/provider.dart';
 
 class ProductList extends StatelessWidget {
   const ProductList({super.key});
+  
 
   @override
   Widget build(BuildContext context) {
     return Consumer<ProductProvider>(builder: (context, productProvider, child) => (
     (productProvider.productMap.isEmpty) 
-      ? const Center(child: CircularProgressIndicator())
-      : Consumer<ProductProvider>(
+      ? const Center(child: Text("Es liegen aktuell keine Produkte vor"))
+        : Consumer<ProductProvider>(
           builder: (context, productProvider, child) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: productProvider.productMap.entries
