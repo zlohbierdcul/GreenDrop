@@ -56,37 +56,42 @@ class AccountPage extends StatelessWidget {
         body: Column(
           children: [
             Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Consumer<UserProvider>(
-                    builder: (context, userProvider, child) => Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.only(bottom: 8.0),
-                          child: SizedBox(
-                            width: double.infinity,
-                            height: 60,
-                            child: Card(
-                              child: Center(
-                                child: Text(
-                                  "Account",
-                                  style: TextStyle(fontSize: 24),
+              child: Consumer<UserProvider>(
+                builder: (context, provider, child) => RefreshIndicator(
+                  onRefresh: () async => provider.fetchUser(),
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Consumer<UserProvider>(
+                        builder: (context, userProvider, child) => Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(bottom: 8.0),
+                              child: SizedBox(
+                                width: double.infinity,
+                                height: 60,
+                                child: Card(
+                                  child: Center(
+                                    child: Text(
+                                      "Account",
+                                      style: TextStyle(fontSize: 24),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
+                            if (userProvider.user != null) ...[
+                              const UserSettings(),
+                              const UserDetails(),
+                              const UserAddressList(),
+                              const UserAddressAdd(),
+                              const UserLogout()
+                            ] else
+                              const CircularProgressIndicator()
+                          ],
                         ),
-                        if (userProvider.user != null) ...[
-                          const UserSettings(),
-                          const UserDetails(),
-                          const UserAddressList(),
-                          const UserAddressAdd(),
-                          const UserLogout()
-                        ] else
-                          const CircularProgressIndicator()
-                      ],
+                      ),
                     ),
                   ),
                 ),

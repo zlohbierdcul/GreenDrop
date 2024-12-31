@@ -189,7 +189,6 @@ class UserProvider with ChangeNotifier {
   }
 
   void fetchUser() {
-    if (_user != null) return;
     _isLoading = true;
     FlutterSecureStorage secureStorage = const FlutterSecureStorage();
     secureStorage.read(key: "userId").then((id) {

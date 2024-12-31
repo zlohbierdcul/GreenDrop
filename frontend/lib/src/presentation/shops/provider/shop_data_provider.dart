@@ -8,7 +8,7 @@ class ShopDataProvider extends ChangeNotifier {
   IShopRepository repository = StrapiShopRepository();
 
   ShopDataProvider() {
-    _getInitialData();
+    loadShopData();
   }
 
   bool _isLoading = false;
@@ -20,7 +20,7 @@ class ShopDataProvider extends ChangeNotifier {
   Map<String, Shop> get shopList => _shopList;
   bool get isLoading => _isLoading;
 
-  Future<void> _getInitialData() async {
+  Future<void> loadShopData() async {
     _isLoading = true;
     notifyListeners();
 

@@ -40,42 +40,47 @@ class HomePage extends StatelessWidget {
                   ),
                 ];
               },
-              body: SingleChildScrollView(
-                child: CenterConstrainedBody(
-                  body: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Row(
-                          children: [
-                            const Expanded(child: ShopSearchBar()),
-                            const SizedBox(width: 16),
-                            ElevatedButton(
-                              onPressed: () =>
-                                  FilterDialog.dialogBuilder(context),
-                              style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20))),
-                              child: const Padding(
-                                padding: EdgeInsets.symmetric(vertical: 12.0),
-                                child: Icon(Icons.tune_rounded),
-                              ),
-                            )
-                          ],
-                        ),
+              body: Consumer<ShopDataProvider>(
+                builder: (context, provider, child) => RefreshIndicator(
+                  onRefresh: () async => await provider.loadShopData(),
+                  child: SingleChildScrollView(
+                    child: CenterConstrainedBody(
+                      body: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Row(
+                              children: [
+                                const Expanded(child: ShopSearchBar()),
+                                const SizedBox(width: 16),
+                                ElevatedButton(
+                                  onPressed: () =>
+                                      FilterDialog.dialogBuilder(context),
+                                  style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20))),
+                                  child: const Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 12.0),
+                                    child: Icon(Icons.tune_rounded),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 16.0),
+                            child: Text(
+                              "Coffeeshops in der Nähe",
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          const ShopList(),
+                        ],
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 16.0),
-                        child: Text(
-                          "Coffeeshops in der Nähe",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      const ShopList(),
-                    ],
+                    ),
                   ),
                 ),
               ),
