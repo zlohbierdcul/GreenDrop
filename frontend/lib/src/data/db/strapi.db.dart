@@ -46,7 +46,11 @@ class StrapiAPI {
   }
 
   String createOrder() {
-    return "$baseUrl/api/order";
+    return "$baseUrl/api/orders";
+  }
+
+  String createOrderItem() {
+    return "$baseUrl/api/items";
   }
 
   String getUserOrdersBase(userId) {

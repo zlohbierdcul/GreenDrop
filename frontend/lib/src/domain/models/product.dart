@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 class Product {
+  final String id;
   final String name;
   final double price;
   final int stock;
@@ -14,11 +15,13 @@ class Product {
       required this.stock,
       required this.category,
       required this.imageUrl,
-      required this.description});
+      required this.description,
+      required this.id});
 
   // Factory constructor to create a Product object from a JSON entry
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
+        id: json['id'],
         name: json['name'],
         price: (json['price'] as num).toDouble(),
         stock: json['stock'],

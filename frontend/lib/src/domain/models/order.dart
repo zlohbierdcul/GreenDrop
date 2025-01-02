@@ -25,6 +25,18 @@ class Order {
       required this.paymentMethod,
       this.orderItems});
 
+
+  Order copyWith({String? id, String? status, User? user, Shop? shop, Address? address, String? paymentMethod, List<OrderItem>? orderItems}){
+    return Order(
+      id: id ?? this.id,
+      status: status ?? this.status,
+      user: user?? this.user,
+      shop: shop ?? this.shop,
+      address: address ?? this.address,
+      paymentMethod: paymentMethod ?? this.paymentMethod,
+      orderItems: orderItems ?? this.orderItems
+    );
+  }
   // Factory constructor to create an Order object from a JSON entry
   static Order fromJson(Map<String, dynamic> json) {
     return Order(
@@ -53,6 +65,15 @@ class Order {
       'total_price': totalPrice,
       'items': orderItems?.map((item) => item.toJson()).toList(),
     };
+  }
+
+  Map<String, dynamic> toStrapiJson(List<String> itemIds){
+    Map <String, dynamic> orderJson =  toJson();
+    orderJson["users_permissions_user"] = orderJson["user"];
+    orderJson.remove('user');
+    orderJson.remove('id');
+    orderJson['items'] = {'connect': itemIds};
+    return orderJson;
   }
 
   // Static method to parse mock data and create a list of Orders

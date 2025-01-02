@@ -88,6 +88,7 @@ class OrderPage extends StatelessWidget {
                   child: FilledButton(
                     onPressed: orderProvider.inRange
                         ? () {
+                    orderProvider.createOrder(shop, cartProvider.orderItems);
                             userProvider.updateGreendops(
                                 cartProvider.getTotalCosts(),
                                 orderProvider.discount.value);
