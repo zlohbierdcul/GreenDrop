@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:greendrop/src/domain/models/order.dart';
 import 'package:greendrop/src/presentation/common_widgets/app_drawer.dart';
 import 'package:greendrop/src/presentation/order/provider/order_provider.dart';
 import 'package:provider/provider.dart';
@@ -39,7 +40,7 @@ class TrackingMap extends StatelessWidget {
                     userAgentPackageName: 'com.example.app',
                   ),
                   MarkerLayer(
-                    markers: _buildMarkers(shopMapProvider),
+                    markers: _buildMarkers(context, shopMapProvider, orderProvider),
                   ),
                   if (polylinePoints.isNotEmpty)
                     PolylineLayer(
@@ -51,6 +52,19 @@ class TrackingMap extends StatelessWidget {
                         ),
                       ],
                     ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      alignment: Alignment.bottomRight,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              shape: const CircleBorder(),
+                              padding: const EdgeInsets.all(10),
+                              elevation: 5),
+                          onPressed: () => shopMapProvider.resetZoom(),
+                          child: const Icon(Icons.near_me)),
+                    ),
+                  ),
                 ],
               );
             },
@@ -60,9 +74,8 @@ class TrackingMap extends StatelessWidget {
     );
   }
 
-  List<Marker> _buildMarkers(ShopMapProvider shopMapProvider) {
+  List<Marker> _buildMarkers(BuildContext context, ShopMapProvider shopMapProvider, OrderProvider orderProvider) {
     List<Marker> markers = [];
-    print("ich bin in build Marker");
     // Marker für den Benutzer
     markers.add(
       Marker(
@@ -70,31 +83,23 @@ class TrackingMap extends StatelessWidget {
           shopMapProvider.latitudePerson,
           shopMapProvider.longitudePerson,
         ),
-        child: const Icon(
-          Icons.my_location,
-          color: Colors.red,
-          size: 30,
-        ),
+        child: Icon(Icons.location_pin,
+            color: Theme.of(context).colorScheme.onPrimary),
       ),
     );
 
     // Marker für die Geschäfte
-    for (var shop in shopMapProvider.shops) {
       markers.add(
         Marker(
-          point: LatLng(shop.latitude, shop.longitude),
+          point: LatLng(orderProvider.order!.shop.latitude, orderProvider.order!.shop.longitude),
           child: GestureDetector(
-            onTap: () => shopMapProvider.handleShopTap(shop),
-            child: const Icon(
-              Icons.store,
-              color: Colors.green,
-              size: 30,
-            ),
+            onTap: () => shopMapProvider.handleShopTap(orderProvider.order!.shop),
+            child: Icon(Icons.storefront_rounded,
+                color:
+                Theme.of(context).colorScheme.onPrimary),
           ),
         ),
       );
-    }
-
     return markers;
   }
 }

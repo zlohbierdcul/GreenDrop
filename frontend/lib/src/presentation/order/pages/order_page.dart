@@ -71,7 +71,7 @@ class OrderPage extends StatelessWidget {
                               OrderConfirmationPage(
                                 earnedGreenDrops: cartProvider
                                     .getTotalCosts() ~/ 2,
-                                orderID: orderProvider.order?.id,),
+                                orderID: orderProvider.order!.id),
                         ),
                       );
                     },

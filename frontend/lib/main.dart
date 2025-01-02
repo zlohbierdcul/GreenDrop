@@ -89,7 +89,6 @@ class GreenDropApp extends StatelessWidget {
           '/account': (context) => const AccountPage(),
           '/order_history': (context) => const OrderHistoryPage(),
           '/impressum': (context) => const ImpressumPage(),
-          '/tracker': (context) => const TrackingMap(),
         },
       ),
     );

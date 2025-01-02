@@ -100,7 +100,7 @@ class OrderConfirmationPage extends StatelessWidget {
               child: SizedBox(
                 width: double.infinity,
                 child: FilledButton(
-                  onPressed: () => Navigator.of(context).pushReplacement(
+                  onPressed: () => Navigator.of(context).push(
                       NoSwipePageRoute(builder: (context) => const TrackingMap()
                       )
                   ),
