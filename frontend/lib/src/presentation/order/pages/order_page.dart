@@ -61,8 +61,8 @@ class OrderPage extends StatelessWidget {
                   padding: const EdgeInsets.all(16.0),
                   // Button creates the Order and updates user GreenDrops
                   child: FilledButton(
-                    onPressed: () {
-                      orderProvider.createOrder(shop, cartProvider.orderItems);
+                    onPressed: orderProvider.inRange? () {
+                    orderProvider.createOrder(shop, cartProvider.orderItems);
                       userProvider.updateGreendops(cartProvider.getTotalCosts(),
                           orderProvider.discount.value);
                       Navigator.of(context).push(
@@ -74,7 +74,7 @@ class OrderPage extends StatelessWidget {
                                 orderID: orderProvider.order!.id),
                         ),
                       );
-                    },
+                    } : null,
                     child: const Padding(
                       padding: EdgeInsets.symmetric(vertical: 16.0),
                       child: Row(

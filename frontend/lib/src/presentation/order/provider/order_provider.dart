@@ -76,6 +76,7 @@ class OrderProvider extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
     log.fine(_user.addresses);
+
     _order = Order(
         address: _user.addresses[0],
         status: "pending",
@@ -83,8 +84,10 @@ class OrderProvider extends ChangeNotifier {
         shop: shop,
         paymentMethod: _selectedPaymentMethod.value,
         orderItems: orderItems);
-    await orderRepository.createOrder(_order!);
 
+    String orderId = await orderRepository.createOrder(_order!);
+  
+    _order?.copyWith(id: orderId);
     log.info("Order $order");
     
     _isLoading = false;
