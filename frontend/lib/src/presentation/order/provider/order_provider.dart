@@ -87,7 +87,8 @@ class OrderProvider extends ChangeNotifier {
 
     String orderId = await orderRepository.createOrder(_order!);
   
-    _order?.copyWith(id: orderId);
+    _order = _order?.copyWith(id: orderId);
+
     log.info("Order $order");
     
     _isLoading = false;

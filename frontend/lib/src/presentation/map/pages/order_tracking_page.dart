@@ -39,9 +39,6 @@ class TrackingMap extends StatelessWidget {
                     urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                     userAgentPackageName: 'com.example.app',
                   ),
-                  MarkerLayer(
-                    markers: _buildMarkers(context, shopMapProvider, orderProvider),
-                  ),
                   if (polylinePoints.isNotEmpty)
                     PolylineLayer(
                       polylines: [
@@ -52,6 +49,9 @@ class TrackingMap extends StatelessWidget {
                         ),
                       ],
                     ),
+                  MarkerLayer(
+                    markers: _buildMarkers(context, shopMapProvider, orderProvider),
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
@@ -83,10 +83,16 @@ class TrackingMap extends StatelessWidget {
           shopMapProvider.latitudePerson,
           shopMapProvider.longitudePerson,
         ),
-        child: Icon(Icons.location_pin,
-            color: Theme.of(context).colorScheme.onPrimary),
+        child: Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.secondary,
+                borderRadius: BorderRadius.circular(20)),
+            child: Icon(Icons.location_pin,
+            color: Theme.of(context).colorScheme.onSecondary),
       ),
-    );
+    ));
 
     // Marker für die Geschäfte
       markers.add(
@@ -94,12 +100,18 @@ class TrackingMap extends StatelessWidget {
           point: LatLng(orderProvider.order!.shop.latitude, orderProvider.order!.shop.longitude),
           child: GestureDetector(
             onTap: () => shopMapProvider.handleShopTap(orderProvider.order!.shop),
-            child: Icon(Icons.storefront_rounded,
+            child: Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.secondary,
+                  borderRadius: BorderRadius.circular(20)),
+              child: Icon(Icons.storefront_rounded,
                 color:
-                Theme.of(context).colorScheme.onPrimary),
+                Theme.of(context).colorScheme.onSecondary),
           ),
         ),
-      );
+      ));
     return markers;
   }
 }
