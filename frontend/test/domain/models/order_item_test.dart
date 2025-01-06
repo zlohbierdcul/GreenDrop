@@ -6,16 +6,14 @@ void main() {
     test('Should create OrderItem from JSON', () {
       final json = {
         'quantity': 2,
+        'price': 800.0,
+        'stock': 10,
+        'documentId': 'https://example.com/phone.jpg',
         'product': {
-          'price': 800.0,
-          'stock': 10,
-          'documentId': 'https://example.com/phone.jpg',
-          'product': {
             'name': 'Smartphone',
             'category': 'Electronics',
             'description': 'A high-end smartphone',
-          }
-        },
+        }
       };
 
       final orderItem = OrderItem.fromJson(json, orderID: '54321');
@@ -31,12 +29,13 @@ void main() {
       expect(orderItem.description, 'A high-end smartphone');
     });
 
-    test('Should copy OrderItem with updated totalAmount', () {
+    test('toStrapiJson sollte das erwartete Map zurückgeben', () {
       final orderItem = OrderItem(
         orderID: '11111',
         totalAmount: 2,
         quantity: 1,
-        name: 'Smartwatch',
+        id: '1234',
+        name: 'SmartTV',
         price: 199.99,
         stock: 25,
         category: 'Wearables',
@@ -44,19 +43,16 @@ void main() {
         description: 'A smartwatch with multiple features',
       );
 
-      final updatedOrderItem = orderItem.copyWith(count: 5);
+      final result = orderItem.toStrapiJson();
 
-      // Achtung: copyWith setzt kein orderID-Feld,
-      // deshalb bleibt es null.
-      expect(updatedOrderItem.orderID, null);
-      expect(updatedOrderItem.totalAmount, 5);
-      expect(updatedOrderItem.quantity, 1); // wurde nicht verändert
-      expect(updatedOrderItem.name, 'Smartwatch');
-      expect(updatedOrderItem.price, 199.99);
-      expect(updatedOrderItem.stock, 25);
-      expect(updatedOrderItem.category, 'Wearables');
-      expect(updatedOrderItem.imageUrl, 'https://example.com/smartwatch.jpg');
-      expect(updatedOrderItem.description, 'A smartwatch with multiple features');
+      expect(
+        result,
+        equals({
+          "product": {"connect": [1234]},
+          "quantity": 1,
+          "price": 199.99,
+        }),
+      );
     });
   });
 }

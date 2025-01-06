@@ -12,6 +12,7 @@ void main() {
         category: 'Fruits',
         imageUrl: 'https://example.com/apple.jpg',
         description: 'A fresh apple',
+        id: '1234',
       );
 
       final cartItem = CartItem(product: product, quantity: 3);
@@ -31,6 +32,7 @@ void main() {
         category: 'Fruits',
         imageUrl: 'https://example.com/apple.jpg',
         description: 'A fresh apple',
+        id: '1234',
       );
 
       final cartItem = CartItem(product: product, quantity: 3);
@@ -50,6 +52,7 @@ void main() {
         category: 'Fruits',
         imageUrl: 'https://example.com/apple.jpg',
         description: 'A fresh apple',
+        id: '1234'
       );
 
       final cartItem = CartItem(product: product, quantity: 3);

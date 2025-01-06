@@ -10,7 +10,8 @@ void main() {
         'stock': 100,
         'category': 'Fruits',
         'image_url': 'https://example.com/banana.jpg',
-        'description': 'A ripe yellow banana'
+        'description': 'A ripe yellow banana',
+        'id': '1234'
       };
 
       final product = Product.fromJson(json);
@@ -21,6 +22,7 @@ void main() {
       expect(product.category, 'Fruits');
       expect(product.imageUrl, 'https://example.com/banana.jpg');
       expect(product.description, 'A ripe yellow banana');
+      expect(product.id, '1234');
     });
 
     test('Should serialize Product object to JSON correctly', () {
@@ -31,6 +33,7 @@ void main() {
         category: 'Fruits',
         imageUrl: 'https://example.com/orange.jpg',
         description: 'A sweet and tangy orange',
+        id: '1234'
       );
 
       final json = product.toJson();
@@ -47,6 +50,7 @@ void main() {
       const jsonData = '''
       [
         {
+          "id": "1234"
           "name": "Apple",
           "price": 1.99,
           "stock": 50,
@@ -86,6 +90,7 @@ void main() {
         category: 'Fruits',
         imageUrl: 'https://example.com/mango.jpg',
         description: 'A delicious tropical mango',
+        id: '1234',
       );
 
       expect(

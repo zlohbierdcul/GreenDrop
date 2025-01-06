@@ -51,6 +51,7 @@ void main() {
             orderID: 'order001',
             totalAmount: 2,
             quantity: 2,
+            id: '1234',
             name: 'Laptop',
             price: 1000.0,
             stock: 5,
@@ -108,16 +109,15 @@ void main() {
         'items': [
           {
             'quantity': 2,
+            'price': 800.0,
+            'stock': 10,
+            'documentId': 'https://example.com/phone.jpg',
             'product': {
-              'price': 800.0,
-              'stock': 10,
-              'documentId': 'https://example.com/phone.jpg',
-              'product': {
-                'name': 'Smartphone',
-                'category': 'Electronics',
-                'description': 'A high-end smartphone',
-              },
+              'name': 'Smartphone',
+              'category': 'Electronics',
+              'description': 'A high-end smartphone',
             },
+
           }
         ]
       };
@@ -174,15 +174,13 @@ void main() {
             "items": [
               {
                 "quantity": 2,
+                "price": 800.0,
+                "stock": 10,
+                "documentId": "https://example.com/phone.jpg",
                 "product": {
-                  "price": 800.0,
-                  "stock": 10,
-                  "documentId": "https://example.com/phone.jpg",
-                  "product": {
-                    "name": "Smartphone",
-                    "category": "Electronics",
-                    "description": "A high-end smartphone"
-                  }
+                  "name": "Smartphone",
+                  "category": "Electronics",
+                  "description": "A high-end smartphone"
                 }
               }
             ]
@@ -252,6 +250,7 @@ void main() {
             orderID: 'order001',
             totalAmount: 2,
             quantity: 2,
+            id: '1234',
             name: 'Laptop',
             price: 1000.0,
             stock: 5,
