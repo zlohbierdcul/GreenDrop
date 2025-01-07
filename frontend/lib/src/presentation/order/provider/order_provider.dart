@@ -90,7 +90,6 @@ class OrderProvider extends ChangeNotifier {
   
     _order?.copyWith(id: orderId);
     log.info("Order $order");
-    
     _isLoading = false;
     notifyListeners();
   }

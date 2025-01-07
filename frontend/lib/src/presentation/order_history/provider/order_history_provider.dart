@@ -22,10 +22,10 @@ class OrderHistoryProvider with ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
 
-  final User _user =
-      StrapiAuthenticationRepository().getUser() ?? User.genericUser;
+  late User _user;
 
   OrderHistoryProvider() {
+    _user = authRepository.getUser() ?? User.genericUser;
     loadOrders(); // Lade die Bestellungen beim Erstellen
   }
 
