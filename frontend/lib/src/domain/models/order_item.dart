@@ -29,7 +29,7 @@ class OrderItem extends Product {
       category: productJson["product"]['category'] as String,
       imageUrl:
           productJson['documentId'] as String, // Assuming this as imageUrl
-      description: productJson["product"]['description'] as String,
+      description: productJson["product"]['description'] ?? "" as String,
       quantity: json["quantity"] as int
     );
   }

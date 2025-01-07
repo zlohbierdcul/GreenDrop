@@ -41,9 +41,9 @@ class OrderDetailsPage extends StatelessWidget {
                           child: Card(
                             child: Center(
                               child: Text(
-                                "Bestellung GDO${order.id}",
+                                "Bestellung ${order.id}",
                                 style: const TextStyle(
-                                  fontSize: 24,
+                                  fontSize: 20,
                                 ),
                               ),
                             ),
@@ -77,7 +77,7 @@ class OrderDetailsPage extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 10),
                                   Text(
-                                    "Bestellnummer: GDO${order.id}",
+                                    "Bestellnummer: ${order.id}",
                                     style: const TextStyle(
                                         fontSize: 16, color: Colors.grey),
                                   ),
