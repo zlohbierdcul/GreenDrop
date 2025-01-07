@@ -13,7 +13,7 @@ class TrackingMap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppDrawer.buildGreendropsAppBar(context),
+      appBar: AppDrawer.buildGreendropsAppBar(context, automaticallyImplayLeading: false),
       body: Consumer2<ShopMapProvider, OrderProvider>(
         builder: (context, shopMapProvider, orderProvider, child) {
           return FutureBuilder<List<LatLng>>(
@@ -63,6 +63,25 @@ class TrackingMap extends StatelessWidget {
                               elevation: 5),
                           onPressed: () => shopMapProvider.resetZoom(),
                           child: const Icon(Icons.near_me)),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Container(
+                      alignment: Alignment.bottomCenter,
+                      width: double.infinity,
+                      child: FilledButton(
+                        onPressed: () =>
+                            Navigator.pushReplacementNamed(context, "/home"),
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16.0),
+                          child: Text(
+                            "Zurück zur Startseite",
+                            style:
+                            TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ],
