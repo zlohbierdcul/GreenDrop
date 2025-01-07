@@ -188,14 +188,6 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  int sortAddresses(Address a, Address b) {
-    final aPrimary = a.isPrimary ?? false;
-    final bPrimary = b.isPrimary ?? false;
-    if (bPrimary && !aPrimary) return 1;
-    if (aPrimary && !bPrimary) return -1;
-    return 0;
-  }
-
   void fetchUser() {
     if (_user != null) return;
     _isLoading = true;

@@ -22,64 +22,106 @@ class OrderPage extends StatelessWidget {
     return Scaffold(
       appBar: AppDrawer.buildGreendropsAppBar(context),
       body: Consumer3<UserProvider, CartProvider, OrderProvider>(
-        builder: (context, userProvider, cartProvider, orderProvider, child) => CenterConstrainedBody(
-          body: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 12),
-                        Text(
-                          "Bestellung bei ${shop.name}",
-                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                        ),
-                        const SizedBox(height: 12),
-                        OrderUserInfo(account: userProvider.user),
-                        const SizedBox(height: 12),
-                        const OrderPaymentSelection(),
-                        const SizedBox(height: 12),
-                        const OrderGreendropDiscount(),
-                        const SizedBox(height: 12),
-                        OrderProductList(shop: shop),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: FilledButton(
-                  onPressed: () {
-                    userProvider.updateGreendops(cartProvider.getTotalCosts(), orderProvider.discount.value);
-                    Navigator.of(context).push(
-                      NoSwipePageRoute(
-                        builder: (context) => const OrderConfirmationPage(),
+        builder: (context, userProvider, cartProvider, orderProvider, child) {
+          WidgetsBinding.instance.addPostFrameCallback(
+              (_) => orderProvider.initializeSelectedAddress());
+          return CenterConstrainedBody(
+            body: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 12),
+                          Text(
+                            "Bestellung bei ${shop.name}",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                          const SizedBox(height: 12),
+                          OrderUserInfo(shop: shop),
+                          const SizedBox(height: 12),
+                          const OrderPaymentSelection(),
+                          const SizedBox(height: 12),
+                          const OrderGreendropDiscount(),
+                          const SizedBox(height: 12),
+                          OrderProductList(shop: shop),
+                        ],
                       ),
-                    );
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(height: 10),
-                        Text(
-                          "Jetzt bestellen!",
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                        ),
-                        SizedBox(width: 15),
-                        Icon(Icons.receipt),
-                      ],
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ),
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  transitionBuilder:
+                      (Widget child, Animation<double> animation) {
+                    return FadeTransition(
+                        opacity: animation,
+                        child: SizeTransition(
+                            sizeFactor: animation,
+                            axisAlignment: -1.0,
+                            child: child));
+                  },
+                  child: !orderProvider.inRange
+                      ? Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 8),
+                          decoration: BoxDecoration(
+                              color:
+                                  Theme.of(context).colorScheme.errorContainer,
+                              borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20))),
+                          child: Text(
+                            "Die ausgewählte Adresse liegt ausserhalb des Lieferradius!",
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.error),
+                          ))
+                      : const SizedBox.shrink(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 16, top: 16, right: 16, bottom: 32),
+                  child: FilledButton(
+                    onPressed: orderProvider.inRange
+                        ? () {
+                    orderProvider.createOrder(shop, cartProvider.orderItems);
+                            userProvider.updateGreendops(
+                                cartProvider.getTotalCosts(),
+                                orderProvider.discount.value);
+                            Navigator.of(context).push(
+                              NoSwipePageRoute(
+                                builder: (context) =>
+                                    const OrderConfirmationPage(),
+                              ),
+                            );
+                          }
+                        : null,
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(height: 10),
+                          Text(
+                            "Jetzt bestellen!",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18),
+                          ),
+                          SizedBox(width: 15),
+                          Icon(Icons.receipt),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

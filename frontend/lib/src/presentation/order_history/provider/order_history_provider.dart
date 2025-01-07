@@ -35,6 +35,7 @@ class OrderHistoryProvider with ChangeNotifier {
       notifyListeners(); // UI aktualisieren
       log.fine("Lade Bestellungen für Benutzer: ${_user.id}");
       _orders = await orderRepository.getUserOrders(_user);
+      
       _errorMessage = null;
       log.info("Bestellungen geladen: ${_orders.length}");  
     } catch (error) {

@@ -10,6 +10,7 @@ class Order {
   final String status;
   final User? user;
   final Shop shop;
+  final DateTime? date;
   final Address address;
   final String paymentMethod;
   final List<OrderItem>? orderItems;
@@ -19,18 +20,35 @@ class Order {
       required this.status,
       this.user,
       required this.shop,
+      this.date,
       required this.address,
       required this.paymentMethod,
       this.orderItems});
 
+
+  Order copyWith({String? id, String? status, User? user, Shop? shop, Address? address, String? paymentMethod, List<OrderItem>? orderItems}){
+    return Order(
+      id: id ?? this.id,
+      status: status ?? this.status,
+      user: user?? this.user,
+      shop: shop ?? this.shop,
+      address: address ?? this.address,
+      paymentMethod: paymentMethod ?? this.paymentMethod,
+      orderItems: orderItems ?? this.orderItems
+    );
+  }
   // Factory constructor to create an Order object from a JSON entry
-  static Future<Order> fromJson(Map<String, dynamic> json) async {
+  static Order fromJson(Map<String, dynamic> json) {
     return Order(
         id: json['id'].toString(),
         status: json['state'],
-        shop: await Shop.fromJson(json['shop']),
+        date: DateTime.parse(json["created_on"]),
+        shop: Shop.fromJson(json['shop']),
         address: Address.fromJson(json['user_address']),
-        paymentMethod: json['payment_method']);
+        paymentMethod: json['payment_method'],
+        orderItems: (json['items'] as List<dynamic>)
+            .map((item) => OrderItem.fromJson(item))
+            .toList());
   }
 
   Map<String, dynamic> toJson() {
@@ -47,6 +65,15 @@ class Order {
       'total_price': totalPrice,
       'items': orderItems?.map((item) => item.toJson()).toList(),
     };
+  }
+
+  Map<String, dynamic> toStrapiJson(List<String> itemIds){
+    Map <String, dynamic> orderJson =  toJson();
+    orderJson["users_permissions_user"] = orderJson["user"];
+    orderJson.remove('user');
+    orderJson.remove('id');
+    orderJson['items'] = {'connect': itemIds};
+    return orderJson;
   }
 
   // Static method to parse mock data and create a list of Orders
