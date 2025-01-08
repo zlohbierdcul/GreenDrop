@@ -78,7 +78,7 @@ class OrderProvider extends ChangeNotifier {
     log.fine(_user.addresses);
 
     _order = Order(
-        address: _user.addresses[0],
+        address: _selectedAddress ?? _user.addresses[0],
         status: "pending",
         user: _user,
         shop: shop,
