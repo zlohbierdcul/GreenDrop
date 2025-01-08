@@ -9,7 +9,7 @@ class ProductProvider extends ChangeNotifier {
   IShopRepository repository = StrapiShopRepository();
   
   Map<String, List<Product>> _productMap = {};
-  bool _isLoading = false;
+  bool _isLoading = true;
 
   Map<String, List<Product>> get productMap => _productMap;
   bool get isLoading => _isLoading;
