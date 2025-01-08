@@ -79,6 +79,7 @@ class StrapiAPI {
         userId;
   }
 
+
   String getAuth() {
     return "Bearer ${dotenv.env["API_TOKEN"]}";
   }
