@@ -9,8 +9,10 @@ class ProductProvider extends ChangeNotifier {
   IShopRepository repository = StrapiShopRepository();
   
   Map<String, List<Product>> _productMap = {};
+  bool _isLoading = false;
 
   Map<String, List<Product>> get productMap => _productMap;
+  bool get isLoading => _isLoading;
 
   void clearProducts() {
     _productMap = {};
@@ -23,8 +25,11 @@ class ProductProvider extends ChangeNotifier {
   }
 
   void loadShopProducts(Shop shop) async {
+    _isLoading = true;
+    notifyListeners();
     List<Product> products = await repository.getAllShopProducts(shop.id);
     _productMap = groupBy(products, (p) => p.category);
+    _isLoading = false;
     notifyListeners();
   }
 }

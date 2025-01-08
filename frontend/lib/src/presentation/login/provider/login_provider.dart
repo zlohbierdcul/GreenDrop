@@ -46,11 +46,11 @@ class LoginProvider extends ChangeNotifier {
           StrapiAuthenticationRepository();
       
       bool success = false;
-      // try {
+      try {
         success = await authenticationRepository.signIn(email, password);
-      // } catch (e) {
-        // _loginFailed = true; print("Login failed.");
-      // }
+      } catch (e) {
+        _loginFailed = true;
+        }
 
       if (success) {
         setIsLoggedIn();
