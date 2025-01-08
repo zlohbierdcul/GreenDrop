@@ -10,6 +10,7 @@ class Drug extends Product {
   final List<String> tastes;
 
   Drug({
+    required super.id,
     required super.name,
     required super.price,
     required super.stock,
@@ -27,6 +28,7 @@ class Drug extends Product {
   // Factory constructor to create a Drug object from a JSON entry
   factory Drug.fromJson(Map<String, dynamic> json) {
     return Drug(
+      id: json['id'],
       name: json['name'],
       price: (json['price'] as num).toDouble(),
       stock: json['stock'],
@@ -51,6 +53,7 @@ class Drug extends Product {
   @override
   String toString() {
     return 'Drug('
+        'id: $id, '
         'name: $name, '
         'price: $price, '
         'stock: $stock, '
@@ -68,6 +71,7 @@ class Drug extends Product {
   @override
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'name': name,
       'price': price,
       'stock': stock,

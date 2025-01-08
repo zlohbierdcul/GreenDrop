@@ -13,6 +13,8 @@ import 'package:provider/provider.dart';
 
 import 'package:greendrop/src/presentation/order/provider/order_provider.dart';
 
+import '../../common_widgets/no_swipe_page_route.dart';
+
 class OrderPage extends StatelessWidget {
   final Shop shop;
 
@@ -20,74 +22,81 @@ class OrderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // loading Appbar
       appBar: AppDrawer.buildGreendropsAppBar(context),
       body: Consumer3<UserProvider, CartProvider, OrderProvider>(
-        builder: (context, userProvider, cartProvider, orderProvider, child) => CenterConstrainedBody(
-          body: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 12),
-                        Text(
-                          "Bestellung bei ${shop.name}",
-                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                        ),
-                        const SizedBox(height: 12),
-                        OrderUserInfo(account: userProvider.user),
-                        const SizedBox(height: 12),
-                        const OrderPaymentSelection(),
-                        const SizedBox(height: 12),
-                        const OrderGreendropDiscount(),
-                        const SizedBox(height: 12),
-                        OrderProductList(shop: shop),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: FilledButton(
-                  onPressed: () {
-                    userProvider.updateGreendops(cartProvider.getTotalCosts(), orderProvider.discount.value);
-                    Navigator.of(context).push(
-                      NoSwipePageRoute(
-                        builder: (context) => const OrderConfirmationPage(),
+        builder: (context, userProvider, cartProvider, orderProvider, child) {
+          WidgetsBinding.instance.addPostFrameCallback(
+                  (_) => orderProvider.initializeSelectedAddress());
+          return CenterConstrainedBody(
+            body: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 12),
+                          Text(
+                            "Bestellung bei ${shop.name}",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                          // load in side content widgets
+                          const SizedBox(height: 12),
+                          OrderUserInfo(shop: shop),
+                          const SizedBox(height: 12),
+                          const OrderPaymentSelection(),
+                          const SizedBox(height: 12),
+                          const OrderGreendropDiscount(),
+                          const SizedBox(height: 12),
+                          OrderProductList(shop: shop),
+                        ],
                       ),
-                    );
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(height: 10),
-                        Text(
-                          "Jetzt bestellen!",
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                        ),
-                        SizedBox(width: 15),
-                        Icon(Icons.receipt),
-                      ],
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ),
-      ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  // Button creates the Order and updates user GreenDrops
+                  child: FilledButton(
+                    onPressed: orderProvider.inRange? () {
+                    orderProvider.createOrder(shop, cartProvider.orderItems);
+                      userProvider.updateGreendops(cartProvider.getTotalCosts(),
+                          orderProvider.discount.value);
+                      Navigator.of(context).push(
+                        NoSwipePageRoute(
+                          builder: (context) =>
+                              OrderConfirmationPage(
+                                earnedGreenDrops: cartProvider
+                                    .getTotalCosts() ~/ 2),
+                        ),
+                      );
+                    } : null,
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(height: 10),
+                          Text(
+                            "Jetzt bestellen!",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18),
+                          ),
+                          SizedBox(width: 15),
+                          Icon(Icons.receipt),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+      )
     );
   }
-}
-
-class NoSwipePageRoute<T> extends MaterialPageRoute<T> {
-  NoSwipePageRoute({required super.builder});
-
-  @override
-  bool get popGestureEnabled => false; // Swipe deaktivieren
 }

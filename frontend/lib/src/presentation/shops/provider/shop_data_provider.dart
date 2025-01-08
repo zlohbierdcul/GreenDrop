@@ -26,6 +26,7 @@ class ShopDataProvider extends ChangeNotifier {
 
     List<Shop> shops = await repository.getAllShops();
     for (Shop shop in shops) {
+
       Shop shopData = shop;
       _shopList.putIfAbsent(shopData.id, () => shopData);
     }

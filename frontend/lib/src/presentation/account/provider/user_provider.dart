@@ -37,9 +37,9 @@ class UserProvider with ChangeNotifier {
   }
 
   // Methode zum Bearbeiten der Account-Daten
-  void updateAccount(User newUser) {
+  Future<void> updateAccount(User newUser) async {
     _user = newUser;
-    authRepository.updateUser(newUser);
+    authRepository.updateUser(_user!);
     notifyListeners();
   }
 
@@ -186,14 +186,6 @@ class UserProvider with ChangeNotifier {
     _selectedAddress = a;
     _isPrimary = a.isPrimary ?? false;
     notifyListeners();
-  }
-
-  int sortAddresses(Address a, Address b) {
-    final aPrimary = a.isPrimary ?? false;
-    final bPrimary = b.isPrimary ?? false;
-    if (bPrimary && !aPrimary) return 1;
-    if (aPrimary && !bPrimary) return -1;
-    return 0;
   }
 
   void fetchUser() {
