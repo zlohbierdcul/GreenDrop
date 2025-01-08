@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:greendrop/src/presentation/map/pages/order_tracking_page.dart';
 import 'package:greendrop/src/presentation/login/provider/registration_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

@@ -41,7 +41,7 @@ class OrderDetailsPage extends StatelessWidget {
                           child: Card(
                             child: Center(
                               child: Text(
-                                "Bestellung ${order.id}",
+                                "Bestellung bei ${order.shop.name}",
                                 style: const TextStyle(
                                   fontSize: 20,
                                 ),
