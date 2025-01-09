@@ -1,22 +1,23 @@
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart'; // Geocoding-Package hinzufügen
 import 'package:greendrop/src/data/repositories/interfaces/authentication_repository.dart';
 import 'package:greendrop/src/data/repositories/strapi/strapi_authentication_repository.dart';
 import 'package:intl/intl.dart';
 
 class RegistrationProvider extends ChangeNotifier {
   IAuthenticationRepository authenticationRepository =
-      StrapiAuthenticationRepository();
+  StrapiAuthenticationRepository();
   int _registrationPage = 1;
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
 
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  TextEditingController();
 
   final ConfettiController _confettiController =
-      ConfettiController(duration: const Duration(seconds: 2));
+  ConfettiController(duration: const Duration(seconds: 2));
 
   String _username = "";
   String _email = "";
@@ -31,9 +32,9 @@ class RegistrationProvider extends ChangeNotifier {
   String _confirmPassword = "";
 
   bool _isLoading = false;
-
   bool _registrationSuccessful = false;
 
+  // Getter
   int get registrationPage => _registrationPage;
   bool get isPasswordVisible => _isPasswordVisible;
   bool get isConfirmPasswordVisible => _isConfirmPasswordVisible;
@@ -47,6 +48,7 @@ class RegistrationProvider extends ChangeNotifier {
   ConfettiController get confettiController => _confettiController;
   bool get isLoading => _isLoading;
 
+  // Seitensteuerung
   void nextPage() {
     _registrationPage++;
     notifyListeners();
@@ -57,6 +59,7 @@ class RegistrationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Sichtbarkeit der Passwörter steuern
   void togglePasswordVisible() {
     _isPasswordVisible = !_isPasswordVisible;
     notifyListeners();
@@ -67,33 +70,71 @@ class RegistrationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Form-Validierung
   bool validatePage(GlobalKey<FormState> formKey) {
     return formKey.currentState!.validate();
   }
 
-  void registerUser() async {
+  // Adresse validieren
+  Future<bool> validateAddress(BuildContext context) async {
+    try {
+      List<Location> locations = await locationFromAddress(
+        '$_street $_streetNumber, $_zipCode $_city',
+      );
+
+      if (locations.isNotEmpty) {
+        return true; // Adresse existiert
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Adresse konnte nicht gefunden werden!')),
+        );
+        return false;
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Fehler bei der Adressvalidierung!')),
+      );
+      return false;
+    }
+  }
+
+  // Benutzerregistrierung
+  void registerUser(BuildContext context) async {
     _isLoading = true;
     notifyListeners();
+
+    // Adresse validieren
+    bool isAddressValid = await validateAddress(context);
+    if (!isAddressValid) {
+      _isLoading = false;
+      notifyListeners();
+      return; // Abbruch, wenn die Adresse ungültig ist
+    }
+
+    // Benutzer registrieren
     _registrationSuccessful = await authenticationRepository.register(
-        _username,
-        _email,
-        _password,
-        _firstname,
-        _lastname,
-        _birthdate,
-        _street,
-        _streetNumber,
-        _city,
-        _zipCode);
+      _username,
+      _email,
+      _password,
+      _firstname,
+      _lastname,
+      _birthdate,
+      _street,
+      _streetNumber,
+      _city,
+      _zipCode,
+    );
+
     nextPage();
     notifyListeners();
     _isLoading = false;
+
     if (_registrationSuccessful) {
       _confettiController.play();
     }
-    notifyListeners();
   }
 
+  // Geburtsdatum auswählen
   Future<void> selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -110,6 +151,7 @@ class RegistrationProvider extends ChangeNotifier {
     }
   }
 
+  // Felder zurücksetzen
   void handleReset() {
     _registrationPage = 1;
     _resetFields();
@@ -130,6 +172,7 @@ class RegistrationProvider extends ChangeNotifier {
     _confirmPassword = "";
   }
 
+  // Setter
   void setUsername(String username) => _username = username;
   void setFirstname(String firstname) => _firstname = firstname;
   void setLastname(String lastname) => _lastname = lastname;
