@@ -13,6 +13,8 @@ import 'package:provider/provider.dart';
 
 import 'package:greendrop/src/presentation/order/provider/order_provider.dart';
 
+import '../../common_widgets/no_swipe_page_route.dart';
+
 class OrderPage extends StatelessWidget {
   final Shop shop;
 
@@ -20,11 +22,12 @@ class OrderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // loading Appbar
       appBar: AppDrawer.buildGreendropsAppBar(context),
       body: Consumer3<UserProvider, CartProvider, OrderProvider>(
         builder: (context, userProvider, cartProvider, orderProvider, child) {
           WidgetsBinding.instance.addPostFrameCallback(
-              (_) => orderProvider.initializeSelectedAddress());
+                  (_) => orderProvider.initializeSelectedAddress());
           return CenterConstrainedBody(
             body: Column(
               children: [
@@ -40,6 +43,7 @@ class OrderPage extends StatelessWidget {
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20),
                           ),
+                          // load in side content widgets
                           const SizedBox(height: 12),
                           OrderUserInfo(shop: shop),
                           const SizedBox(height: 12),
@@ -53,52 +57,23 @@ class OrderPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 300),
-                  transitionBuilder:
-                      (Widget child, Animation<double> animation) {
-                    return FadeTransition(
-                        opacity: animation,
-                        child: SizeTransition(
-                            sizeFactor: animation,
-                            axisAlignment: -1.0,
-                            child: child));
-                  },
-                  child: !orderProvider.inRange
-                      ? Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
-                          decoration: BoxDecoration(
-                              color:
-                                  Theme.of(context).colorScheme.errorContainer,
-                              borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20))),
-                          child: Text(
-                            "Die ausgewählte Adresse liegt ausserhalb des Lieferradius!",
-                            style: TextStyle(
-                                color: Theme.of(context).colorScheme.error),
-                          ))
-                      : const SizedBox.shrink(),
-                ),
                 Padding(
-                  padding: const EdgeInsets.only(
-                      left: 16, top: 16, right: 16, bottom: 32),
+                  padding: const EdgeInsets.all(16.0),
+                  // Button creates the Order and updates user GreenDrops
                   child: FilledButton(
-                    onPressed: orderProvider.inRange
-                        ? () {
-                            userProvider.updateGreendops(
-                                cartProvider.getTotalCosts(),
-                                orderProvider.discount.value);
-                            Navigator.of(context).push(
-                              NoSwipePageRoute(
-                                builder: (context) =>
-                                    const OrderConfirmationPage(),
-                              ),
-                            );
-                          }
-                        : null,
+                    onPressed: orderProvider.inRange? () {
+                    orderProvider.createOrder(shop, cartProvider.orderItems);
+                      userProvider.updateGreendops(cartProvider.getTotalCosts(),
+                          orderProvider.discount.value);
+                      Navigator.of(context).push(
+                        NoSwipePageRoute(
+                          builder: (context) =>
+                              OrderConfirmationPage(
+                                earnedGreenDrops: cartProvider
+                                    .getTotalCosts() ~/ 2),
+                        ),
+                      );
+                    } : null,
                     child: const Padding(
                       padding: EdgeInsets.symmetric(vertical: 16.0),
                       child: Row(
@@ -120,15 +95,8 @@ class OrderPage extends StatelessWidget {
               ],
             ),
           );
-        },
-      ),
+        }
+      )
     );
   }
-}
-
-class NoSwipePageRoute<T> extends MaterialPageRoute<T> {
-  NoSwipePageRoute({required super.builder});
-
-  @override
-  bool get popGestureEnabled => false; // Swipe deaktivieren
 }

@@ -5,8 +5,10 @@ import 'package:greendrop/src/data/repositories/strapi/strapi_authentication_rep
 import 'package:greendrop/src/domain/models/drug.dart';
 import 'package:greendrop/src/domain/models/product.dart';
 import 'package:greendrop/src/domain/models/shop.dart';
+import 'package:logging/logging.dart';
 
-class StrapiShopRepository extends IShopRepository {
+class StrapiShopRepository extends IShopRepository{
+  Logger log = Logger("StrapiShopRepository");
   Dio dio = Dio();
   StrapiAPI api = StrapiAPI();
 
@@ -44,11 +46,16 @@ class StrapiShopRepository extends IShopRepository {
       dynamic product = shopProduct['product'];
       dynamic drug = product['drug'];
 
+      log.info(shopProduct);
+      log.info(product);
+      log.info(drug);
+
       bool isDrug = drug != null;
       if (isDrug) {
         Response drugResult =
             await dio.get(api.getDrugFromId(drug['documentId']));
         drug = drugResult.data["data"];
+        log.info(drug);
 
         List<dynamic> tastes =
             drug['tastes'].map((taste) => taste['name']).toList();
@@ -56,6 +63,7 @@ class StrapiShopRepository extends IShopRepository {
             drug['effects'].map((effect) => effect['name']).toList();
 
         products.add(Drug.fromJson({
+          "id": shopProduct["documentId"],
           "name": product['name'],
           "price": shopProduct['price'],
           "stock": shopProduct['stock'],
@@ -71,6 +79,7 @@ class StrapiShopRepository extends IShopRepository {
         }));
       } else {
         products.add(Product.fromJson({
+          "id": shopProduct["documentId"],
           "name": product['name'],
           "price": shopProduct['price'],
           "stock": shopProduct['stock'],
