@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:greendrop/src/data/db/strapi.db.dart';
 import 'package:greendrop/src/data/repositories/interfaces/shop_repository.dart';
+import 'package:greendrop/src/data/repositories/strapi/strapi_authentication_repository.dart';
 import 'package:greendrop/src/domain/models/drug.dart';
 import 'package:greendrop/src/domain/models/product.dart';
 import 'package:greendrop/src/domain/models/shop.dart';
@@ -13,24 +14,23 @@ class StrapiShopRepository extends IShopRepository{
 
   // Add authorization token to every request
   StrapiShopRepository() {
-    dio.interceptors.add(
-      InterceptorsWrapper(
-        onRequest: (options, handler) {
-          options.headers["Authorization"] = api.getAuth();
-          return handler.next(options);
-        },
-      )
-    );
+    dio.interceptors.add(InterceptorsWrapper(
+      onRequest: (options, handler) {
+        options.headers["Authorization"] =
+            "Bearer ${StrapiAuthenticationRepository().jwtToken ?? ""}";
+        return handler.next(options);
+      },
+    ));
   }
 
   @override
-  Future<List<Shop>> getAllShops() async  {
+  Future<List<Shop>> getAllShops() async {
     Response result = await dio.get(api.getShops());
     List<dynamic> shopData = result.data["data"];
     List<Shop> shops = <Shop>[];
 
     for (dynamic shop in shopData) {
-      Shop parsedShop = await Shop.fromJson(shop);
+      Shop parsedShop = Shop.fromJson(shop);
       shops.add(parsedShop);
     }
 
@@ -52,12 +52,15 @@ class StrapiShopRepository extends IShopRepository{
 
       bool isDrug = drug != null;
       if (isDrug) {
-        Response drugResult = await dio.get(api.getDrugFromId(drug['documentId']));
+        Response drugResult =
+            await dio.get(api.getDrugFromId(drug['documentId']));
         drug = drugResult.data["data"];
         log.info(drug);
 
-        List<dynamic> tastes = drug['tastes'].map((taste) => taste['name']).toList();
-        List<dynamic> effects = drug['effects'].map((effect) => effect['name']).toList();
+        List<dynamic> tastes =
+            drug['tastes'].map((taste) => taste['name']).toList();
+        List<dynamic> effects =
+            drug['effects'].map((effect) => effect['name']).toList();
 
         products.add(Drug.fromJson({
           "id": shopProduct["documentId"],
