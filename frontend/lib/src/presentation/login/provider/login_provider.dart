@@ -19,8 +19,6 @@ class LoginProvider extends ChangeNotifier {
   bool _loginFailed = false;
   bool get loginFailed => _loginFailed;
 
-  
-
   void setIsPasswordVisible(bool b) {
     _isPasswordVisible = b;
     notifyListeners();
@@ -44,20 +42,19 @@ class LoginProvider extends ChangeNotifier {
     if (formKey.currentState?.validate() ?? false) {
       IAuthenticationRepository authenticationRepository =
           StrapiAuthenticationRepository();
-      
+
       bool success = false;
-      // try {
-        success = await authenticationRepository.signIn(email, password);
-      // } catch (e) {
-        // _loginFailed = true; print("Login failed.");
-      // }
+      try {
+        success = await authenticationRepository.signIn(email, password, _rememberMeTicked);
+      } catch (e) {
+        _loginFailed = true;
+        }
 
       if (success) {
         setIsLoggedIn();
         Navigator.of(navigatorKey.currentContext!)
             .pushReplacementNamed("/home");
-      } else {
-      }
+      } else {}
     }
     _isLoading = false;
     notifyListeners();

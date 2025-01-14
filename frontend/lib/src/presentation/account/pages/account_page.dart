@@ -83,9 +83,9 @@ class AccountPage extends StatelessWidget {
                           const UserDetails(),
                           const UserAddressList(),
                           const UserAddressAdd(),
-                          const UserLogout()
                         ] else
-                          const CircularProgressIndicator()
+                          const CircularProgressIndicator(),
+                        const UserLogout()
                       ],
                     ),
                   ),

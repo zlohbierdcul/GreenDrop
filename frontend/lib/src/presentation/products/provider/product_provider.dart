@@ -11,8 +11,10 @@ class ProductProvider extends ChangeNotifier {
 
 
   LinkedHashMap<String, List<Product>> _productMap = LinkedHashMap();
+  bool _isLoading = true;
 
   LinkedHashMap<String, List<Product>> get productMap => _productMap;
+  bool get isLoading => _isLoading;
 
   void clearProducts() {
     _productMap.clear();
@@ -27,6 +29,8 @@ class ProductProvider extends ChangeNotifier {
   }
 
   void loadShopProducts(Shop shop) async {
+    _isLoading = true;
+    notifyListeners();
     List<Product> products = await repository.getAllShopProducts(shop.id);
     var groupedProducts = groupBy(products, (p) => p.category);
     const categoryOrder = ['Rauchbar', 'Essbar', 'Zubehör'];
@@ -35,6 +39,7 @@ class ProductProvider extends ChangeNotifier {
           .where((category) => groupedProducts.containsKey(category)) // Nur vorhandene Kategorien
           .map((category) => MapEntry(category, groupedProducts[category]!)),
     );
+    _isLoading = false;
     notifyListeners();
   }
 }

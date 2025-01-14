@@ -10,12 +10,13 @@ class StrapiAuthenticationRepository extends IAuthenticationRepository {
   Dio dio = Dio();
   StrapiAPI api = StrapiAPI();
   User? _user;
+  String? jwtToken;
 
   // Add authorization token to every request
   StrapiAuthenticationRepository._privateConstructor() {
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) {
-        options.headers["Authorization"] = api.getAuth();
+        options.headers["Authorization"] = "Bearer ${jwtToken ?? ""}";
         return handler.next(options);
       },
     ));
@@ -79,14 +80,24 @@ class StrapiAuthenticationRepository extends IAuthenticationRepository {
   }
 
   @override
-  Future<bool> signIn(String email, String password) async {
+  Future<bool> signIn(
+      String email, String password, bool rememberMeTicked) async {
     Response response = await dio.post(api.getSignIn(),
         data: {"identifier": email, "password": password});
     bool success = response.statusCode == 200;
 
+    String jwt = response.data["jwt"];
+
     if (success) {
-      await fetchUser(response.data["user"]["id"].toString());
       const secureStorage = FlutterSecureStorage();
+
+      if (rememberMeTicked) {
+        // only write jwt token to secure storage if user wants to stay logged in
+        secureStorage.write(key: "jwt", value: jwt);
+      }
+      jwtToken = jwt;
+
+      await fetchUser(response.data["user"]["id"].toString());
       secureStorage.write(key: "userId", value: _user!.userId);
     }
     return success;
@@ -95,9 +106,10 @@ class StrapiAuthenticationRepository extends IAuthenticationRepository {
   @override
   void signOut() async {
     _user = null;
-    // remove "remember me" token
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove("isLoggedIn");
+    prefs.remove("userId");
+    prefs.remove("jwt");
   }
 
   @override

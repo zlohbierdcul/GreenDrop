@@ -71,7 +71,6 @@ class OrderProvider extends ChangeNotifier {
     return GreendropDiscounts.values
         .where((discount) =>
     discount.value <= _user.greenDrops  && discount.value <= (totalCoast * 100));
-
   }
   void createOrder(Shop shop, List<OrderItem> orderItems) async {
     _isLoading = true;
@@ -79,7 +78,7 @@ class OrderProvider extends ChangeNotifier {
     log.fine(_user.addresses);
 
     _order = Order(
-        address: _user.addresses[0],
+        address: _selectedAddress ?? _user.addresses[0],
         status: "pending",
         user: _user,
         shop: shop,
@@ -88,7 +87,8 @@ class OrderProvider extends ChangeNotifier {
 
     String orderId = await orderRepository.createOrder(_order!);
   
-    _order?.copyWith(id: orderId);
+    _order = _order?.copyWith(id: orderId);
+
     log.info("Order $order");
     
     _isLoading = false;

@@ -40,12 +40,12 @@ class Order {
   // Factory constructor to create an Order object from a JSON entry
   static Order fromJson(Map<String, dynamic> json) {
     return Order(
-        id: json['id'].toString(),
+        id: json['documentId'].toString(),
         status: json['state'],
-        date: DateTime.parse(json["created_on"]),
+        date: DateTime.parse(json["createdAt"]),
         shop: Shop.fromJson(json['shop']),
         address: Address.fromJson(json['user_address']),
-        paymentMethod: json['payment_method'],
+        paymentMethod: json['payment_method'].toString(),
         orderItems: (json['items'] as List<dynamic>)
             .map((item) => OrderItem.fromJson(item))
             .toList());
