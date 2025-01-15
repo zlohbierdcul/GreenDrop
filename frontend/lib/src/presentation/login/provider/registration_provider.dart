@@ -1,6 +1,5 @@
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart'; // Geocoding-Package hinzufügen
 import 'package:greendrop/src/data/repositories/interfaces/authentication_repository.dart';
 import 'package:greendrop/src/data/repositories/strapi/strapi_authentication_repository.dart';
 import 'package:intl/intl.dart';

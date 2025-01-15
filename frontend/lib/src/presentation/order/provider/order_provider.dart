@@ -13,7 +13,7 @@ import 'package:greendrop/src/domain/models/user.dart';
 import 'package:greendrop/src/presentation/common_widgets/loading_overlay.dart';
 import 'package:greendrop/src/presentation/common_widgets/no_swipe_page_route.dart';
 import 'package:greendrop/src/presentation/order/pages/order_confirmation_page.dart';
-import 'package:greendrop/src/utils/utils.dart';
+// import 'package:greendrop/src/utils/utils.dart';
 import 'package:logging/logging.dart';
 
 class OrderProvider extends ChangeNotifier {
@@ -56,7 +56,8 @@ class OrderProvider extends ChangeNotifier {
     _isLoading = true;
     overlay.show(context);
     _selectedAddress = a;
-    _inRange = await checkInRange(_selectedAddress!, shop);
+    // This Code is causing a bug, to while the bug is not fixed the address cannot be validated
+    // _inRange = await checkInRange(_selectedAddress!, shop);
     _isLoading = false;
     overlay.hide();
     notifyListeners();
