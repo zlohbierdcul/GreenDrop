@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:greendrop/src/data/db/strapi.db.dart';
+import 'package:greendrop/src/data/db/strapi_db.dart';
 import 'package:flutter/services.dart';
 import 'package:greendrop/src/data/repositories/strapi/strapi_authentication_repository.dart';
 import 'package:greendrop/src/domain/models/address.dart';
@@ -53,8 +53,11 @@ void main() {
     mockDio = MockDio();
     mockApi = MockStrapiAPI();
 
-    // Stubs für API (Beispiel: getSignIn, getRegister, etc.)
-    when(mockApi.getAuth()).thenReturn('Bearer fakeToken');
+    // Repository instanzieren + Mocks einhängen
+    repository = StrapiAuthenticationRepository();
+    repository.dio = mockDio;
+    repository.api = mockApi;
+
     when(mockApi.getSignIn()).thenReturn('/auth/local');
     when(mockApi.getRegister()).thenReturn('/auth/local/register');
     when(mockApi.getUser(any)).thenAnswer((inv) {
@@ -137,10 +140,6 @@ void main() {
       );
     });
 
-    // Repository instanzieren + Mocks einhängen
-    repository = StrapiAuthenticationRepository();
-    repository.dio = mockDio;
-    repository.api = mockApi;
 
     // SharedPreferences-Mock initialisieren
     SharedPreferences.setMockInitialValues({});
@@ -152,11 +151,12 @@ void main() {
         .setMockMethodCallHandler(secureStorageChannel, null);
   });
 
-  group('StrapiAuthenticationRepository Tests', () {
+  group('StrapiAuthenticationRepository Tests', ()
+  {
     test('signIn - erfolgreicher Login (Status 200)', () async {
-
       // ACT
-      final success = await repository.signIn("test@example.com", "secret");
+      final success = await repository.signIn(
+          "test@example.com", "secret", false);
 
       // ASSERT
       expect(success, true);
@@ -172,7 +172,9 @@ void main() {
     test('signIn - fehlgeschlagener Login (Status 400)', () async {
       // ARRANGE
       final fakeResponse = Response(
-        data: {},
+        data: {
+          'jwt': '',
+        },
         statusCode: 400,
         requestOptions: RequestOptions(path: '/auth/local'),
       );
@@ -180,7 +182,8 @@ void main() {
           .thenAnswer((_) async => fakeResponse);
 
       // ACT
-      final success = await repository.signIn("wrong@example.com", "wrong");
+      final success = await repository.signIn(
+          "wrong@example.com", "wrong", false);
 
       // ASSERT
       expect(success, false);
@@ -199,7 +202,7 @@ void main() {
         return Response(
           data: {
             'jwt': 'fake_jwt',
-            'user': { 'documentId': 'doc123', 'id': '123' },
+            'user': { 'documentId': 'doc123', 'id': '123'},
           },
           statusCode: 200,
           requestOptions: RequestOptions(path: '/auth/local/register'),
@@ -245,7 +248,8 @@ void main() {
         return Response(
           data: {"message": "connected OK"},
           statusCode: 200,
-          requestOptions: RequestOptions(path: '/connectUserDetailURL/detail123'),
+          requestOptions: RequestOptions(
+              path: '/connectUserDetailURL/detail123'),
         );
       });
 
@@ -265,10 +269,9 @@ void main() {
 
       // --- ASSERT ---
       expect(success, true);
-    });
 
 
-    // Prüfen, ob wir "register" aufgerufen haben
+      // Prüfen, ob wir "register" aufgerufen haben
       verify(mockDio.post(argThat(contains('/auth/local/register')),
           data: {
             "username": "john_doe",
@@ -419,7 +422,8 @@ void main() {
       )).called(1);
     });
 
-    test('signOut - setzt User auf null und löscht isLoggedIn aus SharedPreferences', () async {
+    test(
+        'signOut - setzt User auf null und löscht isLoggedIn aus SharedPreferences', () async {
       // ACT
       repository.signOut();
 
@@ -429,4 +433,5 @@ void main() {
       final prefs = await SharedPreferences.getInstance();
       expect(prefs.containsKey("isLoggedIn"), false);
     });
+  });
 }

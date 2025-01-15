@@ -37,7 +37,25 @@ void main() {
         isPrimary: true,
       );
 
-      final user = User.genericUser;
+      final user = User(
+          id: "000",
+          userId: "000",
+          userDetailId: "000",
+          userName: "MaMu",
+          firstName: "Max",
+          lastName: "Mustermann",
+          birthdate: "12-12-2024",
+          greenDrops: 1337,
+          eMail: "max.musterman@example.com",
+          addresses: [
+            Address(
+                id: "007",
+                street: "Beispielstraße",
+                streetNumber: "42",
+                zipCode: "68163",
+                city: "Mannheim",
+                isPrimary: true)
+          ]);
 
       final order = Order(
         id: 'order001',
@@ -76,10 +94,10 @@ void main() {
     });
 
     test('Should deserialize Order from JSON', () async {
-       final json = {
-        'id': 'order002',
+      final json = {
+        'documentId': 'order002',
         'state': 'Completed',
-        'created_on': '2024-01-15T10:30:00Z',
+        'createdAt': '2024-01-15T10:30:00Z',
         'shop': {
           'documentId': 'shop002',
           'name': 'Tech Shop',
@@ -109,15 +127,16 @@ void main() {
         'items': [
           {
             'quantity': 2,
-            'price': 800.0,
-            'stock': 10,
-            'documentId': 'https://example.com/phone.jpg',
             'product': {
-              'name': 'Smartphone',
-              'category': 'Electronics',
-              'description': 'A high-end smartphone',
+              'documentId': 'https://example.com/phone.jpg',
+              'price': 800.0,
+              'stock': 10,
+              'product': {
+                'name': 'Smartphone',
+                'category': 'Electronics',
+                'description': 'A high-end smartphone',
+              },
             },
-
           }
         ]
       };
@@ -126,8 +145,7 @@ void main() {
 
       expect(order.id, 'order002');
       expect(order.status, 'Completed');
-      expect(order.date,
-          equals(DateTime.parse("2024-01-15T10:30:00.000Z")));
+      expect(order.date, equals(DateTime.parse("2024-01-15T10:30:00.000Z")));
       expect(order.shop.name, 'Tech Shop');
       expect(order.address.city, 'Another City');
       expect(order.paymentMethod, 'PayPal');
@@ -142,9 +160,9 @@ void main() {
       const jsonData = '''
         {
           "order1": {
-            "id": "order003",
+            "documentId": "order003",
             "state": "Pending",
-            "created_on": "2024-01-15T10:30:00Z",
+            "createdAt": "2024-01-15T10:30:00Z",
             "shop": {
               "documentId": "shop003",
               "name": "Gadget Store",
@@ -174,13 +192,15 @@ void main() {
             "items": [
               {
                 "quantity": 2,
-                "price": 800.0,
-                "stock": 10,
-                "documentId": "https://example.com/phone.jpg",
                 "product": {
-                  "name": "Smartphone",
-                  "category": "Electronics",
-                  "description": "A high-end smartphone"
+                  "documentId": "https://example.com/phone.jpg",
+                  "price": 800.0,
+                  "stock": 10,
+                  "product": {
+                    "name": "Smartphone",
+                    "category": "Electronics",
+                    "description": "A high-end smartphone"
+                  }
                 }
               }
             ]
@@ -194,8 +214,7 @@ void main() {
       final order = await orders.first;
       expect(order.id, 'order003');
       expect(order.status, 'Pending');
-      expect(order.date,
-          equals(DateTime.parse("2024-01-15T10:30:00.000Z")));
+      expect(order.date, equals(DateTime.parse("2024-01-15T10:30:00.000Z")));
       expect(order.shop.name, 'Gadget Store');
       expect(order.address.street, 'Elm Street');
       expect(order.paymentMethod, 'Cash on Delivery');
@@ -236,7 +255,25 @@ void main() {
         isPrimary: true,
       );
 
-      final user = User.genericUser;
+      final user = User(
+          id: "000",
+          userId: "000",
+          userDetailId: "000",
+          userName: "MaMu",
+          firstName: "Max",
+          lastName: "Mustermann",
+          birthdate: "12-12-2024",
+          greenDrops: 1337,
+          eMail: "max.musterman@example.com",
+          addresses: [
+            Address(
+                id: "007",
+                street: "Beispielstraße",
+                streetNumber: "42",
+                zipCode: "68163",
+                city: "Mannheim",
+                isPrimary: true)
+          ]);
 
       final order = Order(
         id: 'order001',

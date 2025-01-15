@@ -74,7 +74,7 @@ class RegistrationProvider extends ChangeNotifier {
   }
 
   // Benutzerregistrierung
-  void registerUser(BuildContext context) async {
+  void registerUser() async {
     _isLoading = true;
     notifyListeners();
 

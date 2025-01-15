@@ -11,8 +11,11 @@ class OrderHistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<OrderHistoryProvider>(
-      create: (context) =>
-          OrderHistoryProvider(), // Hier wird der Provider initialisiert
+      create: (context) {
+        final provider = OrderHistoryProvider();
+        provider.init();
+        return provider;
+      },
       child: Scaffold(
         appBar: AppDrawer.buildGreendropsAppBar(context),
         body: const CenterConstrainedBody(

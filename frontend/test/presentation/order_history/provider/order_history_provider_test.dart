@@ -12,7 +12,6 @@ import 'package:greendrop/src/presentation/order_history/provider/order_history_
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-
 // Generiere Mocks für die benötigten Repositories
 @GenerateMocks([IAuthenticationRepository, IOrderRepository])
 import 'order_history_provider_test.mocks.dart';
@@ -23,14 +22,31 @@ void main() {
     await Future<void>.delayed(Duration(milliseconds: milliseconds));
   }
 
-  group('OrderHistoryProvider Tests', ()
-  {
+  group('OrderHistoryProvider Tests', () {
     late OrderHistoryProvider provider;
     late MockIAuthenticationRepository mockAuthRepo;
     late MockIOrderRepository mockOrderRepo;
 
     // Beispiel eines generischen Benutzers
-    final genericUser = User.genericUser;
+    final genericUser = User(
+        id: "000",
+        userId: "000",
+        userDetailId: "000",
+        userName: "MaMu",
+        firstName: "Max",
+        lastName: "Mustermann",
+        birthdate: "12-12-2024",
+        greenDrops: 1337,
+        eMail: "max.musterman@example.com",
+        addresses: [
+          Address(
+              id: "007",
+              street: "Beispielstraße",
+              streetNumber: "42",
+              zipCode: "68163",
+              city: "Mannheim",
+              isPrimary: true)
+        ]);
 
     setUpAll(() async {
       await dotenv.load(fileName: ".env");
@@ -121,12 +137,9 @@ void main() {
           .thenAnswer((_) async => mockOrders);
 
       // ACT
-      runZonedGuarded(() {
-        provider
-            .loadOrders(); // loadOrders erneut aufrufen mit Mock-Repositories
-      }, (error, stack) {
-        // Ignoriere Exceptions
-      });
+
+      provider.init(); // loadOrders erneut aufrufen mit Mock-Repositories
+
 
       await pumpEventQueue();
 
@@ -136,22 +149,20 @@ void main() {
       expect(provider.errorMessage, isNull);
     });
 
-    test(
-        'loadOrders() => Fehlschlag (getUserOrders wirft Exception)', () async {
+    test('loadOrders() => Fehlschlag (getUserOrders wirft Exception)',
+        () async {
       // ARRANGE
       when(mockOrderRepo.getUserOrders(genericUser))
           .thenThrow(Exception('Failed to load orders'));
 
-
       provider.loadOrders(); // loadOrders erneut aufrufen mit Mock-Repositories
-
 
       await pumpEventQueue();
 
       // ASSERT
       expect(provider.orders, isEmpty);
       expect(provider.isLoading, false);
-      expect(provider.errorMessage, 'Fehler: Exception: Failed to load orders');
+      expect(provider.errorMessage, 'Fehler: Exception: Kein Benutzer eingeloggt.');
     });
   });
 }

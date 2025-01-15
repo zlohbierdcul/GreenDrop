@@ -50,7 +50,7 @@ void main() {
       const jsonData = '''
       [
         {
-          "id": "1234"
+          "id": "1234",
           "name": "Apple",
           "price": 1.99,
           "stock": 50,
@@ -59,6 +59,7 @@ void main() {
           "description": "A fresh and juicy apple"
         },
         {
+          "id": "2345",
           "name": "Banana",
           "price": 0.99,
           "stock": 100,
