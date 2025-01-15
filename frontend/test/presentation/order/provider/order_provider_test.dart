@@ -7,6 +7,7 @@ import 'package:greendrop/src/data/repositories/interfaces/authentication_reposi
 import 'package:greendrop/src/data/repositories/interfaces/order_repository.dart';
 import 'package:greendrop/src/domain/enums/greendrop_discounts.dart';
 import 'package:greendrop/src/domain/enums/payment_methods.dart';
+import 'package:greendrop/src/domain/models/address.dart';
 import 'package:greendrop/src/domain/models/order_item.dart';
 import 'package:greendrop/src/domain/models/shop.dart';
 import 'package:greendrop/src/domain/models/user.dart';
@@ -28,14 +29,32 @@ void main() {
     await dotenv.load(fileName: ".env");
   });
 
-  group('OrderProvider Tests', ()
-  {
+  group('OrderProvider Tests', () {
     late OrderProvider provider;
     late MockIAuthenticationRepository mockAuthRepo;
     late MockIOrderRepository mockOrderRepo;
 
     // Beispiel eines generischen Benutzers
-    final genericUser = User.genericUser;
+    final genericUser = User(
+        id: "000",
+        userId: "000",
+        userDetailId: "000",
+        userName: "MaMu",
+        firstName: "Max",
+        lastName: "Mustermann",
+        birthdate: "12-12-2024",
+        greenDrops: 1337,
+        eMail: "max.musterman@example.com",
+        addresses: [
+          Address(
+              id: "007",
+              street: "Beispielstraße",
+              streetNumber: "42",
+              zipCode: "68163",
+              city: "Mannheim",
+              isPrimary: true)
+        ]);
+    ;
 
     setUp(() {
       // Initialisiere den Provider und die Mocks
@@ -136,8 +155,8 @@ void main() {
       const generatedOrderId = 'order123';
 
       // Stub: Wenn createOrder aufgerufen wird, gib eine orderId zurück
-      when(mockOrderRepo.createOrder(any)).thenAnswer((
-          _) async => generatedOrderId);
+      when(mockOrderRepo.createOrder(any))
+          .thenAnswer((_) async => generatedOrderId);
 
       // ACT
       runZonedGuarded(() {

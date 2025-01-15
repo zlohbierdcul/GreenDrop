@@ -44,7 +44,7 @@ class MockIAuthenticationRepository extends _i1.Mock
   }
 
   @override
-  _i4.Future<bool> signIn(String? email, String? password) =>
+  _i4.Future<bool> signIn(String? email, String? password, bool remeberMeTicked) =>
       (super.noSuchMethod(
             Invocation.method(#signIn, [email, password]),
             returnValue: _i4.Future<bool>.value(false),
@@ -112,11 +112,11 @@ class MockIAuthenticationRepository extends _i1.Mock
   );
 
   @override
-  _i4.Future<_i2.User> fetchUser(String? id) =>
+  _i4.Future<_i2.User> fetchUser() =>
       (super.noSuchMethod(
-            Invocation.method(#fetchUser, [id]),
+            Invocation.method(#fetchUser, []),
             returnValue: _i4.Future<_i2.User>.value(
-              _FakeUser_0(this, Invocation.method(#fetchUser, [id])),
+              _FakeUser_0(this, Invocation.method(#fetchUser, [])),
             ),
           )
           as _i4.Future<_i2.User>);

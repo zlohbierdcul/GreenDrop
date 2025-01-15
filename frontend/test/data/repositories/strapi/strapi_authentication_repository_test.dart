@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:greendrop/src/data/db/strapi.db.dart';
+import 'package:greendrop/src/data/db/strapi_db.dart';
 import 'package:flutter/services.dart';
 import 'package:greendrop/src/data/repositories/strapi/strapi_authentication_repository.dart';
 import 'package:greendrop/src/domain/models/address.dart';
@@ -156,7 +156,7 @@ void main() {
     test('signIn - erfolgreicher Login (Status 200)', () async {
 
       // ACT
-      final success = await repository.signIn("test@example.com", "secret");
+      final success = await repository.signIn("test@example.com", "secret", false);
 
       // ASSERT
       expect(success, true);
@@ -180,7 +180,7 @@ void main() {
           .thenAnswer((_) async => fakeResponse);
 
       // ACT
-      final success = await repository.signIn("wrong@example.com", "wrong");
+      final success = await repository.signIn("wrong@example.com", "wrong", false);
 
       // ASSERT
       expect(success, false);

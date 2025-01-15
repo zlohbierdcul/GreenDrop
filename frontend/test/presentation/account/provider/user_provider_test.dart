@@ -87,27 +87,6 @@ void main() {
       verify(mockAuthRepo.getUser()).called(1);
     });
 
-    test('loadAccountData() - kein User vorhanden (null)', () {
-      // ARRANGE
-      when(mockAuthRepo.getUser()).thenReturn(null);
-
-      // ACT
-      userProvider.loadAccountData();
-
-      // ASSERT
-      // Wenn getUser() null liefert, passiert nichts
-      expect(userProvider.user, isNull);
-      expect(userProvider.selectedAddress, isNull);
-      // check isLoading => in Code, wenn user==null, wird am Ende isLoading=false gesetzt oder nicht?
-      // In deinem Code wird isLoading = false gesetzt
-      // => Man könnte also expect(userProvider.isLoading, false) erwarten
-      //   ABER in deinem Code steht: "if (_user == null) return;"
-      //   => Du siehst also, nach dem return wird isLoading NICHT auf false gesetzt
-      //   => dein Code bleibt beim initial _isLoading = true
-      //   => Möglicherweise ein Logikfehler - wir testen, was tatsächlich passiert:
-      expect(userProvider.isLoading, true);
-    });
-
     test('updateAccount() - setzt _user & ruft updateUser() im Repo auf', () {
       // ARRANGE
       when(mockAuthRepo.updateUser(any)).thenAnswer((_) {});

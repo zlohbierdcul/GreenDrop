@@ -12,7 +12,7 @@ import 'package:dio/src/dio_mixin.dart' as _i5;
 import 'package:dio/src/options.dart' as _i2;
 import 'package:dio/src/response.dart' as _i6;
 import 'package:dio/src/transformer.dart' as _i4;
-import 'package:greendrop/src/data/db/strapi.db.dart' as _i10;
+import 'package:greendrop/src/data/db/strapi_db.dart' as _i10;
 import 'package:greendrop/src/domain/models/address.dart' as _i13;
 import 'package:greendrop/src/domain/models/user.dart' as _i12;
 import 'package:mockito/mockito.dart' as _i1;

@@ -97,7 +97,7 @@ class RegistrationButtons extends StatelessWidget {
                     ? null
                     : () {
                         if (provider.validatePage(formKey)) {
-                          provider.registerUser(context);
+                          provider.registerUser();
                         }
                       },
                 child: Padding(
