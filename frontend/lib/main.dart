@@ -48,8 +48,14 @@ Future main() async {
   bool isLoggedIn = prefs.getBool("isLoggedIn") ?? false;
   if (isLoggedIn) {
     FlutterSecureStorage secureStorage = const FlutterSecureStorage();
-    StrapiAuthenticationRepository().jwtToken =
+    StrapiAuthenticationRepository authenticationRepository = StrapiAuthenticationRepository();
+    authenticationRepository.jwtToken =
         await secureStorage.read(key: "jwt");
+    String? userId = await secureStorage.read(key: "userId");
+    if (userId != null) {
+      authenticationRepository.userId = userId;
+      await authenticationRepository.fetchUser();
+    }
   }
 
   // Run App

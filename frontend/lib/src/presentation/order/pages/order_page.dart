@@ -3,17 +3,13 @@ import 'package:greendrop/src/domain/models/shop.dart';
 import 'package:greendrop/src/presentation/account/provider/user_provider.dart';
 import 'package:greendrop/src/presentation/common_widgets/app_drawer.dart';
 import 'package:greendrop/src/presentation/common_widgets/center_constrained_body.dart';
-import 'package:greendrop/src/presentation/order/pages/order_confirmation_page.dart';
 import 'package:greendrop/src/presentation/order/widgets/order_greendrop_discount.dart';
 import 'package:greendrop/src/presentation/order/widgets/order_payment_selection.dart';
 import 'package:greendrop/src/presentation/order/widgets/order_product_list.dart';
 import 'package:greendrop/src/presentation/order/widgets/order_user_info.dart';
 import 'package:greendrop/src/presentation/products/provider/cart_provider.dart';
-import 'package:provider/provider.dart';
-
 import 'package:greendrop/src/presentation/order/provider/order_provider.dart';
-
-import '../../common_widgets/no_swipe_page_route.dart';
+import 'package:provider/provider.dart';
 
 class OrderPage extends StatelessWidget {
   final Shop shop;
@@ -22,12 +18,12 @@ class OrderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // loading Appbar
-      appBar: AppDrawer.buildGreendropsAppBar(context),
-      body: Consumer3<UserProvider, CartProvider, OrderProvider>(
-        builder: (context, userProvider, cartProvider, orderProvider, child) {
+        // loading Appbar
+        appBar: AppDrawer.buildGreendropsAppBar(context),
+        body: Consumer3<UserProvider, CartProvider, OrderProvider>(builder:
+            (context, userProvider, cartProvider, orderProvider, child) {
           WidgetsBinding.instance.addPostFrameCallback(
-                  (_) => orderProvider.initializeSelectedAddress());
+              (_) => orderProvider.initializeSelectedAddress());
           return CenterConstrainedBody(
             body: Column(
               children: [
@@ -61,19 +57,10 @@ class OrderPage extends StatelessWidget {
                   padding: const EdgeInsets.all(16.0),
                   // Button creates the Order and updates user GreenDrops
                   child: FilledButton(
-                    onPressed: orderProvider.inRange? () {
-                    orderProvider.createOrder(shop, cartProvider.orderItems);
-                      userProvider.updateGreendops(cartProvider.getTotalCosts(),
-                          orderProvider.discount.value);
-                      Navigator.of(context).push(
-                        NoSwipePageRoute(
-                          builder: (context) =>
-                              OrderConfirmationPage(
-                                earnedGreenDrops: cartProvider
-                                    .getTotalCosts() ~/ 2),
-                        ),
-                      );
-                    } : null,
+                    onPressed: orderProvider.isLoading
+                        ? null
+                        : () => orderProvider.handleOrder(
+                            context, shop, cartProvider, userProvider),
                     child: const Padding(
                       padding: EdgeInsets.symmetric(vertical: 16.0),
                       child: Row(
@@ -92,11 +79,10 @@ class OrderPage extends StatelessWidget {
                     ),
                   ),
                 ),
+                const SizedBox(height: 16)
               ],
             ),
           );
-        }
-      )
-    );
+        }));
   }
 }

@@ -11,6 +11,8 @@ import 'package:greendrop/src/domain/models/order_item.dart';
 import 'package:greendrop/src/domain/models/shop.dart';
 import 'package:greendrop/src/domain/models/user.dart';
 import 'package:greendrop/src/presentation/common_widgets/loading_overlay.dart';
+import 'package:greendrop/src/presentation/common_widgets/no_swipe_page_route.dart';
+import 'package:greendrop/src/presentation/order/pages/order_confirmation_page.dart';
 import 'package:greendrop/src/utils/utils.dart';
 import 'package:logging/logging.dart';
 
@@ -19,17 +21,17 @@ class OrderProvider extends ChangeNotifier {
 
   IAuthenticationRepository authRepository = StrapiAuthenticationRepository();
   IOrderRepository orderRepository = StrapiOrderRepository();
-  Order? _order;
-
-  bool _isLoading = false;
 
   PaymentMethods _selectedPaymentMethod = PaymentMethods.cash;
   GreendropDiscounts _selectedDiscount = GreendropDiscounts.none;
   Address? _selectedAddress;
+  bool _isLoading = false;
   bool _inRange = true;
-  final User _user =
-      StrapiAuthenticationRepository().getUser() ?? User.genericUser;
 
+  final User _user = StrapiAuthenticationRepository().getUser();
+  Order? _order;
+
+  // getter
   bool get isLoading => _isLoading;
   PaymentMethods get paymentMethod => _selectedPaymentMethod;
   GreendropDiscounts get discount => _selectedDiscount;
@@ -68,14 +70,14 @@ class OrderProvider extends ChangeNotifier {
   }
 
   Iterable<GreendropDiscounts> getUserDiscountOptions(double totalCoast) {
-    return GreendropDiscounts.values
-        .where((discount) =>
-    discount.value <= _user.greenDrops  && discount.value <= (totalCoast * 100));
+    return GreendropDiscounts.values.where((discount) =>
+        discount.value <= _user.greenDrops &&
+        discount.value <= (totalCoast * 100));
   }
-  void createOrder(Shop shop, List<OrderItem> orderItems) async {
+
+  Future<void> createOrder(Shop shop, List<OrderItem> orderItems) async {
     _isLoading = true;
     notifyListeners();
-    log.fine(_user.addresses);
 
     _order = Order(
         address: _selectedAddress ?? _user.addresses[0],
@@ -86,12 +88,27 @@ class OrderProvider extends ChangeNotifier {
         orderItems: orderItems);
 
     String orderId = await orderRepository.createOrder(_order!);
-  
+
     _order = _order?.copyWith(id: orderId);
 
-    log.info("Order $order");
-    
+    log.info("Created order: $order");
+
     _isLoading = false;
     notifyListeners();
+  }
+
+  void handleOrder(
+      BuildContext context, Shop shop, cartProvider, userProvider) async {
+    if (_inRange) {
+      await createOrder(shop, cartProvider.orderItems);
+      userProvider.updateGreendops(
+          cartProvider.getTotalCosts(), discount.value);
+      Navigator.of(context).push(
+        NoSwipePageRoute(
+          builder: (context) => OrderConfirmationPage(
+              earnedGreenDrops: cartProvider.getTotalCosts() ~/ 2),
+        ),
+      );
+    }
   }
 }
