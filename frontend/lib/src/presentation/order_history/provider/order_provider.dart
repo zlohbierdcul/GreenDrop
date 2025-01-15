@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:greendrop/src/data/db/strapi.db.dart';
+import 'package:greendrop/src/data/db/strapi_db.dart';
 import 'package:dio/dio.dart';
 
 import '../../../domain/models/order.dart';

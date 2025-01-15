@@ -28,7 +28,7 @@ class AccountPage extends StatelessWidget {
   static final TextEditingController _cityController = TextEditingController();
 
   void _initializeControllers(UserProvider userProvider) {
-    User user = userProvider.user ?? User.genericUser;
+    User user = userProvider.user!;
     _userNameController.text = user.userName;
     _firstNameController.text = user.firstName;
     _lastNameController.text = user.lastName;
@@ -47,7 +47,6 @@ class AccountPage extends StatelessWidget {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final provider = Provider.of<UserProvider>(context, listen: false);
-      provider.loadAccountData();
       _initializeControllers(provider);
     });
     return Scaffold(

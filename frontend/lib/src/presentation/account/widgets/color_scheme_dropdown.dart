@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:greendrop/src/presentation/common_widgets/dropdown.dart';
 import 'package:greendrop/src/presentation/theme/theme_provider.dart';
@@ -10,11 +9,11 @@ class ColorSchemeDropdown extends StatelessWidget {
   List<DropdownMenuItem<String>> get dropdownMenuItems {
     return [
       const DropdownMenuItem<String>(
-          key: Key("theme_1"), value: "dark", child: Text("Dunkel")),
+          key: Key("theme_dark"), value: "dark", child: Text("Dunkel")),
       const DropdownMenuItem<String>(
-          key: Key("theme_2"), value: "light", child: Text("Hell")),
+          key: Key("theme_light"), value: "light", child: Text("Hell")),
       const DropdownMenuItem<String>(
-          key: Key("theme_3"), value: "system", child: Text("System")),
+          key: Key("theme_system"), value: "system", child: Text("System")),
     ];
   }
 

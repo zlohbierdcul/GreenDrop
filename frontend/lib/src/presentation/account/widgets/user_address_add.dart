@@ -32,8 +32,7 @@ class UserAddressAdd extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        return Consumer<UserProvider>(
-            builder: (context, userProvider, child) {
+        return Consumer<UserProvider>(builder: (context, userProvider, child) {
           TextEditingController streetController = TextEditingController();
           TextEditingController streetNumberController =
               TextEditingController();
@@ -76,7 +75,8 @@ class UserAddressAdd extends StatelessWidget {
                           child: CustomTextFormField(
                               hintText: "Nr",
                               controller: streetNumberController,
-                              keyboardType: const TextInputType.numberWithOptions(),
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Textfeld ist leer!';
@@ -108,7 +108,8 @@ class UserAddressAdd extends StatelessWidget {
                           child: CustomTextFormField(
                               hintText: "PLZ",
                               controller: zipController,
-                              keyboardType: const TextInputType.numberWithOptions(),
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Textfeld ist leer!';
