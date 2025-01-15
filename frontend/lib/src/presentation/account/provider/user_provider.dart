@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:greendrop/main.dart';
 import 'package:greendrop/src/data/repositories/interfaces/authentication_repository.dart';
 import 'package:greendrop/src/data/repositories/strapi/strapi_authentication_repository.dart';
 import 'package:greendrop/src/domain/models/address.dart';
 import 'package:greendrop/src/domain/models/user.dart';
 import 'package:greendrop/src/presentation/login/pages/login_page.dart';
-
 
 class UserProvider with ChangeNotifier {
   IAuthenticationRepository authRepository = StrapiAuthenticationRepository();
@@ -22,7 +20,7 @@ class UserProvider with ChangeNotifier {
   bool get isPrimary => _isPrimary;
   Address? get selectedAddress => _selectedAddress;
 
-  void loadAccountData() async {
+  void loadAccountData() {
     _user = authRepository.getUser();
     if (_user == null) return;
     _selectedAddress = _user!.addresses.firstWhere((a) => a.isPrimary == true,
@@ -43,7 +41,6 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Methode zum Umschalten des Bearbeitungsmodus
   void toggleEditing() {
     _isEditing = !_isEditing;
     notifyListeners();
@@ -54,14 +51,15 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setPrimary(bool v) {
-    _isPrimary = v;
+  void setPrimary(bool value) {
+    _isPrimary = value;
     notifyListeners();
   }
 
   void signOut() async {
     // sign out user in repository;
     authRepository.signOut();
+    // navigate back to login page
     Navigator.pushAndRemoveUntil(
         navigatorKey.currentContext!,
         MaterialPageRoute(builder: (context) => LoginPage()),
@@ -70,27 +68,25 @@ class UserProvider with ChangeNotifier {
 
   void updateGreendops(double totalCosts, int discount) {
     if (_user == null) return;
+
+    // calculate and update greendrops
     _user!.greenDrops = (totalCosts ~/ 2) + _user!.greenDrops;
     _user!.greenDrops -= discount;
     _user!.setGreendrops(_user!.greenDrops);
+
     updateAccount(_user!);
     notifyListeners();
   }
 
-  // Methode zum Abbrechen und Zurücksetzen
   void cancelEditing(BuildContext context) {
     _isEditing = false;
-    loadAccountData();
     notifyListeners();
   }
 
   void deleteAddress(Address address) {
     authRepository.deleteAddress(address);
-
-    loadAccountData();
     loadAccountData();
     notifyListeners();
-
     Navigator.of(navigatorKey.currentContext!).pop();
   }
 
@@ -109,7 +105,7 @@ class UserProvider with ChangeNotifier {
           eMail: email,
           addresses: _user!.addresses);
       authRepository.updateUser(editedUser);
-      _user = editedUser;
+      loadAccountData();
       notifyListeners();
       Navigator.of(navigatorKey.currentContext!).pop();
     }
@@ -138,7 +134,8 @@ class UserProvider with ChangeNotifier {
 
       authRepository.updateUserAddress(editedAddress);
       _user!.changeAddress(editedAddress);
-      _selectedAddress = _user!.addresses.firstWhere((a) => a.isPrimary == true);
+      _selectedAddress =
+          _user!.addresses.firstWhere((a) => a.isPrimary == true);
       notifyListeners();
       Navigator.of(navigatorKey.currentContext!).pop();
     }
@@ -186,20 +183,5 @@ class UserProvider with ChangeNotifier {
     _selectedAddress = a;
     _isPrimary = a.isPrimary ?? false;
     notifyListeners();
-  }
-
-  void fetchUser() {
-    if (_user != null) return;
-    _isLoading = true;
-    FlutterSecureStorage secureStorage = const FlutterSecureStorage();
-    secureStorage.read(key: "userId").then((id) {
-      if (id != null) {
-        StrapiAuthenticationRepository authRepo =
-        StrapiAuthenticationRepository();
-        authRepo
-            .fetchUser(id)
-            .then((_) => loadAccountData());
-      }
-    });
   }
 }

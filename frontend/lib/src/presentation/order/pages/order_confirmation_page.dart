@@ -8,7 +8,6 @@ import '../../common_widgets/no_swipe_page_route.dart';
 import '../../map/pages/order_tracking_page.dart';
 
 class OrderConfirmationPage extends StatelessWidget {
-
   final int earnedGreenDrops;
 
   // required parameters so we don't have to use Providers only for these 2
@@ -62,11 +61,11 @@ class OrderConfirmationPage extends StatelessWidget {
                                   child: Padding(
                                     padding: const EdgeInsets.all(16.0),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "Vielen Dank für Ihre Bestellung bei ${orderProvider.order!.shop.name}. Sie wird in Kürze in ${orderProvider.order!.address.street} ${orderProvider.order!.address.streetNumber} eintreffen",
+                                          "Vielen Dank für Ihre Bestellung bei ${orderProvider.order!.shop.name}. \nSie wird in Kürze in ${orderProvider.order!.address.street} ${orderProvider.order!.address.streetNumber} eintreffen.",
                                           style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -79,7 +78,7 @@ class OrderConfirmationPage extends StatelessWidget {
                                           ),
                                         ),
                                         const SizedBox(height: 4),
-                                        Text("Greendrop#$orderID"),
+                                        Text("GDO#$orderID"),
                                         const SizedBox(height: 24),
                                         const Text(
                                           "Verdiente GreenDrops:",
@@ -104,22 +103,21 @@ class OrderConfirmationPage extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: SizedBox(
                   width: double.infinity,
-                  child: FilledButton(
-                    onPressed: () =>
-                        Navigator.of(context).push(
-                          NoSwipePageRoute(
-                            builder: (context) => const TrackingMap(),
-                          ),
-                        ),
+                  child: OutlinedButton(
+                    onPressed: () => Navigator.of(context).push(
+                      NoSwipePageRoute(
+                        builder: (context) => const TrackingMap(),
+                      ),
+                    ),
                     child: const Padding(
                       padding: EdgeInsets.symmetric(vertical: 16.0),
                       child: Text(
-                        "Track your Order",
-                        style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                        "Bestellung verfolgen",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
                       ),
                     ),
                   ),
@@ -136,13 +134,14 @@ class OrderConfirmationPage extends StatelessWidget {
                       padding: EdgeInsets.symmetric(vertical: 16.0),
                       child: Text(
                         "Zurück zur Startseite",
-                        style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
                       ),
                     ),
                   ),
                 ),
               ),
+              const SizedBox(height: 16)
             ],
           ),
         ),

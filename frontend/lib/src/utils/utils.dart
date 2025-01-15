@@ -3,6 +3,9 @@ import 'dart:math';
 import 'package:geocode/geocode.dart' as geocode;
 import 'package:greendrop/src/domain/models/address.dart';
 import 'package:greendrop/src/domain/models/shop.dart';
+import 'package:logging/logging.dart';
+
+Logger logger = Logger("utils");
 
 int sortAddresses(Address a, Address b) {
   final aPrimary = a.isPrimary ?? false;
@@ -33,8 +36,8 @@ Future<geocode.Coordinates> getCoordinatesOfAddress(String address) async {
     geocode.Coordinates coordinates =
         await geoCode.forwardGeocoding(address: address.toString());
     return coordinates;
-  } catch (e) {
-    print(e);
+  } catch (_) {
+    logger.warning("getCoordinatesOfAddress - geocoding failed!");
   }
   return geocode.Coordinates(latitude: 0, longitude: 0);
 }

@@ -7,17 +7,17 @@ import 'package:intl/intl.dart';
 
 class RegistrationProvider extends ChangeNotifier {
   IAuthenticationRepository authenticationRepository =
-  StrapiAuthenticationRepository();
+      StrapiAuthenticationRepository();
   int _registrationPage = 1;
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
 
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
-  TextEditingController();
+      TextEditingController();
 
   final ConfettiController _confettiController =
-  ConfettiController(duration: const Duration(seconds: 2));
+      ConfettiController(duration: const Duration(seconds: 2));
 
   String _username = "";
   String _email = "";
@@ -59,7 +59,6 @@ class RegistrationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Sichtbarkeit der Passwörter steuern
   void togglePasswordVisible() {
     _isPasswordVisible = !_isPasswordVisible;
     notifyListeners();
@@ -86,7 +85,8 @@ class RegistrationProvider extends ChangeNotifier {
         return true; // Adresse existiert
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Adresse konnte nicht gefunden werden!')),
+          const SnackBar(
+              content: Text('Adresse konnte nicht gefunden werden!')),
         );
         return false;
       }
