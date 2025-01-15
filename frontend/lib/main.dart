@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:greendrop/src/data/repositories/strapi/strapi_authentication_repository.dart';
 import 'package:greendrop/src/presentation/login/provider/registration_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -44,6 +46,17 @@ Future main() async {
   // check if user is already logged in
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isLoggedIn = prefs.getBool("isLoggedIn") ?? false;
+  if (isLoggedIn) {
+    FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+    StrapiAuthenticationRepository authenticationRepository = StrapiAuthenticationRepository();
+    authenticationRepository.jwtToken =
+        await secureStorage.read(key: "jwt");
+    String? userId = await secureStorage.read(key: "userId");
+    if (userId != null) {
+      authenticationRepository.userId = userId;
+      await authenticationRepository.fetchUser();
+    }
+  }
 
   // Run App
   runApp(MultiProvider(

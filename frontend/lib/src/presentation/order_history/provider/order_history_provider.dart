@@ -22,28 +22,27 @@ class OrderHistoryProvider with ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
 
-  late User _user;
+  final User _user = StrapiAuthenticationRepository().getUser();
 
   OrderHistoryProvider() {
-    _user = authRepository.getUser() ?? User.genericUser;
     loadOrders(); // Lade die Bestellungen beim Erstellen
   }
 
   Future<void> loadOrders() async {
     try {
       _isLoading = true;
-      notifyListeners(); // UI aktualisieren
+      notifyListeners();
       log.fine("Lade Bestellungen für Benutzer: ${_user.id}");
       _orders = await orderRepository.getUserOrders(_user);
-      
+
       _errorMessage = null;
-      log.info("Bestellungen geladen: ${_orders.length}");  
+      log.info("Bestellungen geladen: ${_orders.length}");
     } catch (error) {
       _errorMessage = 'Fehler: $error';
       log.severe("Failed loading user orders: $_errorMessage");
     } finally {
       _isLoading = false;
-      notifyListeners(); // UI aktualisieren
+      notifyListeners();
     }
   }
 }

@@ -3,6 +3,7 @@ import './product.dart';
 class CartItem {
   final Product product;
   int _quantity;
+  int get quantity => _quantity;
 
   CartItem({
     required this.product,
@@ -15,15 +16,12 @@ class CartItem {
       quantity: quantity ?? _quantity,
     );
   }
-  
-  int get quantity => _quantity;
 
-  set quantity(int value){
-    if(value >= 0){
-        _quantity = value;
-    }else {
+  set quantity(int value) {
+    if (value >= 0) {
+      _quantity = value;
+    } else {
       _quantity = 0;
     }
   }
- 
 }

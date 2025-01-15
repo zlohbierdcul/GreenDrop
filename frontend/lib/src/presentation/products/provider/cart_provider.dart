@@ -6,45 +6,27 @@ import 'package:greendrop/src/domain/models/shop.dart';
 import 'package:greendrop/src/presentation/cart/provider/ordertype_toggle_provider.dart';
 
 class CartProvider extends ChangeNotifier {
+  late Shop shop;
+  late OrderTypeToggleProvider orderTypeToggle;
+
   final Map<Product, int> _cart = {};
   final List<OrderItem> _orderItems = [];
-  Map<Product, int> get cart => _cart;
-  late Shop _shop;
-  late OrderTypeToggleProvider _ordertype;
 
-  set orderTypeToggle (OrderTypeToggleProvider orderTypeToggle){
-    _ordertype = orderTypeToggle;
-  }
-  OrderTypeToggleProvider get orderTypeToggle => _ordertype;
+  Map<Product, int> get cart => _cart;
 
   double get subtotal => getTotalCosts();
-
   double get totalCosts => subtotal + deliveryCosts;
-
-  double get deliveryCosts => _shop.deliveryCost;
-
-  bool get isMinOrderMet => getTotalCosts() >= _shop.minOrder;
-
+  double get deliveryCosts => shop.deliveryCost;
+  bool get isMinOrderMet => getTotalCosts() >= shop.minOrder;
   int get greenDrops => totalCosts.floor() ~/ 2;
-
-  Shop get shop => _shop;
-
-  double get minOrder => _shop.minOrder;
-
-  set shop(Shop shop){
-    _shop = shop;
-  }
+  double get minOrder => shop.minOrder;
 
   List<OrderItem> get orderItems {
-
     for (MapEntry<Product, int> entry in _cart.entries) {
       Product product = entry.key;
       int count = entry.value;
-      double totalAmount = count* product.price;
-      String? orderId = null; // not generated yet
-      _orderItems.add(OrderItem.fromProduct(
-            product, totalAmount, count,orderId)
-          );
+      double totalAmount = count * product.price;
+      _orderItems.add(OrderItem.fromProduct(product, totalAmount, count, null));
     }
 
     return _orderItems;
@@ -56,7 +38,7 @@ class CartProvider extends ChangeNotifier {
   }
 
   int getProductCount() {
-    return _cart.isEmpty? 0 :  _cart.values.reduce((a, b) => a + b);
+    return _cart.isEmpty ? 0 : _cart.values.reduce((a, b) => a + b);
   }
 
   int getProductCountByProduct(Product product) {
@@ -74,17 +56,22 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  double calculateOrderCosts(Shop shop){
-    return totalCosts+shop.deliveryCost;
-  }
-  double getTotalCosts() {
-    return _cart.isEmpty ? 0 :  _cart.entries
-        .map((entry) => entry.value * entry.key.price)
-        .reduce((a, b) => a + b);
+  double calculateOrderCosts(Shop shop) {
+    return totalCosts + shop.deliveryCost;
   }
 
-  List<CartItem> toCartItemList (){
-   return _cart.entries.map((entry) => CartItem(product: entry.key, quantity: entry.value)).toList();
+  double getTotalCosts() {
+    return _cart.isEmpty
+        ? 0
+        : _cart.entries
+            .map((entry) => entry.value * entry.key.price)
+            .reduce((a, b) => a + b);
+  }
+
+  List<CartItem> toCartItemList() {
+    return _cart.entries
+        .map((entry) => CartItem(product: entry.key, quantity: entry.value))
+        .toList();
   }
 
   void resetCart() {
