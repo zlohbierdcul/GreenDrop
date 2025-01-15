@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:greendrop/main.dart';
 import 'package:greendrop/src/data/repositories/interfaces/authentication_repository.dart';
 import 'package:greendrop/src/data/repositories/strapi/strapi_authentication_repository.dart';
-import 'package:logging/logging.dart';
+import 'package:greendrop/src/presentation/account/provider/user_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginProvider extends ChangeNotifier {
-  Logger log = Logger("LoginProvider");
   bool _isPasswordVisible = false;
   bool get isPasswordVisible => _isPasswordVisible;
 
@@ -16,7 +15,8 @@ class LoginProvider extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  
+  bool _loginFailed = false;
+  bool get loginFailed => _loginFailed;
 
   void setIsPasswordVisible(bool b) {
     _isPasswordVisible = b;
@@ -34,27 +34,27 @@ class LoginProvider extends ChangeNotifier {
   }
 
   void loginHandler(formKey, email, password) async {
+    _loginFailed = false;
     _isLoading = true;
     notifyListeners();
 
     if (formKey.currentState?.validate() ?? false) {
       IAuthenticationRepository authenticationRepository =
           StrapiAuthenticationRepository();
-      
+
       bool success = false;
       try {
-
-        success = await authenticationRepository.signIn(email, password);
+        success = await authenticationRepository.signIn(email, password, _rememberMeTicked);
       } catch (e) {
-        log.info("Login failed.");
-      }
+        _loginFailed = true;
+        }
 
       if (success) {
         setIsLoggedIn();
+        UserProvider().loadAccountData();
         Navigator.of(navigatorKey.currentContext!)
             .pushReplacementNamed("/home");
-      } else {
-      }
+      } else {}
     }
     _isLoading = false;
     notifyListeners();

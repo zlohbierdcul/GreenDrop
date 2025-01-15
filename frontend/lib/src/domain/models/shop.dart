@@ -26,11 +26,11 @@ class Shop {
       required this.latitude,
       required this.longitude,
       required this.radius});
-    
+
   // Factory constructor to create a Shop object from a JSON entry
-  static Future<Shop> fromJson(Map<String, dynamic> json) async {
+  static Shop fromJson(Map<String, dynamic> json) {
     final address = Address.fromJson(json);
-    final List<dynamic> reviews = json['reviews'];
+    final List<dynamic> reviews = json['reviews'] ?? [];
 
     final int reviewCount = reviews.length;
     double rating = 0.0;
@@ -57,28 +57,26 @@ class Shop {
   }
 
   Map<String, dynamic> toJson() {
-  return {
-    'id': id,
-    'name': name,
-    'description': description,
-    'address': address.id,
-    'minimum_order': minOrder,
-    'delivery_costs': deliveryCost,
-    'max_delivery_radius': radius,
-    'latitude': latitude,
-    'longitude': longitude,
-  };
-}
-
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+      'address': address.id,
+      'minimum_order': minOrder,
+      'delivery_costs': deliveryCost,
+      'max_delivery_radius': radius,
+      'latitude': latitude,
+      'longitude': longitude,
+    };
+  }
 
   // Static method to parse mock data and create a list of Shops
   static List<Future<Shop>> parseShops(String jsonData) {
     final Map<String, dynamic> data = json.decode(jsonData);
     return data.entries
-        .map((entry) async => await Shop.fromJson(entry.value))
+        .map((entry) async => Shop.fromJson(entry.value))
         .toList();
   }
-
 
   @override
   String toString() {

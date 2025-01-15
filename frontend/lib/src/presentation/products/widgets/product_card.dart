@@ -13,8 +13,7 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cardWidth =
-        MediaQuery.of(context).size.width - 32; // Subtract padding.
-
+        MediaQuery.of(context).size.width - 32;
     return Padding(
       padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
       child: Card(

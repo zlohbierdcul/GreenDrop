@@ -4,34 +4,20 @@ import 'package:greendrop/src/domain/models/address.dart';
 
 class User {
   final String id;
+  final String userId;
   final String userName;
   final String firstName;
   final String lastName;
   final String birthdate;
-  final int greenDrops;
+  final String userDetailId;
+  int greenDrops;
   final String eMail;
   final List<Address> addresses;
 
-  static final genericUser = User(
-      id: "000",
-      userName: "MaMu",
-      firstName: "Max",
-      lastName: "Mustermann",
-      birthdate: "12-12-2024",
-      greenDrops: 1337,
-      eMail: "max.musterman@example.com",
-      addresses: [
-        Address(
-            id: "007",
-            street: "Beispielstraße",
-            streetNumber: "42",
-            zipCode: "68163",
-            city: "Mannheim",
-            isPrimary: true)
-      ]);
-
   User(
       {required this.id,
+      required this.userId,
+      required this.userDetailId,
       required this.userName,
       required this.firstName,
       required this.lastName,
@@ -43,35 +29,46 @@ class User {
   // Factory constructor to create a User object from a JSON entry
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-        id: json['id'].toString(),
-        userName: json['username'],
-        firstName: json['first_name'],
-        lastName: json['last_name'],
-        birthdate: json['birthdate'],
-        greenDrops: json['green_drops'],
-        eMail: json['email'],
-        addresses: (json['addresses'] as List<dynamic>)
+        id: json['documentId'].toString(),
+        userId: json['id'].toString(),
+        userDetailId: json['user_detail']['documentId'],
+        userName: json['user_detail']['username'],
+        firstName: json['user_detail']['first_name'],
+        lastName: json['user_detail']['last_name'],
+        birthdate: json['user_detail']['birthdate'],
+        greenDrops: json['user_detail']['green_drops'],
+        eMail: json['user_detail']['email'],
+        addresses: (json['user_detail']['addresses'] as List<dynamic>)
             .map((addressJson) => Address.fromJson(addressJson))
+            .toSet()
             .toList());
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'username': userName,
       'first_name': firstName,
       'last_name': lastName,
       'birthdate': birthdate,
       'green_drops': greenDrops,
       'email': eMail,
-      'addresses': addresses.map((address) => address.toJson()).toList(),
+      'addresses': addresses.map((address) => address.id).toList(),
     };
   }
 
-  // Static method to parse mock data and create a list of Users
   static List<User> parseUsers(String jsonData) {
     final Map<String, dynamic> data = json.decode(jsonData);
     return data.entries.map((entry) => User.fromJson(entry.value)).toList();
+  }
+
+  void changeAddress(Address address) {
+    int index =
+        addresses.indexOf(addresses.firstWhere((a) => a.id == address.id));
+    addresses[index] = address;
+  }
+
+  void setGreendrops(int newGreendropValue) {
+    greenDrops = newGreendropValue;
   }
 
   @override

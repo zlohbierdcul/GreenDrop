@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:greendrop/src/domain/enums/greendrop_discounts.dart';
-import 'package:greendrop/src/presentation/account/provider/account_data_provider.dart';
+import 'package:greendrop/src/presentation/account/provider/user_provider.dart';
 import 'package:greendrop/src/presentation/common_widgets/dropdown.dart';
 import 'package:greendrop/src/presentation/order/provider/order_provider.dart';
+import 'package:greendrop/src/presentation/products/provider/cart_provider.dart';
 import 'package:provider/provider.dart';
 
 class OrderGreendropDiscount extends StatelessWidget {
@@ -11,8 +11,8 @@ class OrderGreendropDiscount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        child: Consumer2<AccountProvider, OrderProvider>(
-            builder: (context, accountProvider, orderProvider, child) =>
+        child: Consumer3<UserProvider, OrderProvider, CartProvider>(
+            builder: (context, userProvider, orderProvider, cartProvider, child) =>
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Row(
@@ -24,7 +24,7 @@ class OrderGreendropDiscount extends StatelessWidget {
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),
                       CustomDropdownButton(
-                          items: GreendropDiscounts.values
+                          items: orderProvider.getUserDiscountOptions(cartProvider.totalCosts)
                               .map((discount) => DropdownMenuItem(
                                   value: discount.value,
                                   child: Text(discount.label)))

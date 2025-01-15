@@ -1,29 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:greendrop/src/domain/models/cart_item.dart';
 import 'package:greendrop/src/domain/models/order_item.dart';
 import 'package:greendrop/src/domain/models/product.dart';
+import 'package:greendrop/src/domain/models/shop.dart';
+import 'package:greendrop/src/presentation/cart/provider/ordertype_toggle_provider.dart';
 
 class CartProvider extends ChangeNotifier {
-  Map<Product, int> _cart = {};
+  late Shop shop;
+  late OrderTypeToggleProvider orderTypeToggle;
+
+  final Map<Product, int> _cart = {};
+  final List<OrderItem> _orderItems = [];
 
   Map<Product, int> get cart => _cart;
 
-  List<OrderItem> get orderItems {
-    List<OrderItem> orderItems = [];
+  double get subtotal => getTotalCosts();
+  double get totalCosts => subtotal + deliveryCosts;
+  double get deliveryCosts => shop.deliveryCost;
+  bool get isMinOrderMet => getTotalCosts() >= shop.minOrder;
+  int get greenDrops => totalCosts.floor() ~/ 2;
+  double get minOrder => shop.minOrder;
 
+  List<OrderItem> get orderItems {
     for (MapEntry<Product, int> entry in _cart.entries) {
       Product product = entry.key;
       int count = entry.value;
-      orderItems.add(OrderItem(
-          totalAmount: count,
-          name: product.name,
-          price: product.price,
-          stock: product.stock,
-          category: product.category,
-          imageUrl: product.imageUrl,
-          description: product.description));
+      double totalAmount = count * product.price;
+      _orderItems.add(OrderItem.fromProduct(product, totalAmount, count, null));
     }
 
-    return orderItems;
+    return _orderItems;
   }
 
   void addProductToCart(Product product) {
@@ -32,7 +38,7 @@ class CartProvider extends ChangeNotifier {
   }
 
   int getProductCount() {
-    return _cart.values.reduce((a, b) => a + b);
+    return _cart.isEmpty ? 0 : _cart.values.reduce((a, b) => a + b);
   }
 
   int getProductCountByProduct(Product product) {
@@ -50,14 +56,26 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  double calculateOrderCosts(Shop shop) {
+    return totalCosts + shop.deliveryCost;
+  }
+
   double getTotalCosts() {
+    return _cart.isEmpty
+        ? 0
+        : _cart.entries
+            .map((entry) => entry.value * entry.key.price)
+            .reduce((a, b) => a + b);
+  }
+
+  List<CartItem> toCartItemList() {
     return _cart.entries
-        .map((entry) => entry.value * entry.key.price)
-        .reduce((a, b) => a + b);
+        .map((entry) => CartItem(product: entry.key, quantity: entry.value))
+        .toList();
   }
 
   void resetCart() {
-    _cart = {};
+    _cart.clear();
     notifyListeners();
   }
 }
