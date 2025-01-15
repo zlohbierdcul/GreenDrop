@@ -21,8 +21,7 @@ class Address {
       street: json['street'],
       streetNumber: json['street_no'],
       zipCode: json['zip_code'],
-      city: json['city'] ??
-          "Mannheim", // TODO: change when all shops have city in database
+      city: json['city'],
       isPrimary: json['is_primary'],
     );
   }

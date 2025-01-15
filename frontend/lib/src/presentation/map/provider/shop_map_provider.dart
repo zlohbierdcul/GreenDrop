@@ -12,7 +12,6 @@ import 'package:latlong2/latlong.dart';
 import 'package:logging/logging.dart';
 import 'package:http/http.dart' as http;
 
-
 class ShopMapProvider extends ChangeNotifier {
   Logger log = Logger("ShopMapProvider");
 
@@ -34,10 +33,7 @@ class ShopMapProvider extends ChangeNotifier {
 
   List<LatLng> get currentRoute => _currentRoute;
 
-  Future<void> loadRouteForShop(Shop shop) async {
-    _currentRoute = await fetchRoute(shop: shop);
-    notifyListeners();
-  }
+  bool isLoading = true;
 
   MapController get mapController => _mapController;
   double get latitudePerson => _latitudePerson;
@@ -45,14 +41,20 @@ class ShopMapProvider extends ChangeNotifier {
   List<Shop> get shops => _shops;
   bool get isZoomedIn => _isZoomedIn;
   Shop? get focusedShop => _focusedShop;
-  bool isLoading = true;
+
+  Future<void> loadRouteForShop(Shop shop) async {
+    _currentRoute = await fetchRoute(shop: shop);
+    notifyListeners();
+  }
 
   void setIsZoomedIn(bool v) {
     _isZoomedIn = v;
   }
 
   void initializeMap(List<Shop> shops, BuildContext context) async {
+    // reset shop list
     _shops = [];
+
     await _createUserMarker(context);
     _createMapListeners();
     _createShopMarker(shops, context);
@@ -62,6 +64,7 @@ class ShopMapProvider extends ChangeNotifier {
     _mapController.mapEventStream.listen(_onMapEvent);
   }
 
+  // handle map events
   void _onMapEvent(MapEvent event) {
     double currentZoomLevel = _mapController.camera.zoom;
     LatLng currentCenter = _mapController.camera.center;
@@ -74,6 +77,7 @@ class ShopMapProvider extends ChangeNotifier {
     _previousZoomLevel = currentZoomLevel;
   }
 
+  // opens shop pannel when clicking on shop marker
   void handleShopTap(Shop shop) {
     setIsZoomedIn(true);
     _mapController.move(LatLng(shop.latitude, shop.longitude), 16);
@@ -82,6 +86,7 @@ class ShopMapProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // closes shop panel if zooming out or panning over
   void _onZoomOut() {
     _isZoomedIn = false;
     _focusedShop = null;
@@ -90,7 +95,7 @@ class ShopMapProvider extends ChangeNotifier {
 
   Future<void> _createUserMarker(BuildContext context) async {
     log.info("Creating user marker.");
-    // Prüfe Standortberechtigungen
+    // request location permissions from user
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
@@ -105,7 +110,7 @@ class ShopMapProvider extends ChangeNotifier {
       return;
     }
 
-    // Hole die aktuelle Position
+    // get current location
     Position position = await Geolocator.getCurrentPosition();
 
     _latitudePerson = position.latitude;
@@ -113,6 +118,8 @@ class ShopMapProvider extends ChangeNotifier {
 
     notifyListeners();
     log.info("Finished creating user marker");
+
+    // remove splashscreen when user marker is present so user does not see homepage before map is partially loaded
     if (!kIsWeb) FlutterNativeSplash.remove();
   }
 
@@ -122,6 +129,9 @@ class ShopMapProvider extends ChangeNotifier {
     if (shops.isEmpty) {
       isLoading = false;
     }
+
+    // iteratively create shop markers and update provider after each shop is processed
+    // this way the shops dont pop up all at once after a while
     for (var shop in shops) {
       final radius = shop.radius;
 
@@ -150,17 +160,6 @@ class ShopMapProvider extends ChangeNotifier {
     _mapController.move(LatLng(_latitudePerson, _longitudePerson), 14);
   }
 
-  Future<Coordinates> _getCoordinatesOfAddress(String address) async {
-    GeoCode geoCode = GeoCode();
-    try {
-      Coordinates coordinates =
-          await geoCode.forwardGeocoding(address: address);
-      return coordinates;
-    } catch (e) {
-      log.warning('Warning: Geocoding-Fehler für $address: $e');
-    }
-    return Coordinates(latitude: 0, longitude: 0);
-  }
   // getting the route from shop to user location
   Future<List<LatLng>> fetchRoute({required Shop shop}) async {
     LatLng start = LatLng(_latitudePerson, _longitudePerson);
@@ -179,7 +178,8 @@ class ShopMapProvider extends ChangeNotifier {
       throw Exception('Failed to load route');
     }
   }
-  // the line from shop to user location
+
+  // calculates the line from shop to user location
   List<LatLng> decodePolyline(String encodedPolyline) {
     List<LatLng> polyline = [];
     int index = 0;

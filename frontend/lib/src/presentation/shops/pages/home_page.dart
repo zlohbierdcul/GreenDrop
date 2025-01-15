@@ -14,9 +14,12 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+      userProvider.loadAccountData();
+    });
     return Consumer<UserProvider>(
       builder: (context, userProvider, child) {
-        userProvider.fetchUser();
         return Scaffold(
             appBar: AppDrawer.buildGreendropsAppBar(context),
             drawer: const AppDrawer(),

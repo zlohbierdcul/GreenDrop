@@ -83,14 +83,14 @@ class User {
     };
   }
 
-  // Static method to parse mock data and create a list of Users
   static List<User> parseUsers(String jsonData) {
     final Map<String, dynamic> data = json.decode(jsonData);
     return data.entries.map((entry) => User.fromJson(entry.value)).toList();
   }
 
   void changeAddress(Address address) {
-    int index = addresses.indexOf(addresses.firstWhere((a) => a.id == address.id));
+    int index =
+        addresses.indexOf(addresses.firstWhere((a) => a.id == address.id));
     addresses[index] = address;
   }
 

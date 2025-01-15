@@ -9,7 +9,6 @@ import 'package:greendrop/src/domain/models/shop.dart';
 class ProductProvider extends ChangeNotifier {
   IShopRepository repository = StrapiShopRepository();
 
-
   LinkedHashMap<String, List<Product>> _productMap = LinkedHashMap();
   bool _isLoading = true;
 
@@ -36,7 +35,8 @@ class ProductProvider extends ChangeNotifier {
     const categoryOrder = ['Rauchbar', 'Essbar', 'Zubehör'];
     _productMap = LinkedHashMap.fromEntries(
       categoryOrder
-          .where((category) => groupedProducts.containsKey(category)) // Nur vorhandene Kategorien
+          .where((category) => groupedProducts
+              .containsKey(category)) // Nur vorhandene Kategorien
           .map((category) => MapEntry(category, groupedProducts[category]!)),
     );
     _isLoading = false;

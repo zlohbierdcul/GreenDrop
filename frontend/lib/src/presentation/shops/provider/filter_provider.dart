@@ -5,7 +5,6 @@ class FilterProvider extends ChangeNotifier {
   double _minCost = 50;
 
   double get deliveryCost => _deliveryCost;
-
   double get minCost => _minCost;
 
   void setDeliveryCost(double cost) {
