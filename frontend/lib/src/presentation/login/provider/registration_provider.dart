@@ -74,42 +74,10 @@ class RegistrationProvider extends ChangeNotifier {
     return formKey.currentState!.validate();
   }
 
-  // Adresse validieren
-  Future<bool> validateAddress(BuildContext context) async {
-    try {
-      List<Location> locations = await locationFromAddress(
-        '$_street $_streetNumber, $_zipCode $_city',
-      );
-
-      if (locations.isNotEmpty) {
-        return true; // Adresse existiert
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text('Adresse konnte nicht gefunden werden!')),
-        );
-        return false;
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Fehler bei der Adressvalidierung!')),
-      );
-      return false;
-    }
-  }
-
   // Benutzerregistrierung
   void registerUser(BuildContext context) async {
     _isLoading = true;
     notifyListeners();
-
-    // Adresse validieren
-    bool isAddressValid = await validateAddress(context);
-    if (!isAddressValid) {
-      _isLoading = false;
-      notifyListeners();
-      return; // Abbruch, wenn die Adresse ungültig ist
-    }
 
     // Benutzer registrieren
     _registrationSuccessful = await authenticationRepository.register(
