@@ -31,6 +31,13 @@ class User {
             streetNumber: "42",
             zipCode: "68163",
             city: "Mannheim",
+            isPrimary: true),
+        Address(
+            id: "007",
+            street: "Beispielstraße",
+            streetNumber: "41",
+            zipCode: "68163",
+            city: "Mannheim",
             isPrimary: true)
       ]);
 

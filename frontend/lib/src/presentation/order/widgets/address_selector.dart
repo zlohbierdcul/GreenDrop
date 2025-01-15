@@ -22,6 +22,7 @@ class AddressSelector extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           CustomDropdownButton(
+              key: const Key("addressSelector"),
               items: sortedAddresses
                   .map((address) => (DropdownMenuItem(
                         value: address,
