@@ -14,6 +14,7 @@ class OrderHistoryProvider with ChangeNotifier {
   IAuthenticationRepository authRepository = StrapiAuthenticationRepository();
   IOrderRepository orderRepository = StrapiOrderRepository();
 
+  User? _user;
   List<Order> _orders = [];
   bool _isLoading = true;
   String? _errorMessage;
@@ -22,18 +23,23 @@ class OrderHistoryProvider with ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
 
-  final User _user = StrapiAuthenticationRepository().getUser();
 
-  OrderHistoryProvider() {
-    loadOrders(); // Lade die Bestellungen beim Erstellen
+  Future<void> init() async {
+    _user = authRepository.getUser();
+    await loadOrders();
   }
 
   Future<void> loadOrders() async {
     try {
       _isLoading = true;
       notifyListeners();
-      log.fine("Lade Bestellungen für Benutzer: ${_user.id}");
-      _orders = await orderRepository.getUserOrders(_user);
+
+      if (_user == null) {
+        throw Exception("Kein Benutzer eingeloggt.");
+      }
+
+      log.fine("Lade Bestellungen für Benutzer: ${_user!.id}");
+      _orders = await orderRepository.getUserOrders(_user!);
 
       _errorMessage = null;
       log.info("Bestellungen geladen: ${_orders.length}");

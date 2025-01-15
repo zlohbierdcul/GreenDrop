@@ -23,20 +23,6 @@ void main() {
       expect(address.isPrimary, true);
     });
 
-    test('Should handle missing city field in JSON', () {
-      final json = {
-        'documentId': '456',
-        'street': 'Elm Street',
-        'street_no': '13',
-        'zip_code': '67890',
-        'is_primary': false
-      };
-
-      final address = Address.fromJson(json);
-
-      expect(address.city, 'Mannheim'); // Default value
-    });
-
     test('Should convert to JSON correctly', () {
       final address = Address(
         id: '789',

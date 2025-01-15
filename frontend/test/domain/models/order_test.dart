@@ -95,9 +95,9 @@ void main() {
 
     test('Should deserialize Order from JSON', () async {
       final json = {
-        'id': 'order002',
+        'documentId': 'order002',
         'state': 'Completed',
-        'created_on': '2024-01-15T10:30:00Z',
+        'createdAt': '2024-01-15T10:30:00Z',
         'shop': {
           'documentId': 'shop002',
           'name': 'Tech Shop',
@@ -127,13 +127,15 @@ void main() {
         'items': [
           {
             'quantity': 2,
-            'price': 800.0,
-            'stock': 10,
-            'documentId': 'https://example.com/phone.jpg',
             'product': {
-              'name': 'Smartphone',
-              'category': 'Electronics',
-              'description': 'A high-end smartphone',
+              'documentId': 'https://example.com/phone.jpg',
+              'price': 800.0,
+              'stock': 10,
+              'product': {
+                'name': 'Smartphone',
+                'category': 'Electronics',
+                'description': 'A high-end smartphone',
+              },
             },
           }
         ]
@@ -158,9 +160,9 @@ void main() {
       const jsonData = '''
         {
           "order1": {
-            "id": "order003",
+            "documentId": "order003",
             "state": "Pending",
-            "created_on": "2024-01-15T10:30:00Z",
+            "createdAt": "2024-01-15T10:30:00Z",
             "shop": {
               "documentId": "shop003",
               "name": "Gadget Store",
@@ -190,13 +192,15 @@ void main() {
             "items": [
               {
                 "quantity": 2,
-                "price": 800.0,
-                "stock": 10,
-                "documentId": "https://example.com/phone.jpg",
                 "product": {
-                  "name": "Smartphone",
-                  "category": "Electronics",
-                  "description": "A high-end smartphone"
+                  "documentId": "https://example.com/phone.jpg",
+                  "price": 800.0,
+                  "stock": 10,
+                  "product": {
+                    "name": "Smartphone",
+                    "category": "Electronics",
+                    "description": "A high-end smartphone"
+                  }
                 }
               }
             ]

@@ -13,148 +13,157 @@ class OrderDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<OrderHistoryProvider>(
-      builder: (context, orderProvider, child ) {
-        if (orderProvider.isLoading) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (orderProvider.errorMessage != null) {
-          return Center(
-            child: Text('Fehler: ${orderProvider.errorMessage}'),
-          );
-        } else if (orderProvider.orders.isEmpty) {
-          return const Center(child: Text('Keine Bestellungen gefunden'));
-        } else {
-          return Scaffold(
-            appBar: AppDrawer.buildGreendropsAppBar(context),
-            body: CenterConstrainedBody(
-              body: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: SizedBox(
-                          width: double.infinity,
-                          height: 60,
-                          child: Card(
-                            child: Center(
-                              child: Text(
-                                "Bestellung bei ${order.shop.name}",
-                                style: const TextStyle(
-                                  fontSize: 20,
+    return ChangeNotifierProvider<OrderHistoryProvider>(
+      create: (context) {
+        final provider = OrderHistoryProvider();
+        provider.init();
+        return provider;
+      },
+      child: Consumer<OrderHistoryProvider>(
+        builder: (context, orderProvider, child) {
+          if (orderProvider.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (orderProvider.errorMessage != null) {
+            return Center(
+              child: Text('Fehler: ${orderProvider.errorMessage}'),
+            );
+          } else if (orderProvider.orders.isEmpty) {
+            return const Center(child: Text('Keine Bestellungen gefunden'));
+          } else {
+            return Scaffold(
+              appBar: AppDrawer.buildGreendropsAppBar(context),
+              body: CenterConstrainedBody(
+                body: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: SizedBox(
+                            width: double.infinity,
+                            height: 60,
+                            child: Card(
+                              child: Center(
+                                child: Text(
+                                  "Bestellung bei ${order.shop.name}",
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        child: Card(
-                          child: SingleChildScrollView(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(16.0),
-                                    child: Image.asset(
-                                      'assets/images/shop1.jpg',
-                                      width: double.infinity,
-                                      height: 200,
-                                      fit: BoxFit.cover,
+                        Expanded(
+                          child: Card(
+                            child: SingleChildScrollView(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(16.0),
+                                      child: Image.asset(
+                                        'assets/images/shop1.jpg',
+                                        width: double.infinity,
+                                        height: 200,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  Text(
-                                    order.shop.name,
-                                    style: const TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
+                                    const SizedBox(height: 10),
+                                    Text(
+                                      order.shop.name,
+                                      style: const TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  Text(
-                                    "Bestellnummer: ${order.id}",
-                                    style: const TextStyle(
-                                        fontSize: 16, color: Colors.grey),
-                                  ),
-                                  Text(
-                                    "Bestelldatum: ${DateFormat("dd.mm.yyyy").format(order.date!)}",
-                                    style: const TextStyle(
-                                        fontSize: 16, color: Colors.grey),
-                                  ),
-                                  const SizedBox(height: 20),
-                                  const Text(
-                                    "Sie haben folgende Artikel bestellt:",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
+                                    const SizedBox(height: 10),
+                                    Text(
+                                      "Bestellnummer: ${order.id}",
+                                      style: const TextStyle(
+                                          fontSize: 16, color: Colors.grey),
                                     ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    itemCount: order.orderItems?.length,
-                                    itemBuilder: (context, index) {
-                                      final item = order.orderItems![index];
-                                      return Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 4.0),
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                "${item.quantity}x ${item.name}",
-                                                style:
-                                                    const TextStyle(fontSize: 16),
+                                    Text(
+                                      "Bestelldatum: ${DateFormat("dd.mm.yyyy").format(order.date!)}",
+                                      style: const TextStyle(
+                                          fontSize: 16, color: Colors.grey),
+                                    ),
+                                    const SizedBox(height: 20),
+                                    const Text(
+                                      "Sie haben folgende Artikel bestellt:",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    ListView.builder(
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemCount: order.orderItems?.length,
+                                      itemBuilder: (context, index) {
+                                        final item = order.orderItems![index];
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 4.0),
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  "${item.quantity}x ${item.name}",
+                                                  style: const TextStyle(
+                                                      fontSize: 16),
+                                                ),
                                               ),
-                                            ),
-                                            Text(
-                                              "€${item.price.toStringAsFixed(2)}",
-                                              style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ],
+                                              Text(
+                                                "€${item.price.toStringAsFixed(2)}",
+                                                style: const TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child:
+                                              Container(), // Leerer Container für Platzierung
                                         ),
-                                      );
-                                    },
-                                  ),
-                                  const SizedBox(height: 20),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child:
-                                            Container(), // Leerer Container für Platzierung
-                                      ),
-                                      Text(
-                                        "Bezahlter Gesamtbetrag: €${order.orderItems!.map((item) => item.price).reduce((a, b) => a + b).toStringAsFixed(2)}",
-                                        style: const TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
+                                        Text(
+                                          "Bezahlter Gesamtbetrag: €${order.orderItems!.map((item) => item.price).reduce((a, b) => a + b).toStringAsFixed(2)}",
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          textAlign: TextAlign.right,
                                         ),
-                                        textAlign: TextAlign.right,
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          );
-        }
-      },
+            );
+          }
+        },
+      ),
     );
   }
 }

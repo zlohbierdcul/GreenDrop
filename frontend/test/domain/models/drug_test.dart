@@ -90,7 +90,7 @@ void main() {
             "tastes": ["Berry", "Sweet", "Earthy"]
           },
           {
-            "id": "2345"
+            "id": "2345",
             "name": "Sour Diesel",
             "price": 15.0,
             "stock": 10,
@@ -159,7 +159,7 @@ void main() {
 
       expect(
         drug.toString(),
-        'Drug(id, 1234, name: Blue Dream, price: 12.5, stock: 20, category: Hybrid, indica: 40.0, sativa: 60.0, thc: 18.0, cbd: 1.0, effects: [Relaxed, Happy, Euphoric], tastes: [Berry, Sweet, Earthy])',
+        'Drug(id: 1234, name: Blue Dream, price: 12.5, stock: 20, category: Hybrid, indica: 40.0, sativa: 60.0, thc: 18.0, cbd: 1.0, effects: [Relaxed, Happy, Euphoric], tastes: [Berry, Sweet, Earthy])',
       );
     });
   });

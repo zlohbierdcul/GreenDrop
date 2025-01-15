@@ -6,14 +6,16 @@ void main() {
     test('Should create OrderItem from JSON', () {
       final json = {
         'quantity': 2,
-        'price': 800.0,
-        'stock': 10,
-        'documentId': 'https://example.com/phone.jpg',
         'product': {
+          'documentId': 'https://example.com/phone.jpg',
+          'price': 800.0,
+          'stock': 10,
+          'product': {
             'name': 'Smartphone',
             'category': 'Electronics',
             'description': 'A high-end smartphone',
-        }
+          },
+        },
       };
 
       final orderItem = OrderItem.fromJson(json, orderID: '54321');
@@ -48,9 +50,9 @@ void main() {
       expect(
         result,
         equals({
-          "product": {"connect": [1234]},
+          "product": {"connect": ['1234']},
           "quantity": 1,
-          "price": 199.99,
+          "price": 2.0,
         }),
       );
     });

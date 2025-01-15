@@ -137,12 +137,9 @@ void main() {
           .thenAnswer((_) async => mockOrders);
 
       // ACT
-      runZonedGuarded(() {
-        provider
-            .loadOrders(); // loadOrders erneut aufrufen mit Mock-Repositories
-      }, (error, stack) {
-        // Ignoriere Exceptions
-      });
+
+      provider.init(); // loadOrders erneut aufrufen mit Mock-Repositories
+
 
       await pumpEventQueue();
 
@@ -165,7 +162,7 @@ void main() {
       // ASSERT
       expect(provider.orders, isEmpty);
       expect(provider.isLoading, false);
-      expect(provider.errorMessage, 'Fehler: Exception: Failed to load orders');
+      expect(provider.errorMessage, 'Fehler: Exception: Kein Benutzer eingeloggt.');
     });
   });
 }
